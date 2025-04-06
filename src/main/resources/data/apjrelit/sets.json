@@ -1,0 +1,53 @@
+{
+  "iron_set": {
+    "name": "Ironclad Set",
+    "items": [
+      "minecraft:iron_helmet",
+      "minecraft:iron_chestplate",
+      "minecraft:iron_leggings",
+      "minecraft:iron_boots"
+    ],
+    "bonuses": [
+      {
+        "attribute_uuid": "8bc58df9-70ba-45b2-a3fd-d47cf16ecef4",
+        "items_required": 2,
+        "tooltip": "Increases your maximum health by 2",
+        "attribute": "minecraft:generic.max_health",
+        "attribute_value": 2,
+        "attribute_operation": 0,
+        "on_struck_script": "",
+        "on_tick_script": "",
+        "on_damage_script": ""
+      },
+      {
+        "attribute_uuid": "8bc58df9-70ba-45b2-a3fd-d42cf16ecef4",
+        "items_required": 4,
+        "tooltip": "Increases your maximum health by 4",
+        "attribute": "minecraft:generic.max_health",
+        "attribute_value": 4,
+        "attribute_operation": 0,
+        "on_struck_script": "",
+        "on_tick_script": "",
+        "on_damage_script": ""
+      }
+    ]
+  },
+  "t1_caster": {
+    "name": "Manaburn Set",
+    "items": [
+    ],
+    "bonuses": [
+      {
+        "attribute_uuid": "8bc58df9-70ba-45b2-a3fd-d42cf06ecef4",
+        "items_required": 0,
+        "tooltip": "Increases your health by 1",
+        "attribute": "minecraft:generic.max_health",
+        "attribute_value": 1,
+        "attribute_operation": 0,
+        "on_struck_script": "",
+        "on_tick_script": "",
+        "on_damage_script": ""
+      }
+    ]
+  }
+}

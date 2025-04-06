@@ -1,0 +1,18 @@
+{
+  "name": "Manaburn Set",
+  "items": [
+    "apjrelit:tier1castershoulder"
+  ],
+  "bonuses": [
+    {
+      "attribute_uuid": "8bc58df9-70ba-45b2-a3fd-d42cf06ecef4",
+      "items_required": 0,
+      "tooltip": "Increases your health by 1",
+      "attribute": "minecraft.maximum_health",
+      "attribute_value": 1,
+      "on_struck_script": "",
+      "on_tick_script": "",
+      "on_damage_script": ""
+    }
+  ]
+}
