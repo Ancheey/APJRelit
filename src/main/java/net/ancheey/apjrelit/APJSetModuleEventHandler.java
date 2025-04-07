@@ -4,11 +4,14 @@ import net.ancheey.apjrelit.itemsets.ItemSet;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,25 +20,28 @@ public class APJSetModuleEventHandler {
 
 	@SubscribeEvent(priority =  EventPriority.HIGH)
 	public void onEquipmentChange(LivingEquipmentChangeEvent event){
-		var fromItem = event.getFrom().getItem();
-		var toItem = event.getTo().getItem();
-		if(ItemSetManager.SetsByItems.containsKey(fromItem)){
-			var unequippedSet = ItemSetManager.SetsByItems.get(fromItem);
-			var worn = ItemSetManager.GetWornItems(event.getEntity(),unequippedSet);
+		EquipmentChange(event.getFrom().getItem(),event.getTo().getItem(),event.getEntity());
+	}
+	public void onCurioChange(CurioChangeEvent event){
+		EquipmentChange(event.getFrom().getItem(),event.getTo().getItem(),event.getEntity());
+	}
+	private void EquipmentChange(Item from, Item to, LivingEntity e){
+		if(ItemSetManager.SetsByItems.containsKey(from)){
+			var unequippedSet = ItemSetManager.SetsByItems.get(from);
+			var worn = ItemSetManager.GetWornItems(e,unequippedSet);
 			APJRelitCore.LOGGER.info("Removing bonus for "+worn.size()+1+" items");
 			unequippedSet.getBonuses().stream()
 					.filter(b -> b.getRequiredItems() == worn.size()+1)
-					.forEach(b-> ItemSetManager.UndoSetBonus(event.getEntity(),b)); //remove all bonuses that require an item more than currently equipped
+					.forEach(b-> ItemSetManager.UndoSetBonus(e,b)); //remove all bonuses that require an item more than currently equipped
 		}
-		if(ItemSetManager.SetsByItems.containsKey(toItem)){
-			var equippedSet = ItemSetManager.SetsByItems.get(toItem);
-			var worn = ItemSetManager.GetWornItems(event.getEntity(),equippedSet);
+		if(ItemSetManager.SetsByItems.containsKey(to)){
+			var equippedSet = ItemSetManager.SetsByItems.get(to);
+			var worn = ItemSetManager.GetWornItems(e,equippedSet);
 			equippedSet.getBonuses().stream()
 					.filter(b -> b.getRequiredItems() == worn.size())
-					.forEach(b-> ItemSetManager.ApplySetBonus(event.getEntity(),b)); //apply a set bonus that matches the amount of items on
+					.forEach(b-> ItemSetManager.ApplySetBonus(e,b)); //apply a set bonus that matches the amount of items on
 		}
 	}
-
 
 	private Item lastCheckedItem = null;
 	long LastItemTimeStamp = 0;

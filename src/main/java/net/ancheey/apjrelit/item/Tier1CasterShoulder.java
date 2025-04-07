@@ -13,8 +13,8 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import java.util.List;
 
 public class Tier1CasterShoulder extends Item implements ICurioItem {
-	public Tier1CasterShoulder(Properties pProperties) {
-		super(pProperties);
+	public Tier1CasterShoulder() {
+		super(new Item.Properties().stacksTo(1).defaultDurability(0));
 	}
 
 	@Override
