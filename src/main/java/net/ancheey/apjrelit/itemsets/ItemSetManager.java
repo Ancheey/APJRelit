@@ -10,73 +10,67 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.CuriosApi;
-
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 public class ItemSetManager {
 	public static Map<String,ItemSet> ItemSets = new HashMap<>();
 	public static Map<Item,ItemSet> SetsByItems = new HashMap<>();
 	private static final String JSON_PATH = "/data/"+ APJRelitCore.MODID+"/sets.json";
-	private static Map<String, Consumer<LivingDamageEvent>> ScriptRegistry = new HashMap<>();
-	private static Map<LivingEntity, List<String>> OnStruckRegistry = new HashMap<>();
-	private static Map<LivingEntity, List<String>> OnTickRegistry = new HashMap<>();
-	private static Map<LivingEntity, List<String>> OnDamageRegistry = new HashMap<>();
+	private static final Map<String, Consumer<LivingDamageEvent>> OnStruckScriptRegistry = new HashMap<>();
+	private static final Map<String, Consumer<LivingEvent.LivingTickEvent>> OnTickScriptRegistry = new HashMap<>();
+	private static final Map<String, Consumer<LivingDamageEvent>> OnDamageScriptRegistry = new HashMap<>();
+	private static final Map<LivingEntity, List<Consumer<LivingDamageEvent>>> OnStruckRegistry = new HashMap<>();
+	private static final Map<LivingEntity, List<Consumer<LivingEvent.LivingTickEvent>>> OnTickRegistry = new HashMap<>();
+	private static final Map<LivingEntity, List<Consumer<LivingDamageEvent>>> OnDamageRegistry = new HashMap<>();
 
-	public static boolean RegisterScript(String key, Consumer<LivingDamageEvent> scriptEvent){
-		if(ScriptRegistry.containsKey(key))
+	public static boolean RegisterOnStruckScript(String key, Consumer<LivingDamageEvent> scriptEvent){
+		if(OnStruckScriptRegistry.containsKey(key))
 			return false;
-		ScriptRegistry.put(key, scriptEvent);
+		OnStruckScriptRegistry.put(key, scriptEvent);
+		return true;
+	}
+	public static boolean RegisterOnTickScript(String key, Consumer<LivingEvent.LivingTickEvent> scriptEvent){
+		if(OnTickScriptRegistry.containsKey(key))
+			return false;
+		OnTickScriptRegistry.put(key, scriptEvent);
+		return true;
+	}
+	public static boolean RegisterOnDamageScript(String key, Consumer<LivingDamageEvent> scriptEvent){
+		if(OnDamageScriptRegistry.containsKey(key))
+			return false;
+		OnDamageScriptRegistry.put(key, scriptEvent);
 		return true;
 	}
 	public static List<Consumer<LivingDamageEvent>> GetEntityOnStruckSetEvents(LivingEntity e){
-		List<Consumer<LivingDamageEvent>> tr = new ArrayList<>();
 		if(!OnStruckRegistry.containsKey(e))
-			return tr;
-		for (String s: OnStruckRegistry.get(e)) {
-			if(ScriptRegistry.containsKey(s))
-				tr.add(ScriptRegistry.get(s));
-		}
-		return tr;
+			return new ArrayList<>();
+		return  OnStruckRegistry.get(e);
 	}
-	public static List<Consumer<LivingDamageEvent>> GetEntityOnTickSetEvents(LivingEntity e){
-		List<Consumer<LivingDamageEvent>> tr = new ArrayList<>();
+	public static List<Consumer<LivingEvent.LivingTickEvent>> GetEntityOnTickSetEvents(LivingEntity e){
 		if(!OnTickRegistry.containsKey(e))
-			return tr;
-		for (String s: OnTickRegistry.get(e)) {
-			if(ScriptRegistry.containsKey(s))
-				tr.add(ScriptRegistry.get(s));
-		}
-		return tr;
+			return new ArrayList<>();
+		return  OnTickRegistry.get(e);
 	}
 	public static List<Consumer<LivingDamageEvent>> GetEntityOnDamageSetEvents(LivingEntity e){
-		List<Consumer<LivingDamageEvent>> tr = new ArrayList<>();
 		if(!OnDamageRegistry.containsKey(e))
-			return tr;
-		for (String s: OnDamageRegistry.get(e)) {
-			if(ScriptRegistry.containsKey(s))
-				tr.add(ScriptRegistry.get(s));
-		}
-		return tr;
+			return new ArrayList<>();
+		return  OnDamageRegistry.get(e);
 	}
+
 	public static void loadItemSets(){
 		InputStream stream = ItemSetManager.class.getResourceAsStream(JSON_PATH);
-		if(stream == null)
+		if(stream == null){
 			APJRelitCore.LOGGER.info("No sets file found");
+			return;
+		}
 		try (InputStreamReader reader = new InputStreamReader(stream)) {
 
 
@@ -87,7 +81,7 @@ public class ItemSetManager {
 			for(var set : sets.values()){
 				APJRelitCore.LOGGER.info("Loading set: "+set.getName());
 				for(var b : set.getBonuses())
-					if(b.getAttributeUuid()=="")
+					if(b.getAttributeUuid().equals(""))
 						APJRelitCore.LOGGER.info("One of the bonuses doesn't have an UUID: "+set.getName());
 				for(Item i : set.GetItems()){
 					SetsByItems.put(i,set);
@@ -99,7 +93,6 @@ public class ItemSetManager {
 			APJRelitCore.LOGGER.info("Error loading sets: "+ e.toString());
 		}
 	}
-
 	public static void ApplySetBonus(LivingEntity entity, ItemSetBonus bonus){
 		if(bonus.getAttributeUuid().equals(""))
 			throw new IllegalArgumentException("Set bonus doesn't have an UUID");
@@ -119,17 +112,20 @@ public class ItemSetManager {
 		if(!bonus.getOnStruckScriptName().equals("")){
 			if(!OnStruckRegistry.containsKey(entity))
 				OnStruckRegistry.put(entity, new ArrayList<>());
-			OnStruckRegistry.get(entity).add(bonus.getOnDamageScriptName());
+			if(OnStruckScriptRegistry.containsKey(bonus.getOnDamageScriptName()))
+				OnStruckRegistry.get(entity).add(OnStruckScriptRegistry.get(bonus.getOnDamageScriptName()));
 		}
 		if(!bonus.getOnTickScriptName().equals("")){
 			if(!OnTickRegistry.containsKey(entity))
 				OnTickRegistry.put(entity, new ArrayList<>());
-			OnTickRegistry.get(entity).add(bonus.getOnDamageScriptName());
+			if(OnTickScriptRegistry.containsKey(bonus.getOnDamageScriptName()))
+				OnTickRegistry.get(entity).add(OnTickScriptRegistry.get(bonus.getOnDamageScriptName()));
 		}
 		if(!bonus.getOnDamageScriptName().equals("")){
 			if(!OnDamageRegistry.containsKey(entity))
 				OnDamageRegistry.put(entity, new ArrayList<>());
-			OnDamageRegistry.get(entity).add(bonus.getOnDamageScriptName());
+			if(OnDamageScriptRegistry.containsKey(bonus.getOnDamageScriptName()))
+				OnDamageRegistry.get(entity).add(OnDamageScriptRegistry.get(bonus.getOnDamageScriptName()));
 		}
 	}
 	public static void UndoSetBonus(LivingEntity entity, ItemSetBonus bonus){
@@ -153,17 +149,17 @@ public class ItemSetManager {
 		if(!bonus.getOnStruckScriptName().equals("")){
 			if(!OnStruckRegistry.containsKey(entity))
 				OnStruckRegistry.put(entity, new ArrayList<>());
-			OnStruckRegistry.get(entity).remove(bonus.getOnDamageScriptName());
+			OnStruckRegistry.get(entity).remove(OnDamageScriptRegistry.get(bonus.getOnDamageScriptName()));
 		}
 		if(!bonus.getOnTickScriptName().equals("")){
 			if(!OnTickRegistry.containsKey(entity))
 				OnTickRegistry.put(entity, new ArrayList<>());
-			OnTickRegistry.get(entity).remove(bonus.getOnDamageScriptName());
+			OnTickRegistry.get(entity).remove(OnTickScriptRegistry.get(bonus.getOnDamageScriptName()));
 		}
 		if(!bonus.getOnDamageScriptName().equals("")){
 			if(!OnDamageRegistry.containsKey(entity))
 				OnDamageRegistry.put(entity, new ArrayList<>());
-			OnDamageRegistry.get(entity).remove(bonus.getOnDamageScriptName());
+			OnDamageRegistry.get(entity).remove(OnDamageScriptRegistry.get(bonus.getOnDamageScriptName()));
 		}
 	}
 	public static List<Item> GetWornItems(LivingEntity e, ItemSet set){

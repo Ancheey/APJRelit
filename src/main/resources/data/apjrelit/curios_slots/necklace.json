@@ -1,0 +1,7 @@
+{
+  "slotName": "necklace",
+  "size": 1,
+  "icon": "minecraft:item/iron_ring",
+  "enabled": true,
+  "cosmetic": false
+}

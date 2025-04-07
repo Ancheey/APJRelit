@@ -1,8 +1,11 @@
 package net.ancheey.apjrelit.itemsets;
 
 import com.google.gson.annotations.SerializedName;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class ItemSetBonus {
 	@SerializedName("attribute_uuid")
@@ -22,12 +25,13 @@ public class ItemSetBonus {
 	@SerializedName("attribute_operation")
 	private int attributeOperation = 0;
 
+	private @Nullable Consumer<LivingDamageEvent> onStruckEvent;
 	public String getAttributeUuid(){return uuid;}
 	public int getRequiredItems() {return requiredItems;}
 	public String getTooltip() {return tooltip;}
 	public String getAttribute() {return attribute;}
 	public double getAttributeValue() {return attributeValue;}
-	public String getOnStruckScriptName() {return onStruckScriptName;}
+	public  String getOnStruckScriptName() {return onStruckScriptName;}
 	public String getOnTickScriptName() {return onTickScriptName;}
 	public String getOnDamageScriptName() {return onDamageScriptName;}
 	public int getAttributeOperation() {return attributeOperation;}

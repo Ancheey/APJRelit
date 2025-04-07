@@ -60,8 +60,6 @@ public class APJRelitCore
         CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(new APJClientEvents());
-        MinecraftForge.EVENT_BUS.register(new APJServerEvents());
 
 
         //TODO: Test curios
@@ -78,20 +76,15 @@ public class APJRelitCore
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
-        ItemSetManager.loadItemSets();
+        if(Config.loadSetsModule){
+            MinecraftForge.EVENT_BUS.register(new APJSetModuleEventHandler());
+            ItemSetManager.loadItemSets();
+        }
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     // Add the example block item to the building blocks tab
