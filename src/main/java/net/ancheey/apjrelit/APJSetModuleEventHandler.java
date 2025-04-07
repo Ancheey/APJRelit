@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -22,6 +21,7 @@ public class APJSetModuleEventHandler {
 	public void onEquipmentChange(LivingEquipmentChangeEvent event){
 		EquipmentChange(event.getFrom().getItem(),event.getTo().getItem(),event.getEntity());
 	}
+	@SubscribeEvent(priority =  EventPriority.HIGH)
 	public void onCurioChange(CurioChangeEvent event){
 		EquipmentChange(event.getFrom().getItem(),event.getTo().getItem(),event.getEntity());
 	}
@@ -45,7 +45,7 @@ public class APJSetModuleEventHandler {
 
 	private Item lastCheckedItem = null;
 	long LastItemTimeStamp = 0;
-	private List<Component> lastCheckedTooltip = new ArrayList<>();
+	private final List<Component> lastCheckedTooltip = new ArrayList<>();
 	@SubscribeEvent(priority =  EventPriority.LOWEST)
 	public void onItemTooltip(ItemTooltipEvent e){
 		Item item = e.getItemStack().getItem();

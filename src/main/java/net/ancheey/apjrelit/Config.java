@@ -22,7 +22,7 @@ public class Config
     private static final ForgeConfigSpec.BooleanValue LOAD_SETS_MODULE = BUILDER
             .comment("Turn on gear sets module")
             .define("GearSetsModule", true);
-
+//TODO: fix config loading
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static boolean loadSetsModule;

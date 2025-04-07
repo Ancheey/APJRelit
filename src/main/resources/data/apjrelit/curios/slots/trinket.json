@@ -1,7 +1,7 @@
 {
   "slotName": "trinket",
   "size": 2,
-  "icon": "minecraft:item/iron_ring",
+  "order": 5,
   "enabled": true,
   "cosmetic": false
 }
