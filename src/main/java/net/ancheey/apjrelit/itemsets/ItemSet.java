@@ -17,14 +17,14 @@ public class ItemSet {
 	public List<ItemSetBonus> getBonuses() {return bonuses;}
 	public void setBonuses(List<ItemSetBonus> bonuses) {this.bonuses = bonuses;}
 
-	private List<Item> convertedItems = new ArrayList<>();
+	private final List<Item> convertedItems = new ArrayList<>();
 	public List<Item> GetItems(){
 		if(convertedItems.size()!= items.size()) {
 			for (var a : items) {
 				try {
 					convertedItems.add(ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(a)));
 				}
-				catch(Exception e){}
+				catch(Exception ignored){}
 			}
 		}
 		return convertedItems;

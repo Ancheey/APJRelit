@@ -3,22 +3,19 @@ package net.ancheey.apjrelit.item.renderer.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.ancheey.apjrelit.item.renderer.IArmsModel;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
-public class Tier1CasterShoulderModel<T extends Entity> extends EntityModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath("apjrelit", "t1_caster_shoulders"), "main");
+public class Tier1CasterShoulderModel<T extends Entity> extends EntityModel<T> implements IArmsModel {
 	private final ModelPart LeftShoulder;
 	private final ModelPart RightShoulder;
 
-	public Tier1CasterShoulderModel(ModelPart root) {
+	public Tier1CasterShoulderModel() {
+		ModelPart root = createBodyLayer().bakeRoot();
 		this.LeftShoulder = root.getChild("LeftShoulder");
 		this.RightShoulder = root.getChild("RightShoulder");
 	}
@@ -47,13 +44,33 @@ public class Tier1CasterShoulderModel<T extends Entity> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-	LeftShoulder.xRot = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount * 0.5f;
-	RightShoulder.xRot = -Mth.cos(limbSwing  *  0.6662F) * limbSwingAmount * 0.5f;
+	//LeftShoulder.xRot = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount * 0.5f;
+	//RightShoulder.xRot = -Mth.cos(limbSwing  *  0.6662F) * limbSwingAmount * 0.5f;
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		//LeftShoulder.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		//RightShoulder.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	@Override
+	public ModelPart getLeft() {
+		return LeftShoulder;
+	}
+	@Override
+	public ModelPart getRight() {
+		return RightShoulder;
+	}
+
+	@Override
+	public void renderLeftToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+
 		LeftShoulder.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	@Override
+	public void renderRightToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		RightShoulder.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

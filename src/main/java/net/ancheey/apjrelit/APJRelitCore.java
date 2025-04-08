@@ -8,6 +8,7 @@ import net.ancheey.apjrelit.item.APJCurioRegistry;
 import net.ancheey.apjrelit.item.APJItemRegistry;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -45,8 +46,6 @@ public class APJRelitCore
     public static final String MODID = "apjrelit";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS.register("apjitems",()->CreativeModeTab.builder().title(Component.literal("Apj Items")).build());
 
@@ -63,9 +62,6 @@ public class APJRelitCore
         APJItemRegistry.register(modEventBus);
         APJCurioRegistry.registerCurios();
 
-        BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
-        // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
@@ -87,7 +83,6 @@ public class APJRelitCore
 
         LOGGER.info("Loading set module");
         MinecraftForge.EVENT_BUS.register(new APJSetModuleEventHandler());
-        ItemSetManager.loadItemSets();
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
@@ -96,12 +91,15 @@ public class APJRelitCore
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         // Some common setup code
+        ItemSetManager.loadItemSets();
     }
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if(event.getTab() == CREATIVE_TAB.get()){
-            event.accept(APJItemRegistry.TIER1_CASTER_SHOULDERS);
+            for(var a : APJItemRegistry.ITEMS.getEntries()){
+                event.accept(a.get());
+            }
         }
     }
 

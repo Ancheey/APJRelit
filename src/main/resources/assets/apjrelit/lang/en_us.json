@@ -1,4 +1,11 @@
 {
   "item.apjrelit.obliteration_shoulderpads" : "Obliteration Shoulderpads",
+  "item.apjrelit.obliteration_gloves" : "Obliteration Gloves",
+  "item.apjrelit.obliteration_cowl" : "Obliteration Cowl",
+  "item.apjrelit.obliteration_robe" : "Obliteration Robe",
+  "item.apjrelit.obliteration_skirt" : "Obliteration Skirt",
+  "item.apjrelit.obliteration_kickers" : "Obliteration Kickers",
+  "item.apjrelit.obliteration_cape" : "Obliteration Spikes",
+
   "curios.identifier.shoulders": "Shoulders"
 }

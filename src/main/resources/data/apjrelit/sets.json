@@ -34,16 +34,40 @@
     ]
   },
   "t1_caster": {
-    "name": "Manaburn Set",
+    "name": "Obliteration Mantle",
     "items": [
+      "apjrelit:obliteration_shoulderpads",
+      "apjrelit:obliteration_gloves"
     ],
     "bonuses": [
       {
         "attribute_uuid": "8bc58df9-70ba-45b2-a3fd-d42cf06ecef4",
-        "items_required": 0,
-        "tooltip": "Increases your health by 1",
-        "attribute": "minecraft:generic.max_health",
-        "attribute_value": 1,
+        "items_required": 2,
+        "tooltip": "Increases your cast speed by 2%",
+        "attribute": "",
+        "attribute_value": 0,
+        "attribute_operation": 0,
+        "on_struck_script": "",
+        "on_tick_script": "",
+        "on_damage_script": ""
+      },
+      {
+        "attribute_uuid": "8bc58df9-70ba-45b2-a3fd-d42cf06ecef4",
+        "items_required": 4,
+        "tooltip": "Increases your spell damage by 5%",
+        "attribute": "",
+        "attribute_value": 0,
+        "attribute_operation": 0,
+        "on_struck_script": "",
+        "on_tick_script": "",
+        "on_damage_script": ""
+      },
+      {
+        "attribute_uuid": "8bc58df9-70ba-45b2-a3fd-d42cf06ecef4",
+        "items_required": 4,
+        "tooltip": "Attacking enemies with fire, frost or void damage has a chance to manaburn the enemy for additional 30%",
+        "attribute": "",
+        "attribute_value": 0,
         "attribute_operation": 0,
         "on_struck_script": "",
         "on_tick_script": "",

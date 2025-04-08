@@ -19,12 +19,6 @@ public class ObliterationShoulderpads extends Item implements ICurioItem, IClien
 
 	@Override
 	public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-
 		return super.initCapabilities(stack, nbt);
-	}
-
-	@Override
-	public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-		return IClientItemExtensions.super.getHumanoidArmorModel(livingEntity, itemStack, equipmentSlot, original);
 	}
 }
