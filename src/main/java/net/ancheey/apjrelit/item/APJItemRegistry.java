@@ -2,7 +2,7 @@ package net.ancheey.apjrelit.item;
 
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.armor.APJArmorMaterials;
-import net.ancheey.apjrelit.armor.ObliterationArmorItem;
+import net.ancheey.apjrelit.armor.APJArmorItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,13 +17,13 @@ public class APJItemRegistry {
     public static final RegistryObject<Item> TIER1_CASTER_SHOULDERS = ITEMS.register("obliteration_shoulderpads",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_GLOVES = ITEMS.register("obliteration_gloves",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_COWL = ITEMS.register("obliteration_cowl",
-            ()->new ObliterationArmorItem(APJArmorMaterials.CLOTH, ArmorItem.Type.HELMET,new Item.Properties().stacksTo(1).durability(0)));
+            ()->new APJArmorItem(APJArmorMaterials.CLOTH, ArmorItem.Type.HELMET,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_ROBE = ITEMS.register("obliteration_robe",
-            ()->new ObliterationArmorItem(APJArmorMaterials.CLOTH, ArmorItem.Type.CHESTPLATE,new Item.Properties().stacksTo(1).durability(0)));
+            ()->new APJArmorItem(APJArmorMaterials.CLOTH, ArmorItem.Type.CHESTPLATE,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_SKIRT = ITEMS.register("obliteration_skirt",
-            ()->new ObliterationArmorItem(APJArmorMaterials.CLOTH, ArmorItem.Type.LEGGINGS,new Item.Properties().stacksTo(1).durability(0)));
+            ()->new APJArmorItem(APJArmorMaterials.CLOTH, ArmorItem.Type.LEGGINGS,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_KICKERS = ITEMS.register("obliteration_kickers",
-            ()->new ObliterationArmorItem(APJArmorMaterials.CLOTH, ArmorItem.Type.BOOTS,new Item.Properties().stacksTo(1).durability(0)));
+            ()->new APJArmorItem(APJArmorMaterials.CLOTH, ArmorItem.Type.BOOTS,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_CAPE = ITEMS.register("obliteration_cape",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
 
     //Rings
