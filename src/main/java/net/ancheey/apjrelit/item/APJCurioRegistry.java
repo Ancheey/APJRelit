@@ -13,8 +13,8 @@ public class APJCurioRegistry {
 	}
 	public static void registerRenderers(final FMLClientSetupEvent e){
 		CuriosRendererRegistry.register(APJItemRegistry.TIER1_CASTER_SHOULDERS.get(),
-				()-> new CurioRenderer(new Tier1CasterShoulderModel<>(), ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/entity/t1_caster_full.png")));
+				()-> new CurioRenderer(new Tier1CasterShoulderModel<>(), ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/armor/t1_caster_set.png")));
 		CuriosRendererRegistry.register(APJItemRegistry.TIER1_CASTER_GLOVES.get(),
-				()-> new CurioRenderer(new Tier1CasterGloveModel<>(), ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/entity/t1_caster_full.png")));
+				()-> new CurioRenderer(new Tier1CasterGloveModel<>(), ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/armor/t1_caster_set.png")));
 	}
 }

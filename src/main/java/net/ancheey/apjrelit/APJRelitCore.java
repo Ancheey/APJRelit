@@ -1,42 +1,32 @@
 package net.ancheey.apjrelit;
 
 import com.mojang.logging.LogUtils;
-import mod.azure.azurelib.AzureLib;
-import mod.azure.azurelib.client.AzureLibClient;
-import mod.azure.azurelib.util.AzureLibUtil;
+
 import net.ancheey.apjrelit.item.APJCurioRegistry;
 import net.ancheey.apjrelit.item.APJItemRegistry;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelShaper;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.food.FoodProperties;
+
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.api.distmarker.Dist;
+
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
+
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
+
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.CuriosCapability;
-import top.theillusivec4.curios.api.type.capability.ICurio;
+
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(APJRelitCore.MODID)
