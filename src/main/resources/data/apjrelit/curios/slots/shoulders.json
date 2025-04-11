@@ -1,6 +1,7 @@
 {
   "slotName": "shoulders",
   "size": 1,
+  "order": 2,
   "enabled": true,
   "cosmetic": false
 }

@@ -2,6 +2,7 @@ package net.ancheey.apjrelit.armor;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.armor.renderer.APJArmorRenderer;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -25,6 +27,11 @@ public class APJArmorItem extends ArmorItem implements GeoItem {
 	public APJArmorItem(String setIdentifier, ArmorMaterial pMaterial, Type pType, Properties pProperties) {
 		super(pMaterial, pType, pProperties);
 		identifier = setIdentifier;
+	}
+
+	@Override
+	public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+		return APJRelitCore.MODID+":textures/armor/"+identifier+".png";
 	}
 
 	@Override

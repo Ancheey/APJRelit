@@ -2,11 +2,11 @@
   "iron_set": {
     "name": "Ironclad Set",
     "items": [
-      "minecraft:iron_helmet",
-      "minecraft:iron_chestplate",
-      "minecraft:iron_leggings",
-      "minecraft:iron_boots",
-      "minecraft:chain"
+      {"id": "minecraft:iron_helmet", "type": 2},
+      {"id": "minecraft:iron_chestplate", "type": 2},
+      {"id": "minecraft:iron_leggings", "type": 2},
+      {"id": "minecraft:iron_boots", "type": 2},
+      {"id": "minecraft:chain", "type": 3}
     ],
     "bonuses": [
       {
@@ -34,10 +34,14 @@
     ]
   },
   "t1_caster": {
-    "name": "Obliteration Mantle",
+    "name": "Mantle of Obliteration",
     "items": [
-      "apjrelit:obliteration_shoulderpads",
-      "apjrelit:obliteration_gloves"
+      {"id": "apjrelit:obliteration_cowl", "type": 2},
+      {"id": "apjrelit:obliteration_robe", "type": 2},
+      {"id": "apjrelit:obliteration_skirt", "type": 2},
+      {"id": "apjrelit:obliteration_kickers", "type": 2},
+      {"id": "apjrelit:obliteration_shoulderpads", "type": 3},
+      {"id":  "apjrelit:obliteration_gloves", "type": 3}
     ],
     "bonuses": [
       {

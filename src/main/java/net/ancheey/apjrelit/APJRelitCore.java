@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 
 import net.ancheey.apjrelit.item.APJCurioRegistry;
 import net.ancheey.apjrelit.item.APJItemRegistry;
+import net.ancheey.apjrelit.itemsets.APJSetModuleEventHandler;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
 
 import net.minecraft.core.registries.Registries;
@@ -54,15 +55,8 @@ public class APJRelitCore
 
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
-
-
-        //TODO: Test curios
-        //TODO: Add combat effect handling
-        //TODO: Test ^
-        //TODO: Maybe optimize effect handling so it doesn't run entirely on strings (move effects to set bonuses?, change providers)
-        //TODO: Add T1 Set
-        //TODO: Change how items are displayed (rid of those fugly attribute stats)
+        //TODO: update item sets so that they hold the slot they're meant for - then fix calculations so they only compare that
+        //TODO: Item Sets: Add and test combat effect handling
 
 
         // Register the item to a creative tab

@@ -8,12 +8,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -84,14 +84,13 @@ public class ItemSetManager {
 				for(var b : set.getBonuses())
 					if(b.getAttributeUuid().equals(""))
 						APJRelitCore.LOGGER.info("One of the bonuses doesn't have an UUID: "+set.getName());
-				for(Item i : set.GetItems()){
-					SetsByItems.put(i,set);
-					APJRelitCore.LOGGER.info("Added item to set: "+i.getDescription());
+				for(var i : set.GetItems()){
+					i.getItem().ifPresent(item -> SetsByItems.put(item, set));
 				}
 			}
 		}
 		catch (IOException e){
-			APJRelitCore.LOGGER.info("Error loading sets: "+ e.toString());
+			APJRelitCore.LOGGER.info("Error loading sets: "+ e);
 		}
 	}
 	public static void ApplySetBonus(LivingEntity entity, ItemSetBonus bonus){
@@ -165,35 +164,43 @@ public class ItemSetManager {
 	}
 	public static List<Item> GetWornItems(LivingEntity e, ItemSet set){
 		List<Item> worn = new ArrayList<>();
-		List<Item> yetToWear = new ArrayList<>(set.GetItems());
-		List<ItemStack> toCheck = ItemSetManager.GetAllEntitySetRelevantSlots(e);
-
-		for (var s : toCheck) {
-			Item wornItem = s.getItem();
-			if (yetToWear.size() == 0)
-				break;
-			if (s.isEmpty())
-				continue;
-			for (int i = 0; i < yetToWear.size(); i++) {
-				if (wornItem == yetToWear.get(i)) {
-					worn.add(wornItem);
-					yetToWear.remove(wornItem);
-					break;
-				}
+		//check mh, oh, armor
+		for(var item : set.GetItems().stream().filter(d->d.getItemType()!= 3).toList()){
+			switch (item.getItemType()) {
+				case 0 -> item.getItem().ifPresent(i -> {
+						if (e.getMainHandItem().getItem() == i || e.getOffhandItem().getItem() == i) {
+							worn.add(i);
+						}
+					});//Main hand or offhand
+				case 1 -> item.getItem().ifPresent(i -> {
+						if (e.getOffhandItem().getItem() == i) {
+							worn.add(i);
+						}
+					});//offhand only
+				case 2 -> item.getItem().ifPresent(i -> e.getArmorSlots().forEach(s -> {
+					if (s.getItem() == i) {
+						worn.add(i);
+					}
+				}));//any armor piece (head, chest, legs, boots)
 			}
 		}
+		//check curio slots
+		if(set.GetItems().stream().anyMatch(k->k.getItemType() == 3)){
+			CuriosApi.getCuriosInventory(e).ifPresent(handler ->{
+				var items = set.GetItems().stream().filter(d -> d.getItemType() == 3).toList();
+				var curios = handler.findCurios(s->true);
+				for (var item : items) {
+					item.getItem().ifPresent(i->{
+						for(SlotResult slot : curios) {
+							if(slot.stack().getItem() == i){
+								worn.add(i);
+								break;
+							}
+						}
+					});
+				}
+			});
+		}
 		return worn;
-	}
-	public static List<ItemStack> GetAllEntitySetRelevantSlots(LivingEntity e){
-		List<ItemStack> toCheck = new ArrayList<>();
-		toCheck.add(e.getMainHandItem()); //mainhand
-		toCheck.add(e.getOffhandItem()); //offhand
-		e.getArmorSlots().forEach(toCheck::add); //all armor
-		CuriosApi.getCuriosInventory(e).ifPresent((curios) ->{
-			var curiosslots = curios.getSlots();
-			for (int i = 0; i < curiosslots; i++)
-				toCheck.add(curios.getEquippedCurios().getStackInSlot(i));
-		});
-		return toCheck;
 	}
 }

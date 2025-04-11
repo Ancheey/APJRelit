@@ -1,10 +1,10 @@
-package net.ancheey.apjrelit;
+package net.ancheey.apjrelit.itemsets;
 
-import net.ancheey.apjrelit.itemsets.ItemSet;
-import net.ancheey.apjrelit.itemsets.ItemSetManager;
+import net.ancheey.apjrelit.APJRelitCore;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -26,10 +26,12 @@ public class APJSetModuleEventHandler {
 		EquipmentChange(event.getFrom().getItem(),event.getTo().getItem(),event.getEntity());
 	}
 	private void EquipmentChange(Item from, Item to, LivingEntity e){
+		if(!(e instanceof Player))
+			return;
+
 		if(ItemSetManager.SetsByItems.containsKey(from)){
 			var unequippedSet = ItemSetManager.SetsByItems.get(from);
 			var worn = ItemSetManager.GetWornItems(e,unequippedSet);
-			APJRelitCore.LOGGER.info("Removing bonus for "+worn.size()+1+" items");
 			unequippedSet.getBonuses().stream()
 					.filter(b -> b.getRequiredItems() == worn.size()+1)
 					.forEach(b-> ItemSetManager.UndoSetBonus(e,b)); //remove all bonuses that require an item more than currently equipped
@@ -48,6 +50,9 @@ public class APJSetModuleEventHandler {
 	private final List<Component> lastCheckedTooltip = new ArrayList<>();
 	@SubscribeEvent(priority =  EventPriority.LOWEST)
 	public void onItemTooltip(ItemTooltipEvent e){
+		if(e.getEntity() == null)
+			return;
+
 		Item item = e.getItemStack().getItem();
 		try {
 			if(item == lastCheckedItem && System.currentTimeMillis() - LastItemTimeStamp < 500){ //already generated once, so no need to regenerate it (unless a second has passed)
@@ -66,11 +71,14 @@ public class APJSetModuleEventHandler {
 				//Set Name (0/5)
 				lastCheckedTooltip.add(Component.literal(set.getName() + " (" + worn.size() + "/" + set.GetItems().size() + ")").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
 				//Listing of items (Gray/Gold)
-				for (Item i : set.GetItems()) {
-					if (worn.contains(i))
-						lastCheckedTooltip.add(Component.literal("  " + i.getDescription().getString()).withStyle(ChatFormatting.GOLD));
-					else
-						lastCheckedTooltip.add(Component.literal("  " + i.getDescription().getString()).withStyle(ChatFormatting.DARK_GRAY));
+				for (ItemSetItem i : set.GetItems()) {
+					i.getItem().ifPresent(k->{
+						if (worn.contains(k))
+							lastCheckedTooltip.add(Component.literal("  " + k.getDescription().getString()).withStyle(ChatFormatting.YELLOW));
+						else
+							lastCheckedTooltip.add(Component.literal("  " + k.getDescription().getString()).withStyle(ChatFormatting.DARK_GRAY));
+					});
+
 				}
 				lastCheckedTooltip.add(Component.empty());//Empty line
 				//Listing of set bonuses (Gray/Green)
