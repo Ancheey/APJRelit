@@ -3,7 +3,6 @@ package net.ancheey.apjrelit.item;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.armor.APJArmorMaterials;
 import net.ancheey.apjrelit.armor.APJArmorItem;
-import net.ancheey.apjrelit.item.renderer.model.CurioSetItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;

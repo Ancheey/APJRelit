@@ -1,4 +1,4 @@
-package net.ancheey.apjrelit.item.renderer.model;
+package net.ancheey.apjrelit.item;
 
 import net.ancheey.apjrelit.armor.renderer.APJArmorRenderer;
 import net.minecraft.client.model.HumanoidModel;
