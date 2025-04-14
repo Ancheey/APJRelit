@@ -14,8 +14,9 @@ public class APJItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, APJRelitCore.MODID);
 
     //Gear Curios
-    public static final RegistryObject<Item> TIER1_CASTER_SHOULDERS = ITEMS.register("obliteration_shoulderpads",()->new CurioSetItem(new Item.Properties().stacksTo(1).durability(0)));
-    public static final RegistryObject<Item> TIER1_CASTER_GLOVES = ITEMS.register("obliteration_gloves",()->new CurioSetItem(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_CASTER_SHOULDERS = ITEMS.register("obliteration_shoulderpads",()->new BasicGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_CASTER_GLOVES = ITEMS.register("obliteration_gloves",()->new BasicGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_CASTER_SIGIL = ITEMS.register("obliteration_sigil",()->new SigilGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_COWL = ITEMS.register("obliteration_cowl",
             ()->new APJArmorItem("t1_caster_full",APJArmorMaterials.CLOTH, ArmorItem.Type.HELMET,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_ROBE = ITEMS.register("obliteration_robe",

@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 public class APJArmorRenderer extends GeoArmorRenderer<APJArmorItem> {
 	public APJArmorRenderer(String ArmorAssets) {
 		super(new APJSetModel(ArmorAssets));
-		addRenderLayer(new AutoGlowingGeoLayer<>(this));
 	}
 
 	protected GeoBone halo = null;

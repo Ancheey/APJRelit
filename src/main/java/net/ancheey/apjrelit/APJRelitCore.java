@@ -2,6 +2,7 @@ package net.ancheey.apjrelit;
 
 import com.mojang.logging.LogUtils;
 
+import net.ancheey.apjrelit.gui.APJKeyMapping;
 import net.ancheey.apjrelit.item.APJCurioRegistry;
 import net.ancheey.apjrelit.item.APJItemRegistry;
 import net.ancheey.apjrelit.itemsets.APJSetModuleEventHandler;
@@ -39,7 +40,6 @@ public class APJRelitCore
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS.register("apjitems",()->CreativeModeTab.builder().title(Component.literal("Apj Items")).build());
-
     public APJRelitCore(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
@@ -55,12 +55,12 @@ public class APJRelitCore
 
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        //TODO: update item sets so that they hold the slot they're meant for - then fix calculations so they only compare that
         //TODO: Item Sets: Add and test combat effect handling
 
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(APJKeyMapping::registerKeybinds);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);

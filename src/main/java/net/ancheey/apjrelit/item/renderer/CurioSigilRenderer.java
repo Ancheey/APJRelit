@@ -1,5 +1,4 @@
 package net.ancheey.apjrelit.item.renderer;
-
 import net.minecraft.client.model.HumanoidModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
@@ -20,7 +19,6 @@ public class CurioSigilRenderer extends GeoCurioRenderer {
 		var head = parent.head;
 		RenderUtils.matchModelPartRot(head,halo);
 	}
-
 	@Override
 	public List<GeoBone> getRelevantBones() {
 		var list = new ArrayList<GeoBone>();

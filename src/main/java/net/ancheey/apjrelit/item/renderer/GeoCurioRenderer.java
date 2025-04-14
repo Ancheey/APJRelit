@@ -3,7 +3,7 @@ package net.ancheey.apjrelit.item.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.ancheey.apjrelit.armor.APJSetModel;
-import net.ancheey.apjrelit.item.CurioSetItem;
+import net.ancheey.apjrelit.item.BasicGeoCurioItem;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -29,13 +29,13 @@ import java.util.List;
 /**
  * CurioSetItem is just <T extends GeoItem & CurioItem>
  */
-public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<CurioSetItem> {
-	protected final GeoRenderLayersContainer<CurioSetItem> renderLayers = new GeoRenderLayersContainer<>(this);
-	private final APJSetModel<CurioSetItem> model;
+public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<GeoItem> {
+	protected final GeoRenderLayersContainer<GeoItem> renderLayers = new GeoRenderLayersContainer<>(this);
+	private final APJSetModel<GeoItem> model;
 	protected BakedGeoModel bakedModel;
 	protected Entity currentEntity = null;
 	protected ItemStack currentStack = null;
-	protected CurioSetItem animatable = null;
+	protected GeoItem animatable = null;
 
 
 	public static GeoCurioRenderer forShoulders(String modelName){
@@ -61,7 +61,7 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Cu
 		//Any further actions you should do using the bakedModel.
 		addRenderLayer(new GeoRenderLayer<>(this) {
 			@Override
-			public GeoModel<CurioSetItem> getGeoModel() {
+			public GeoModel<GeoItem> getGeoModel() {
 				return model;
 			}
 		});
@@ -78,7 +78,7 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Cu
 			return;
 		}
 		if(animatable == null)
-			animatable = (CurioSetItem) stack.getItem();
+			animatable = (BasicGeoCurioItem) stack.getItem();
 
 		var relevatBones = getRelevantBones();
 		if(relevatBones != null)
@@ -86,7 +86,7 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Cu
 				if(bone != null)
 					bone.setHidden(false);
 
-		VertexConsumer consumer = renderTypeBuffer.getBuffer(RenderType.armorCutoutNoCull(this.getTextureLocation((CurioSetItem) stack.getItem())));
+		VertexConsumer consumer = renderTypeBuffer.getBuffer(RenderType.armorCutoutNoCull(this.getTextureLocation((BasicGeoCurioItem) stack.getItem())));
 		matrixStack.pushPose();
 		matrixStack.translate(0,24/16f,0);
 		matrixStack.scale(-1,-1,1);
@@ -103,12 +103,12 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Cu
 	public abstract  void applyBoneTransformations(HumanoidModel<?> parent);
 	public abstract  List<GeoBone> getRelevantBones();
 	@Override
-	public GeoModel<CurioSetItem> getGeoModel() {
+	public GeoModel<GeoItem> getGeoModel() {
 		return this.model;
 	}
 
 	@Override
-	public CurioSetItem getAnimatable() {
+	public GeoItem getAnimatable() {
 		return this.animatable;
 	}
 	@Override
@@ -125,28 +125,28 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Cu
 	}
 
 	@Override
-	public void updateAnimatedTextureFrame(CurioSetItem animatable) {
+	public void updateAnimatedTextureFrame(GeoItem animatable) {
 		if (this.currentEntity != null)
 			AnimatableTexture.setAndUpdate(getTextureLocation(animatable));
 	}
 	@Override
-	public long getInstanceId(CurioSetItem animatable) {
+	public long getInstanceId(GeoItem animatable) {
 		return -GeoItem.getId(this.currentStack);
 	}
 	@Override
-	public RenderType getRenderType(CurioSetItem animatable, ResourceLocation texture, @org.jetbrains.annotations.Nullable MultiBufferSource bufferSource, float partialTick) {
+	public RenderType getRenderType(GeoItem animatable, ResourceLocation texture, @org.jetbrains.annotations.Nullable MultiBufferSource bufferSource, float partialTick) {
 		return RenderType.armorCutoutNoCull(texture);
 	}
 	@Override
-	public List<GeoRenderLayer<CurioSetItem>> getRenderLayers() {
+	public List<GeoRenderLayer<GeoItem>> getRenderLayers() {
 		return this.renderLayers.getRenderLayers();
 	}
-	public GeoCurioRenderer addRenderLayer(GeoRenderLayer<CurioSetItem> renderLayer) {
+	public GeoCurioRenderer addRenderLayer(GeoRenderLayer<GeoItem> renderLayer) {
 		this.renderLayers.addLayer(renderLayer);
 		return this;
 	}
 	@Override
-	public void actuallyRender(PoseStack poseStack, CurioSetItem animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource,
+	public void actuallyRender(PoseStack poseStack, GeoItem animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource,
 								VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay,
 								float red, float green, float blue, float alpha) {
 		updateAnimatedTextureFrame(animatable);
