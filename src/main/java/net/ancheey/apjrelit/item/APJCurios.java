@@ -8,5 +8,5 @@ public enum APJCurios {
 	Bracelet,
 	Hands,
 	Ring,
-	Curio
+	Sigil
 }

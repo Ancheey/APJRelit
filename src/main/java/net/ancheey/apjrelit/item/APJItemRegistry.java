@@ -3,6 +3,7 @@ package net.ancheey.apjrelit.item;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.armor.APJArmorMaterials;
 import net.ancheey.apjrelit.armor.APJArmorItem;
+import net.ancheey.apjrelit.item.renderer.model.CurioSetItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -14,8 +15,8 @@ public class APJItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, APJRelitCore.MODID);
 
     //Gear Curios
-    public static final RegistryObject<Item> TIER1_CASTER_SHOULDERS = ITEMS.register("obliteration_shoulderpads",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
-    public static final RegistryObject<Item> TIER1_CASTER_GLOVES = ITEMS.register("obliteration_gloves",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_CASTER_SHOULDERS = ITEMS.register("obliteration_shoulderpads",()->new CurioSetItem(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_CASTER_GLOVES = ITEMS.register("obliteration_gloves",()->new CurioSetItem(new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_COWL = ITEMS.register("obliteration_cowl",
             ()->new APJArmorItem("t1_caster_full",APJArmorMaterials.CLOTH, ArmorItem.Type.HELMET,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_ROBE = ITEMS.register("obliteration_robe",

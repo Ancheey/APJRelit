@@ -1,10 +1,6 @@
 package net.ancheey.apjrelit.armor.renderer;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.ancheey.apjrelit.armor.APJArmorItem;
-import net.ancheey.apjrelit.armor.APJArmorModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.ancheey.apjrelit.armor.APJSetModel;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
@@ -14,7 +10,7 @@ import javax.annotation.Nullable;
 
 public class APJArmorRenderer extends GeoArmorRenderer<APJArmorItem> {
 	public APJArmorRenderer(String ArmorAssets) {
-		super(new APJArmorModel(ArmorAssets));
+		super(new APJSetModel(ArmorAssets));
 		addRenderLayer(new AutoGlowingGeoLayer<>(this));
 	}
 
