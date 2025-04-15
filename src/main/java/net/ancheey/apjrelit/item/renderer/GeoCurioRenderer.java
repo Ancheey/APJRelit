@@ -17,6 +17,8 @@ import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.cache.texture.AnimatableTexture;
+import software.bernie.geckolib.constant.DataTickets;
+import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
@@ -77,8 +79,11 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Ge
 		if (!(renderLayerParent.getModel() instanceof HumanoidModel<?> parent)) {
 			return;
 		}
-		if(animatable == null)
+		if(animatable == null) {
 			animatable = (BasicGeoCurioItem) stack.getItem();
+			currentStack = stack;
+		}
+
 
 		var relevatBones = getRelevantBones();
 		if(relevatBones != null)
@@ -150,7 +155,15 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Ge
 								VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay,
 								float red, float green, float blue, float alpha) {
 		updateAnimatedTextureFrame(animatable);
+		if (!isReRender) {
+			AnimationState<GeoItem> animationState = new AnimationState<>(animatable, 0, 0, partialTick, false);
+			animationState.setData(DataTickets.TICK, animatable.getTick(this.currentEntity));
+			animationState.setData(DataTickets.ENTITY, this.currentEntity);
 
+			long instanceId = getInstanceId(animatable);
+			this.model.addAdditionalStateData(animatable, instanceId, animationState::setData);
+			this.model.handleAnimations(animatable, instanceId, animationState);
+		}
 		var relevatBones = getRelevantBones();
 		if(relevatBones != null)
 			for(var bone : relevatBones) {

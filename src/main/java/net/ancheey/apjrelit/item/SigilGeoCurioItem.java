@@ -1,5 +1,6 @@
 package net.ancheey.apjrelit.item;
 
+import net.ancheey.apjrelit.APJRelitCore;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
