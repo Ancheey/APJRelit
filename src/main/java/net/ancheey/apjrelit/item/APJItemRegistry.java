@@ -27,6 +27,12 @@ public class APJItemRegistry {
             ()->new APJArmorItem("t1_caster_full",APJArmorMaterials.CLOTH, ArmorItem.Type.BOOTS,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_CAPE = ITEMS.register("obliteration_cape",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
 
+
+    public static final RegistryObject<Item> TIER1_WARRIOR_HELMET = ITEMS.register("decimation_helmet",
+            ()->new APJArmorItem("t1_warrior_full",APJArmorMaterials.PLATE, ArmorItem.Type.HELMET,new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_WARRIOR_SHOULDERS = ITEMS.register("decimation_shoulderpads",()->new BasicGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
+
+
     //Rings
     public static final RegistryObject<Item> SILVER_RING = ITEMS.register("silver_ring",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> GOLDEN_RING = ITEMS.register("golden_ring",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
