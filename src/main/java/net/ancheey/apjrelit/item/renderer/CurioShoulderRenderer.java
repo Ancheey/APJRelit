@@ -16,7 +16,7 @@ public class CurioShoulderRenderer extends GeoCurioRenderer {
 	GeoBone leftShoulder;
 	GeoBone rightShoulder;
 	@Override
-	public void applyBoneTransformations(HumanoidModel<?> parent) {
+	public void applyBoneTransformations(HumanoidModel<?> parent, float limbSwing) {
 		var leftArm = parent.leftArm;
 		RenderUtils.matchModelPartRot(leftArm,leftShoulder);
 

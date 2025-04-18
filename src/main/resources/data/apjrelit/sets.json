@@ -41,7 +41,9 @@
       {"id": "apjrelit:obliteration_skirt", "type": 2},
       {"id": "apjrelit:obliteration_kickers", "type": 2},
       {"id": "apjrelit:obliteration_shoulderpads", "type": 3},
-      {"id":  "apjrelit:obliteration_gloves", "type": 3}
+      {"id":  "apjrelit:obliteration_gloves", "type": 3},
+      {"id":  "apjrelit:obliteration_sigil", "type": 3},
+      {"id":  "apjrelit:obliteration_cape", "type": 3}
     ],
     "bonuses": [
       {

@@ -14,9 +14,10 @@ public class CurioBackRenderer extends GeoCurioRenderer {
 	}
 	GeoBone back;
 	@Override
-	public void applyBoneTransformations(HumanoidModel<?> parent) {
+	public void applyBoneTransformations(HumanoidModel<?> parent, float limbSwing) {
 		var body = parent.body;
 		RenderUtils.matchModelPartRot(body,back);
+		back.setRotX(body.xRot+(float)Math.toRadians(-45f*limbSwing));
 	}
 
 	@Override

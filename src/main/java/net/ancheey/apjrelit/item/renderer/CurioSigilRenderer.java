@@ -15,7 +15,7 @@ public class CurioSigilRenderer extends GeoCurioRenderer {
 	}
 	GeoBone halo;
 	@Override
-	public void applyBoneTransformations(HumanoidModel<?> parent) {
+	public void applyBoneTransformations(HumanoidModel<?> parent, float limbSwing) {
 		var head = parent.head;
 		RenderUtils.matchModelPartRot(head,halo);
 	}

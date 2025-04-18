@@ -95,7 +95,7 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Ge
 		matrixStack.pushPose();
 		matrixStack.translate(0,24/16f,0);
 		matrixStack.scale(-1,-1,1);
-		applyBoneTransformations(parent);
+		applyBoneTransformations(parent,limbSwingAmount);
 		defaultRender(matrixStack,animatable,renderTypeBuffer, getRenderType(animatable, getTextureLocation(animatable),
 				renderTypeBuffer,partialTicks),consumer,netHeadYaw,partialTicks,light);
 		matrixStack.popPose();
@@ -105,7 +105,7 @@ public abstract class GeoCurioRenderer implements ICurioRenderer, GeoRenderer<Ge
 	 * Use RenderUtils.matchModelPartRot to rotate your desired bones
 	 * @param parent parent humanoid model - copy from it
 	 */
-	public abstract  void applyBoneTransformations(HumanoidModel<?> parent);
+	public abstract  void applyBoneTransformations(HumanoidModel<?> parent, float swingAmount);
 	public abstract  List<GeoBone> getRelevantBones();
 	@Override
 	public GeoModel<GeoItem> getGeoModel() {

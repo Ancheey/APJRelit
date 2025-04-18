@@ -16,7 +16,7 @@ public class CurioHandsRenderer extends GeoCurioRenderer {
 	GeoBone leftGlove;
 	GeoBone rightGlove;
 	@Override
-	public void applyBoneTransformations(HumanoidModel<?> parent) {
+	public void applyBoneTransformations(HumanoidModel<?> parent, float limbSwing) {
 		var leftArm = parent.leftArm;
 		RenderUtils.matchModelPartRot(leftArm,leftGlove);
 

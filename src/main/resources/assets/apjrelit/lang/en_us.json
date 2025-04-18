@@ -1,11 +1,19 @@
 {
-  "item.apjrelit.obliteration_shoulderpads" : "Obliteration Shoulderpads",
-  "item.apjrelit.obliteration_gloves" : "Obliteration Gloves",
-  "item.apjrelit.obliteration_cowl" : "Obliteration Cowl",
-  "item.apjrelit.obliteration_robe" : "Obliteration Robe",
-  "item.apjrelit.obliteration_skirt" : "Obliteration Skirt",
-  "item.apjrelit.obliteration_kickers" : "Obliteration Kickers",
-  "item.apjrelit.obliteration_cape" : "Obliteration Spikes",
+  "item.apjrelit.obliteration_shoulderpads" : "Shoulderpads of Obliteration",
+  "item.apjrelit.obliteration_gloves" : "Gloves of Obliteration",
+  "item.apjrelit.obliteration_cowl" : "Cowl of Obliteration",
+  "item.apjrelit.obliteration_robe" : "Robe of Obliteration",
+  "item.apjrelit.obliteration_skirt" : "Skirt of Obliteration",
+  "item.apjrelit.obliteration_kickers" : "Kickers of Obliteration",
+  "item.apjrelit.obliteration_cape" : "Spikes of Obliteration",
+
+  "item.apjrelit.decimation_shoulderpads" : "Shoulderpads of Decimation",
+  "item.apjrelit.decimation_gauntlets" : "Gauntlets of Decimation",
+  "item.apjrelit.decimation_helmet" : "Helmet of Decimation",
+  "item.apjrelit.decimation_chestplate" : "Chestplate of Decimation",
+  "item.apjrelit.decimation_legplates" : "Legplates of Decimation",
+  "item.apjrelit.decimation_sabatons" : "Sabatons of Decimation",
+  "item.apjrelit.decimation_cape" : "Cloak of Decimation",
 
   "curios.identifier.shoulders": "Shoulders",
   "curios.identifier.sigil": "Sigil"

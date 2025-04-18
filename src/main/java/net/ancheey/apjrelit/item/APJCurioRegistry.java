@@ -11,6 +11,11 @@ public class APJCurioRegistry {
 		CuriosRendererRegistry.register(APJItemRegistry.TIER1_CASTER_SHOULDERS.get(), ()-> GeoCurioRenderer.forShoulders("t1_caster_full"));
 		CuriosRendererRegistry.register(APJItemRegistry.TIER1_CASTER_GLOVES.get(), ()-> GeoCurioRenderer.forGloves("t1_caster_full"));
 		CuriosRendererRegistry.register(APJItemRegistry.TIER1_CASTER_SIGIL.get(), ()-> GeoCurioRenderer.forSigil("t1_caster_full"));
+		CuriosRendererRegistry.register(APJItemRegistry.TIER1_CASTER_CAPE.get(), ()-> GeoCurioRenderer.forStaticCape("t1_caster_full"));
+
 		CuriosRendererRegistry.register(APJItemRegistry.TIER1_WARRIOR_SHOULDERS.get(), ()-> GeoCurioRenderer.forShoulders("t1_warrior_full"));
+		CuriosRendererRegistry.register(APJItemRegistry.TIER1_WARRIOR_GAUNTLETS.get(), ()-> GeoCurioRenderer.forGloves("t1_warrior_full"));
+		CuriosRendererRegistry.register(APJItemRegistry.TIER1_WARRIOR_SIGIL.get(), ()-> GeoCurioRenderer.forSigil("t1_warrior_full"));
+		CuriosRendererRegistry.register(APJItemRegistry.TIER1_WARRIOR_CAPE.get(), ()-> GeoCurioRenderer.forCape("t1_warrior_full"));
 	}
 }

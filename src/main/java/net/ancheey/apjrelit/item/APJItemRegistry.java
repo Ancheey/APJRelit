@@ -30,7 +30,16 @@ public class APJItemRegistry {
 
     public static final RegistryObject<Item> TIER1_WARRIOR_HELMET = ITEMS.register("decimation_helmet",
             ()->new APJArmorItem("t1_warrior_full",APJArmorMaterials.PLATE, ArmorItem.Type.HELMET,new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_WARRIOR_CHEST = ITEMS.register("decimation_chestplate",
+            ()->new APJArmorItem("t1_warrior_full",APJArmorMaterials.PLATE, ArmorItem.Type.CHESTPLATE,new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_WARRIOR_LEGS = ITEMS.register("decimation_legplates",
+            ()->new APJArmorItem("t1_warrior_full",APJArmorMaterials.PLATE, ArmorItem.Type.LEGGINGS,new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_WARRIOR_BOOTS = ITEMS.register("decimation_sabatons",
+            ()->new APJArmorItem("t1_warrior_full",APJArmorMaterials.PLATE, ArmorItem.Type.BOOTS,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_WARRIOR_SHOULDERS = ITEMS.register("decimation_shoulderpads",()->new BasicGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_WARRIOR_GAUNTLETS = ITEMS.register("decimation_gauntlets",()->new BasicGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_WARRIOR_SIGIL = ITEMS.register("decimation_sigil",()->new SigilGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_WARRIOR_CAPE = ITEMS.register("decimation_cape",()->new BasicGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
 
 
     //Rings

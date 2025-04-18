@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "apjrelit:item/set/obliteration/obliteration_robe"
+  }
+}
