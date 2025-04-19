@@ -45,6 +45,12 @@ public class APJItemRegistry {
     //Rings
     public static final RegistryObject<Item> SILVER_RING = ITEMS.register("silver_ring",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> GOLDEN_RING = ITEMS.register("golden_ring",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
+
+
+    //Weapons
+
+
+
     public static void register(IEventBus event){
         ITEMS.register(event);
     }

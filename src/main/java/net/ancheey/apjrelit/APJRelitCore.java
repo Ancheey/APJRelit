@@ -56,6 +56,7 @@ public class APJRelitCore
         CREATIVE_MODE_TABS.register(modEventBus);
 
         //TODO: Item Sets: Add and test combat effect handling
+        //todo: add constructor for differing item model textures to renderers
         //TODO: Attributes
         //Todo: item stats
         //todo: redo damage calculations

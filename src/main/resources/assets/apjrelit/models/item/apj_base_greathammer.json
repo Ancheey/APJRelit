@@ -1,0 +1,112 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    32,
+    32
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        5,
+        0
+      ],
+      "translation": [
+        0,
+        -12,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        5,
+        0
+      ],
+      "translation": [
+        0,
+        -12,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        -75
+      ],
+      "translation": [
+        -16,
+        0,
+        3.25
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        11,
+        0,
+        -8
+      ],
+      "translation": [
+        2.75,
+        -13,
+        -1.5
+      ]
+    },
+    "ground": {
+      "rotation": [
+        -27,
+        0,
+        -81
+      ],
+      "translation": [
+        -6,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "gui": {
+      "rotation": [
+        48,
+        30,
+        -56
+      ],
+      "translation": [
+        -4.5,
+        -4.5,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        -90,
+        0
+      ],
+      "translation": [
+        0,
+        -6,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "textures": {
+    "particle": "apjrelit:item/apj_base_greathammer"
+  }
+}

@@ -1,4 +1,4 @@
-package net.ancheey.apjrelit.armor;
+package net.ancheey.apjrelit.util;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.animatable.GeoItem;

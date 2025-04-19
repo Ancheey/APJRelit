@@ -2,7 +2,7 @@ package net.ancheey.apjrelit.item.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.ancheey.apjrelit.armor.APJSetModel;
+import net.ancheey.apjrelit.util.APJSetModel;
 import net.ancheey.apjrelit.item.BasicGeoCurioItem;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;

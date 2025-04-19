@@ -1,10 +1,9 @@
 package net.ancheey.apjrelit.armor.renderer;
 import net.ancheey.apjrelit.armor.APJArmorItem;
-import net.ancheey.apjrelit.armor.APJSetModel;
+import net.ancheey.apjrelit.util.APJSetModel;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 import javax.annotation.Nullable;
 
