@@ -49,6 +49,7 @@ public class APJItemRegistry {
 
     //Weapons
 
+    public static final RegistryObject<Item> WEP_BASE_GREATHAMMER = ITEMS.register("apj_base_greathammer",()->new BasicGeoWeaponItem("apj_base_greathammer", new Item.Properties().stacksTo(1).durability(0)));
 
 
     public static void register(IEventBus event){

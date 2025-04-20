@@ -123,13 +123,19 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
-    maven {
+    maven { //geckolib
         url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
     }
-    maven {
+    maven { //curios
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
     }
+    maven { url 'https://api.modrinth.com/maven' } //better combat
+    maven {
+        name = "CurseForge"
+        url = "https://cursemaven.com"
+    }
+    maven { url "https://maven.shedaniel.me/" } //cloth
 }
 
 dependencies {
@@ -143,7 +149,9 @@ dependencies {
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api"))
     runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}"))
 
-
+    runtimeOnly fg.deobf('maven.modrinth:better-combat:1.8.6+1.20.1-forge')
+    runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4587214")
+    runtimeOnly fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136")
     implementation 'com.google.code.gson:gson:2.10.1'
 
 

@@ -8,24 +8,26 @@ import software.bernie.geckolib.model.GeoModel;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class APJSetModel<T extends GeoItem> extends GeoModel<T> {
-	private final String armorName;
+public class APJSetModel<T extends GeoItem> extends APJModel<T> {
 	public APJSetModel(String ArmorName){
-		armorName = ArmorName;
+		super(ArmorName);
+	}
+	public APJSetModel(String ArmorName, String textureSuffix){
+		super(ArmorName, textureSuffix);
 	}
 	@Override
 	public ResourceLocation getModelResource(T animatable) {
-		return ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"geo/"+armorName+".geo.json");
+		return ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"geo/"+modelName+".geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(T animatable) {
-		return ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/armor/"+armorName+".png");
+		return ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/armor/"+modelName+textureSuffix+".png");
 	}
 
 	@Override
 	public ResourceLocation getAnimationResource(T animatable) {
-		return ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"animations/"+armorName+".animation.json");
+		return ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"animations/"+modelName+".animation.json");
 	}
 	public Optional<GeoBone> getHead(){
 		return this.getBone("armorHead");
