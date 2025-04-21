@@ -1,5 +1,6 @@
-package net.ancheey.apjrelit.item;
+package net.ancheey.apjrelit;
 
+import net.ancheey.apjrelit.APJItemRegistry;
 import net.ancheey.apjrelit.item.renderer.GeoCurioRenderer;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;

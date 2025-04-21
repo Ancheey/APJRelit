@@ -3,8 +3,6 @@ package net.ancheey.apjrelit;
 import com.mojang.logging.LogUtils;
 
 import net.ancheey.apjrelit.gui.APJKeyMapping;
-import net.ancheey.apjrelit.item.APJCurioRegistry;
-import net.ancheey.apjrelit.item.APJItemRegistry;
 import net.ancheey.apjrelit.itemsets.APJSetModuleEventHandler;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
 

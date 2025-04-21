@@ -1,8 +1,11 @@
-package net.ancheey.apjrelit.item;
+package net.ancheey.apjrelit;
 
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.armor.APJArmorMaterials;
 import net.ancheey.apjrelit.armor.APJArmorItem;
+import net.ancheey.apjrelit.item.BasicGeoCurioItem;
+import net.ancheey.apjrelit.item.BasicGeoWeaponItem;
+import net.ancheey.apjrelit.item.SigilGeoCurioItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
