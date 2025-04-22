@@ -1,8 +1,11 @@
 package net.ancheey.apjrelit;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 
 import net.ancheey.apjrelit.gui.APJKeyMapping;
+import net.ancheey.apjrelit.gui.tooltip.DiceClientTooltipComponent;
+import net.ancheey.apjrelit.gui.tooltip.DiceTooltipComponent;
 import net.ancheey.apjrelit.itemsets.APJSetModuleEventHandler;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
 
@@ -11,6 +14,8 @@ import net.minecraft.network.chat.Component;
 
 import net.minecraft.world.item.*;
 
+import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -24,8 +29,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
+
+import java.sql.Types;
 
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -46,6 +54,7 @@ public class APJRelitCore
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
+        modEventBus.addListener(this::clientTooltipEvent);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         APJItemRegistry.register(modEventBus);
@@ -74,6 +83,10 @@ public class APJRelitCore
     private void clientSetup(final FMLClientSetupEvent event){
         APJCurioRegistry.registerRenderers(event);
     }
+    private void clientTooltipEvent(RegisterClientTooltipComponentFactoriesEvent e){
+        e.register(DiceTooltipComponent.class, DiceClientTooltipComponent::new);
+    }
+
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         // Some common setup code
