@@ -1,7 +1,11 @@
 package net.ancheey.apjrelit.item;
 
+import com.google.common.collect.Multimap;
 import net.ancheey.apjrelit.item.renderer.BasicGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
@@ -26,6 +30,11 @@ public class BasicGeoWeaponItem extends SwordItem implements GeoItem {
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
+	}
+
+	@Override
+	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
+		return super.getDefaultAttributeModifiers(pEquipmentSlot);
 	}
 
 	@Override
