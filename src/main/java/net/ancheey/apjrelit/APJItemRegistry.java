@@ -28,7 +28,7 @@ public class APJItemRegistry {
             ()->new APJArmorItem("t1_caster_full",APJArmorMaterials.CLOTH, ArmorItem.Type.LEGGINGS,new Item.Properties().stacksTo(1).durability(0)));
     public static final RegistryObject<Item> TIER1_CASTER_KICKERS = ITEMS.register("obliteration_kickers",
             ()->new APJArmorItem("t1_caster_full",APJArmorMaterials.CLOTH, ArmorItem.Type.BOOTS,new Item.Properties().stacksTo(1).durability(0)));
-    public static final RegistryObject<Item> TIER1_CASTER_CAPE = ITEMS.register("obliteration_cape",()->new  Item(new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> TIER1_CASTER_CAPE = ITEMS.register("obliteration_cape",()->new  BasicGeoCurioItem(new Item.Properties().stacksTo(1).durability(0)));
 
 
     public static final RegistryObject<Item> TIER1_WARRIOR_HELMET = ITEMS.register("decimation_helmet",
@@ -53,7 +53,6 @@ public class APJItemRegistry {
     //Weapons
 
     public static final RegistryObject<Item> WEP_BASE_GREATHAMMER = ITEMS.register("apj_base_greathammer",()->new BasicGeoWeaponItem("apj_base_greathammer", new Item.Properties().stacksTo(1).durability(0)));
-
 
     public static void register(IEventBus event){
         ITEMS.register(event);

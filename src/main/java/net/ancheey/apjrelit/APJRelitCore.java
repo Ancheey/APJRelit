@@ -3,6 +3,7 @@ package net.ancheey.apjrelit;
 import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 
+import net.ancheey.apjrelit.dndmodule.APJDamageEvent;
 import net.ancheey.apjrelit.gui.APJKeyMapping;
 import net.ancheey.apjrelit.gui.tooltip.DiceClientTooltipComponent;
 import net.ancheey.apjrelit.gui.tooltip.DiceTooltipComponent;
@@ -78,6 +79,7 @@ public class APJRelitCore
 
         LOGGER.info("Loading set module");
         MinecraftForge.EVENT_BUS.register(new APJSetModuleEventHandler());
+        MinecraftForge.EVENT_BUS.register(new APJDamageEvent());
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
