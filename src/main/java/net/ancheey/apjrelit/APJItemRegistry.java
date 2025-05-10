@@ -6,6 +6,7 @@ import net.ancheey.apjrelit.armor.APJArmorItem;
 import net.ancheey.apjrelit.item.BasicGeoCurioItem;
 import net.ancheey.apjrelit.item.BasicGeoWeaponItem;
 import net.ancheey.apjrelit.item.SigilGeoCurioItem;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -52,7 +53,7 @@ public class APJItemRegistry {
 
     //Weapons
 
-    public static final RegistryObject<Item> WEP_BASE_GREATHAMMER = ITEMS.register("apj_base_greathammer",()->new BasicGeoWeaponItem("apj_base_greathammer", new Item.Properties().stacksTo(1).durability(0)));
+    public static final RegistryObject<Item> WEP_BASE_GREATHAMMER = ITEMS.register("apj_base_greathammer",()->new BasicGeoWeaponItem("apj_base_greathammer").SetDamage(1,3,5,0,0));
 
     public static void register(IEventBus event){
         ITEMS.register(event);

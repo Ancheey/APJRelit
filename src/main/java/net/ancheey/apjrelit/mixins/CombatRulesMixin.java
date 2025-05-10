@@ -20,7 +20,7 @@ public class CombatRulesMixin {
 		float armorPercentage = (pTotalArmor + 1)/Math.max(1,120+2*pTotalArmor);
 		float damageAnnulment = Math.max(0, toughness- pDamage);
 		float finalDamage = Math.max((mitigatedDamage * (1-armorPercentage)) + (halfMitDamage * (1-(armorPercentage/2))) + noMitDamage - (damageAnnulment*0.3f),0);
-		APJRelitCore.LOGGER.info("Hit for: "+pDamage+" | A"+pTotalArmor+" ("+(armorPercentage)*100+"%) |T"+toughness+" | Damage: "+mitigatedDamage+"/"+halfMitDamage+"/"+noMitDamage + " ("+finalDamage+" damage taken)");
+		//APJRelitCore.LOGGER.info("Hit for: "+pDamage+" | A"+pTotalArmor+" ("+(armorPercentage)*100+"%) |T"+toughness+" | Damage: "+mitigatedDamage+"/"+halfMitDamage+"/"+noMitDamage + " ("+finalDamage+" damage taken)");
 		return  finalDamage;
 	}
 }

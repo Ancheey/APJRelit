@@ -14,11 +14,16 @@ public class DiceClientTooltipComponent implements ClientTooltipComponent {
 	private List<Integer> values = new ArrayList<>();
 	private static final ResourceLocation DICE_ICON = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID, "textures/gui/dice_icon.png");
 	public DiceClientTooltipComponent(DiceTooltipComponent component) {
-		if(component.D1 >0) values.add(component.D1+ component.D2 + component.D3 + component.D4 + component.D5);
-		if(component.D2 >0) values.add(component.D2 + component.D3 + component.D4 + component.D5);
-		if(component.D3 >0) values.add(component.D3 + component.D4 + component.D5);
-		if(component.D4 >0) values.add(component.D4 + component.D5);
 		if(component.D5 >0) values.add(component.D5);
+		if(component.D4 >0) values.add(component.D4 + component.D5);
+		if(component.D3 >0) values.add(component.D3 + component.D4 + component.D5);
+		if(component.D2 >0) values.add(component.D2 + component.D3 + component.D4 + component.D5);
+		if(component.D1 >0) values.add(component.D1+ component.D2 + component.D3 + component.D4 + component.D5);
+		else if(values.size() == 0) values.add(1);
+
+
+
+
 	}
 	@Override
 	public int getHeight() {
@@ -34,14 +39,14 @@ public class DiceClientTooltipComponent implements ClientTooltipComponent {
 	public void renderImage(Font pFont, int pX, int pY, GuiGraphics pGuiGraphics) {
 		RenderSystem.setShaderTexture(0,DICE_ICON);
 
-		for (int i =0; i<values.size();i++) {
+		for (int i =values.size()-1; i>=0;i--) {
 			String value = String.valueOf(values.get(i));
-			int x = pX + 18 * i;
+			int x = pX + 18 * (values.size()-1 - i);
 			pGuiGraphics.setColor(0.3f,0.3f,0.3f,0.1f);
 			pGuiGraphics.blit(DICE_ICON,x,pY,0,0,16,16,16,16,16);
 			pGuiGraphics.setColor(1,1,1,1);
 			int twd = pFont.width(value);
-			pGuiGraphics.drawString(pFont,value,x+8-twd/2,pY+5,i==0?0xFFFF0000:0xFFFFFFFF,true);
+			pGuiGraphics.drawString(pFont,value,x+8-twd/2,pY+5,i==values.size()-1?0xFFFF0000:0xFFFFFFFF,true);
 		}
 	}
 }

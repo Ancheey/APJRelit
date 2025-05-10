@@ -4,6 +4,7 @@ import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.gui.tooltip.DiceTooltipComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -14,6 +15,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 public class APJSetModuleEventHandler {
@@ -46,28 +49,34 @@ public class APJSetModuleEventHandler {
 		}
 	}
 
-	private Item lastCheckedItem = null;
-	long LastItemTimeStamp = 0;
-	private final List<Component> lastCheckedTooltip = new ArrayList<>();
-	@SubscribeEvent(priority =  EventPriority.LOWEST)
-	public void onItemTooltip(ItemTooltipEvent e){
+	private static final Dictionary<Player,Item> lastCheckedItem = new Hashtable<>();
+	private static final Dictionary<Player,Long> LastItemTimeStamp = new Hashtable<>() ;
+	private static final Dictionary<Player,List<Component>> lastCheckedTooltip = new Hashtable<>();
+	public static void AddSetItemTooltip(ItemTooltipEvent e){
 		if(e.getEntity() == null)
 			return;
+		else if(lastCheckedTooltip.get(e.getEntity()) == null){
+			//lastCheckedItem.put(e.getEntity(), null);
+			LastItemTimeStamp.put(e.getEntity(), 0L);
+			lastCheckedTooltip.put(e.getEntity(), new ArrayList<>());
+		}
 
+
+		Player player = e.getEntity();
 		Item item = e.getItemStack().getItem();
 		try {
-			if(item == lastCheckedItem && System.currentTimeMillis() - LastItemTimeStamp < 500){ //already generated once, so no need to regenerate it (unless a second has passed)
+			if(item == lastCheckedItem.get(player) && System.currentTimeMillis() - LastItemTimeStamp.get(player) < 500){ //already generated once, so no need to regenerate it (unless a second has passed)
 				var tooltip = e.getToolTip();
-				tooltip.addAll(lastCheckedTooltip);
+				tooltip.addAll(lastCheckedTooltip.get(player));
 			}
 			else if (ItemSetManager.SetsByItems.containsKey(item)) {
-				LastItemTimeStamp = System.currentTimeMillis();
+				LastItemTimeStamp.put(player,System.currentTimeMillis());
 				ItemSet set = ItemSetManager.SetsByItems.get(item);
 				List<Item> worn = ItemSetManager.GetWornItems(e.getEntity(),set);
 
 				var tooltip = e.getToolTip();
-				lastCheckedTooltip.clear();
-				lastCheckedTooltip.add(Component.empty());//Empty line
+				lastCheckedTooltip.get(player).clear();
+				lastCheckedTooltip.get(player).add(Component.empty());//Empty line
 
 				//lastCheckedTooltip.add( Component.literal("The Justicaar").withStyle(ChatFormatting.BLUE));
 				//lastCheckedTooltip.add( Component.literal("Two-handed Mace"));
@@ -77,27 +86,27 @@ public class APJSetModuleEventHandler {
 				//lastCheckedTooltip.add( Component.literal(""));
 
 				//Set Name (0/5)
-				lastCheckedTooltip.add(Component.literal(set.getName() + " (" + worn.size() + "/" + set.GetItems().size() + ")").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
+				lastCheckedTooltip.get(player).add(Component.literal(set.getName() + " (" + worn.size() + "/" + set.GetItems().size() + ")").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
 				//Listing of items (Gray/Gold)
 				for (ItemSetItem i : set.GetItems()) {
 					i.getItem().ifPresent(k->{
 						if (worn.contains(k))
-							lastCheckedTooltip.add(Component.literal("  " + k.getDescription().getString()).withStyle(ChatFormatting.YELLOW));
+							lastCheckedTooltip.get(player).add(Component.literal("  " + k.getDescription().getString()).withStyle(ChatFormatting.YELLOW));
 						else
-							lastCheckedTooltip.add(Component.literal("  " + k.getDescription().getString()).withStyle(ChatFormatting.DARK_GRAY));
+							lastCheckedTooltip.get(player).add(Component.literal("  " + k.getDescription().getString()).withStyle(ChatFormatting.DARK_GRAY));
 					});
 
 				}
-				lastCheckedTooltip.add(Component.empty());//Empty line
+				lastCheckedTooltip.get(player).add(Component.empty());//Empty line
 				//Listing of set bonuses (Gray/Green)
 				for (var power : set.getBonuses()) {
 					if (worn.size() >= power.getRequiredItems())
-						lastCheckedTooltip.add(Component.literal("(" + power.getRequiredItems() + ") Set: " + power.getTooltip()).withStyle(ChatFormatting.GREEN));
+						lastCheckedTooltip.get(player).add(Component.literal("(" + power.getRequiredItems() + ") Set: " + power.getTooltip()).withStyle(ChatFormatting.GREEN));
 					else
-						lastCheckedTooltip.add(Component.literal("(" + power.getRequiredItems() + ") Set: " + power.getTooltip()).withStyle(ChatFormatting.DARK_GRAY));
+						lastCheckedTooltip.get(player).add(Component.literal("(" + power.getRequiredItems() + ") Set: " + power.getTooltip()).withStyle(ChatFormatting.DARK_GRAY));
 				}
-				lastCheckedItem = item;
-				tooltip.addAll(lastCheckedTooltip);
+				lastCheckedItem.put(player,item);
+				tooltip.addAll(lastCheckedTooltip.get(player));
 			}
 		}
 		catch (Exception ex){

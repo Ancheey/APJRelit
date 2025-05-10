@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 
 import net.ancheey.apjrelit.dndmodule.APJDamageEvent;
+import net.ancheey.apjrelit.dndmodule.APJItemEvents;
 import net.ancheey.apjrelit.gui.APJKeyMapping;
 import net.ancheey.apjrelit.gui.tooltip.DiceClientTooltipComponent;
 import net.ancheey.apjrelit.gui.tooltip.DiceTooltipComponent;
@@ -58,8 +59,10 @@ public class APJRelitCore
         modEventBus.addListener(this::clientTooltipEvent);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
+        APJAttributeRegistry.Register(modEventBus);
         APJItemRegistry.register(modEventBus);
         APJCurioRegistry.registerCurios();
+
 
         CREATIVE_MODE_TABS.register(modEventBus);
 
@@ -74,11 +77,14 @@ public class APJRelitCore
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(APJKeyMapping::registerKeybinds);
 
+
+
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         LOGGER.info("Loading set module");
         MinecraftForge.EVENT_BUS.register(new APJSetModuleEventHandler());
+        MinecraftForge.EVENT_BUS.register(new APJItemEvents());
         MinecraftForge.EVENT_BUS.register(new APJDamageEvent());
     }
 

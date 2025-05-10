@@ -1,8 +1,11 @@
 package net.ancheey.apjrelit.gui.tooltip;
 
 import com.mojang.datafixers.util.Either;
+import net.ancheey.apjrelit.APJAttributeRegistry;
 import net.ancheey.apjrelit.APJRelitCore;
+import net.ancheey.apjrelit.attributes.AttributeHelper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -12,14 +15,21 @@ import net.minecraftforge.fml.common.Mod;
 public class TooltipClientEvents {
 	@SubscribeEvent
 	public static  void renderTooltipEventGC(RenderTooltipEvent.GatherComponents e){
+		var item = e.getItemStack();
 		var list = e.getTooltipElements();
 		for(int i = 0; i < list.size(); i++){
 			var entry  =list.get(i);
 			int finalI = i;
 			entry.left().ifPresent(k->{
-				if(k instanceof Component c && c.contains(Component.literal("{apj.dice}"))) {
+				if(k instanceof Component c && c.contains(Component.literal("{apj.weapon.damage.dice}"))) {
 					list.remove(finalI);
-					list.add(finalI, Either.right(new DiceTooltipComponent(5, 8, 12, 24,0)));
+					list.add(finalI, Either.right(new DiceTooltipComponent(
+							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_PRECISE_BLOW.get(), EquipmentSlot.MAINHAND),
+							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_GREAT_BLOW.get(), EquipmentSlot.MAINHAND),
+							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_GOOD_BLOW.get(), EquipmentSlot.MAINHAND),
+							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_FINE_BLOW.get(), EquipmentSlot.MAINHAND),
+							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_CONNECTING_BLOW.get(), EquipmentSlot.MAINHAND)
+					)));
 				}
 			});
 		}

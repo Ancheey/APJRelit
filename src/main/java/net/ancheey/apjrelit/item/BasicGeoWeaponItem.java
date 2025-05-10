@@ -18,11 +18,11 @@ import software.bernie.geckolib.util.RenderUtils;
 
 import java.util.function.Consumer;
 
-public class BasicGeoWeaponItem extends SwordItem implements GeoItem {
+public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
 	AnimatableInstanceCache cache;
 	String modelIdentifier;
-	public BasicGeoWeaponItem(String modelIdentifier, Properties pProperties) {
-		super(Tiers.NETHERITE,1,-3f,pProperties);
+	public BasicGeoWeaponItem(String modelIdentifier) {
+		super(1f);
 		cache = GeckoLibUtil.createInstanceCache(this);
 		this.modelIdentifier = modelIdentifier;
 	}
@@ -30,11 +30,6 @@ public class BasicGeoWeaponItem extends SwordItem implements GeoItem {
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
-	}
-
-	@Override
-	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
-		return super.getDefaultAttributeModifiers(pEquipmentSlot);
 	}
 
 	@Override
