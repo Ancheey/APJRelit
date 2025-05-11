@@ -77,16 +77,8 @@ public class APJSetModuleEventHandler {
 				var tooltip = e.getToolTip();
 				lastCheckedTooltip.get(player).clear();
 				lastCheckedTooltip.get(player).add(Component.empty());//Empty line
-
-				//lastCheckedTooltip.add( Component.literal("The Justicaar").withStyle(ChatFormatting.BLUE));
-				//lastCheckedTooltip.add( Component.literal("Two-handed Mace"));
-				//lastCheckedTooltip.add( Component.literal("Average reach, average speed"));
-				//lastCheckedTooltip.add( Component.literal("{apj.dice}"));
-				//lastCheckedTooltip.add( Component.literal("(38.25 dps)"));
-				//lastCheckedTooltip.add( Component.literal(""));
-
 				//Set Name (0/5)
-				lastCheckedTooltip.get(player).add(Component.literal(set.getName() + " (" + worn.size() + "/" + set.GetItems().size() + ")").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
+				lastCheckedTooltip.get(player).add(Component.literal(set.getName() + " (" + worn.size() + "/" + set.GetItems().size() + ")").withStyle(ChatFormatting.GOLD));
 				//Listing of items (Gray/Gold)
 				for (ItemSetItem i : set.GetItems()) {
 					i.getItem().ifPresent(k->{

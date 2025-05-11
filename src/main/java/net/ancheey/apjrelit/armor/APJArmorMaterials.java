@@ -1,5 +1,6 @@
 package net.ancheey.apjrelit.armor;
 
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
@@ -24,7 +25,7 @@ public enum APJArmorMaterials implements ArmorMaterial {
 	private APJArmorMaterials(String pName, SoundEvent pSound, Supplier<Ingredient> pRepairIngredient) {
 		this.name = pName;
 		this.sound = pSound;
-		this.repairIngredient = new LazyLoadedValue<>(pRepairIngredient);
+		this.repairIngredient = new LazyLoadedValue<Ingredient>(pRepairIngredient);
 	}
 
 	public int getDurabilityForType(ArmorItem.Type pType) {

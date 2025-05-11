@@ -27,6 +27,16 @@ public class APJAttributeRegistry {
 	public static final RegistryObject<Attribute> ATTACK_FINE_BLOW = ATTRIBUTES.register("attack_fine", ()->new RangedAttribute("attribute.apjrelit.a4",0d,0d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> ATTACK_CONNECTING_BLOW = ATTRIBUTES.register("attack_connecting", ()->new RangedAttribute("attribute.apjrelit.a5",0d,0d,16777216d).setSyncable(true));
 
+	public static final RegistryObject<Attribute> SPELL_DAMAGE = ATTRIBUTES.register("spell_damage", ()->new RangedAttribute("attribute.apjrelit.sd",0d,-16777216d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> SPELL_RESISTANCE_RATING = ATTRIBUTES.register("spell_resistance", ()->new RangedAttribute("attribute.apjrelit.sr",0d,-16777216d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> RANGED_POWER_RATING = ATTRIBUTES.register("ranged_power_rating", ()->new RangedAttribute("attribute.apjrelit.ranged_rating      ",0d,-16777216d,16777216d).setSyncable(true));
+	//public static final RegistryObject<Attribute> SPELL_RESISTANCE_RATING = ATTRIBUTES.register("spell_resistance", ()->new RangedAttribute("attribute.apjrelit.sr",0d,-16777216d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> BLOCK_AMOUNT = ATTRIBUTES.register("block_amount", ()->new RangedAttribute("attribute.apjrelit.block",0d,-16777216d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> CRITICAL_STRIKE_RATING = ATTRIBUTES.register("critical_rating", ()->new RangedAttribute("attribute.apjrelit.crit",0d,-16777216d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> CRITICAL_DAMAGE_RATING = ATTRIBUTES.register("critical_damage_rating", ()->new RangedAttribute("attribute.apjrelit.critdamage",0d,0d,16777216d).setSyncable(true));
+
+
+
 	//invuln frames
 	public static final RegistryObject<Attribute> ADRENALINE = ATTRIBUTES.register("adrenaline", ()-> new RangedAttribute("attribute.apjrelit.adrenaline",0d,0d,16777216d).setSyncable(true));
 

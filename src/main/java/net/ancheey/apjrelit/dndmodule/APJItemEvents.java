@@ -56,8 +56,7 @@ public class APJItemEvents {
 
 		e.getToolTip().clear();
 
-		e.getToolTip().add(Component.literal(item.getItem().getDescription().getString()).withStyle(ChatFormatting.WHITE));
-		e.getToolTip().add(Component.literal(""));//empty line
+		e.getToolTip().add(Component.literal(item.getItem().getDescription().getString()).withStyle(ChatFormatting.BLUE));
 
 		if(item.getItem() instanceof SwordItem){
 			AddWeaponTooltip(e);
@@ -86,20 +85,13 @@ public class APJItemEvents {
 		String weaponTypeText = "";
 		if(attribs.isTwoHanded())
 			weaponTypeText += "Two-handed ";
-		else switch(weaponType){
-			case 0 -> weaponTypeText += "One-handed ";
-			case 1 -> weaponTypeText += "Main-handed ";
-			case 2 -> weaponTypeText += "Off-handed ";
-		}
+		else
+			weaponTypeText += "One-handed ";
 		var category = attribs.category();
 		weaponTypeText += category.substring(0,1).toUpperCase() + category.substring(1);
 		e.getToolTip().add(Component.literal(weaponTypeText).withStyle(ChatFormatting.WHITE));
 		String weaponPropertiesText = "";
-		double speed = 4;
-		if(weaponType == 2)
-			speed += AttributeHelper.GetValue(item, Attributes.ATTACK_SPEED, EquipmentSlot.OFFHAND);
-		else
-			speed += AttributeHelper.GetValue(item, Attributes.ATTACK_SPEED, EquipmentSlot.MAINHAND);
+		double speed = 4 + AttributeHelper.GetValue(item, Attributes.ATTACK_SPEED, EquipmentSlot.MAINHAND);
 
 		var range  = attribs.attackRange();
 
@@ -108,6 +100,6 @@ public class APJItemEvents {
 		else
 			e.getToolTip().add(Component.literal(mhDamage+1 + " Damage").withStyle(ChatFormatting.WHITE));*/
 		e.getToolTip().add(Component.literal("{apj.weapon.damage.dice}"));
-		e.getToolTip().add(Component.literal("("+String.format("%.1f",speed) + " Speed, "+range + " Range)").withStyle(ChatFormatting.WHITE));
+		e.getToolTip().add(Component.literal("Reach: "+range + "  Speed: " + String.format("%.1f",speed)).withStyle(ChatFormatting.WHITE));
 	}
 }

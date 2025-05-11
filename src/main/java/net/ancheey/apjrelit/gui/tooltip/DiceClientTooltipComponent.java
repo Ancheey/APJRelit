@@ -9,10 +9,12 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DiceClientTooltipComponent implements ClientTooltipComponent {
 	private List<Integer> values = new ArrayList<>();
-	private static final ResourceLocation DICE_ICON = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID, "textures/gui/dice_icon.png");
+	private static final ResourceLocation DAMAGE_ICON = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID, "textures/gui/caltrop_icon.png");
+	private static final ResourceLocation DICE_ICON = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID, "textures/gui/damage_icon.png");
 	public DiceClientTooltipComponent(DiceTooltipComponent component) {
 		if(component.D5 >0) values.add(component.D5);
 		if(component.D4 >0) values.add(component.D4 + component.D5);
@@ -27,12 +29,12 @@ public class DiceClientTooltipComponent implements ClientTooltipComponent {
 	}
 	@Override
 	public int getHeight() {
-		return 18;
+		return 30;
 	}
 
 	@Override
 	public int getWidth(Font pFont) {
-		return values.size() * 18 - 2;
+		return Math.max((values.size()+1) * 18 - 2,52);
 	}
 
 	@Override
@@ -41,12 +43,20 @@ public class DiceClientTooltipComponent implements ClientTooltipComponent {
 
 		for (int i =values.size()-1; i>=0;i--) {
 			String value = String.valueOf(values.get(i));
-			int x = pX + 18 * (values.size()-1 - i);
-			pGuiGraphics.setColor(0.3f,0.3f,0.3f,0.1f);
+			int x = (pX + 17 * (values.size()-1 - i))-2;
+			pGuiGraphics.setColor(0.2f,0.2f,0.2f,0.1f);
 			pGuiGraphics.blit(DICE_ICON,x,pY,0,0,16,16,16,16,16);
 			pGuiGraphics.setColor(1,1,1,1);
 			int twd = pFont.width(value);
-			pGuiGraphics.drawString(pFont,value,x+8-twd/2,pY+5,i==values.size()-1?0xFFFF0000:0xFFFFFFFF,true);
+			pGuiGraphics.drawString(pFont,value,x+8-twd/2,pY+5,i==values.size()-1?0xFFFF5f5f:(0xFFF0F0F0),true);
 		}
+		AtomicInteger avg = new AtomicInteger();
+		values.forEach(avg::addAndGet);
+		pGuiGraphics.setColor(0.2f,0.2f,0.2f,0.1f);
+		pGuiGraphics.blit(DICE_ICON,(pX+17*values.size())-2 ,pY,0,0,16,16,16,16,16);
+		pGuiGraphics.setColor(0.94f,0.94f,0.94f,1);
+		pGuiGraphics.blit(DAMAGE_ICON,(pX+17*values.size())-2,pY,0,0,16,16,16,16,16);
+		pGuiGraphics.setColor(1,1,1,1);
+		pGuiGraphics.drawString(pFont, String.format("%.2f",(((double)avg.get())/values.size()))+ " avg",pX,pY+18,0xFFFFFFFF,true);
 	}
 }

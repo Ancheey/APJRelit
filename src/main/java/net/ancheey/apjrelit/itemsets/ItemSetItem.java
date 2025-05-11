@@ -1,7 +1,9 @@
 package net.ancheey.apjrelit.itemsets;
 
+import net.ancheey.apjrelit.APJRelitCore;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -18,7 +20,7 @@ public class ItemSetItem {
 		return id;
 	}
 public Optional<Item> getItem(){
-		if(item == null && !itemChecked){
+		if((item == null && !itemChecked)){
 			@Nullable Item it = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(getItemId()));
 			item = it;
 			itemChecked = true;

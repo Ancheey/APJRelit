@@ -1,4 +1,5 @@
 package net.ancheey.apjrelit.armor;
+
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.armor.renderer.APJArmorRenderer;
 import net.minecraft.client.model.HumanoidModel;
@@ -17,9 +18,7 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import javax.swing.*;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class APJArmorItem extends ArmorItem implements GeoItem {
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);

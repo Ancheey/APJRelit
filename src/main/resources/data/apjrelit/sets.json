@@ -1,7 +1,8 @@
 {
   "iron_set": {
-    "name": "Ironclad Set",
+    "name": "Mantle Judgement",
     "items": [
+      {"id": "apjrelit:apj_base_greathammer", "type": 0},
       {"id": "minecraft:iron_helmet", "type": 2},
       {"id": "minecraft:iron_chestplate", "type": 2},
       {"id": "minecraft:iron_leggings", "type": 2},
