@@ -22,7 +22,7 @@ public class APJSetModel<T extends GeoItem> extends APJModel<T> {
 
 	@Override
 	public ResourceLocation getTextureResource(T animatable) {
-		return ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/armor/"+modelName+textureSuffix+".png");
+		return ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/armor/"+textureFile+".png");
 	}
 
 	@Override

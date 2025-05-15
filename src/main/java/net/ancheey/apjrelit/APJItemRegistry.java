@@ -54,6 +54,8 @@ public class APJItemRegistry {
     //Weapons
 
     public static final RegistryObject<Item> WEP_BASE_GREATHAMMER = ITEMS.register("apj_base_greathammer",()->new BasicGeoWeaponItem("apj_base_greathammer").SetDamage(7,9,3,6,68));
+    public static final RegistryObject<Item> WEP_BASE_GREATSTAR = ITEMS.register("apj_base_greatstar",()->new BasicGeoWeaponItem("apj_base_greatstar").SetDamage(1,3,3,69,0));
+    public static final RegistryObject<Item> WEP_BASE_GREATMACE = ITEMS.register("apj_base_greatmace",()->new BasicGeoWeaponItem("apj_base_greatmace").SetDamage(16,14,3,6,37));
 
     public static void register(IEventBus event){
         ITEMS.register(event);

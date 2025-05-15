@@ -9,6 +9,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -21,10 +23,28 @@ import java.util.function.Consumer;
 public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
 	AnimatableInstanceCache cache;
 	String modelIdentifier;
+	String textureFile;
+	float alpha = 1;
+	float red = 1;
+	float green = 1;
+	float blue = 1;
 	public BasicGeoWeaponItem(String modelIdentifier) {
 		super(1f);
 		cache = GeckoLibUtil.createInstanceCache(this);
 		this.modelIdentifier = modelIdentifier;
+		this.textureFile = modelIdentifier;
+	}
+
+	public BasicGeoWeaponItem SetTexture(String filename){
+		textureFile = filename;
+		return this;
+	}
+	public BasicGeoWeaponItem SetColor(float a, float r, float g, float b){
+		alpha = a;
+		red = r;
+		green = g;
+		blue = b;
+		return this;
 	}
 
 	@Override
@@ -42,14 +62,16 @@ public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
 		return RenderUtils.getCurrentTick();
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
 		consumer.accept(new IClientItemExtensions() {
 			private BasicGeoItemRenderer renderer;
 			@Override
 			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-				if(renderer == null)
-					renderer = new BasicGeoItemRenderer(modelIdentifier);
+				if(renderer == null){
+						renderer = new BasicGeoItemRenderer(modelIdentifier,textureFile,alpha,red,green,blue);
+				}
 				return  renderer;
 			}
 		});
