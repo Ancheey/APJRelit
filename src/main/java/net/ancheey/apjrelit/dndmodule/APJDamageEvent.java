@@ -29,13 +29,13 @@ public class APJDamageEvent {
 	private static final Random rand = new Random();
 	@SubscribeEvent(priority =  EventPriority.LOWEST)
 	public void OnHurtEvent(LivingHurtEvent e){
-		if(e.getSource() instanceof SpellDamageSource sds){
-			APJRelitCore.LOGGER.info(sds.spell().getSchoolType().toString());
-		}
-		else{
-			APJRelitCore.LOGGER.info(e.getSource().type().toString());
+		//if(e.getSource() instanceof SpellDamageSource sds){
+		//	APJRelitCore.LOGGER.info(sds.spell().getSchoolType().toString());
+		//}
+		//else{
+		//	APJRelitCore.LOGGER.info(e.getSource().type().toString());
 			//make stuff like poison know who's done it
-		}
+		//}
 		/*if(e.getSource().getDirectEntity() instanceof Player player && e.getAmount() > 0){
 			APJRelitCore.LOGGER.info("Dice: 1d" + player.getAttributeValue(APJAttributeRegistry.ATTACK_DAMAGE_DICE.get())+" + "+e.getAmount());
 			//e.setAmount((float)(player.getAttributeValue(APJAttributeRegistry.ATTACK_DAMAGE_DICE.get()) + e.getAmount()));

@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.common.extensions.IForgeItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -54,14 +55,16 @@ public class APJItemEvents {
 			return;
 		}
 
-		e.getToolTip().clear();
-
-		e.getToolTip().add(Component.literal(item.getItem().getDescription().getString()).withStyle(ChatFormatting.BLUE));
-
 		if(item.getItem() instanceof SwordItem){
+			ItemSuitableForTooltip(e);
 			AddWeaponTooltip(e);
 		}
 		AddSetItemTooltip(e);
+	}
+	private void ItemSuitableForTooltip(ItemTooltipEvent e){
+		e.getToolTip().clear();
+		ItemStack item = e.getItemStack();
+		e.getToolTip().add(Component.literal(item.getItem().getDescription().getString()).withStyle(item.getRarity().getStyleModifier()));
 	}
 	private void AddWeaponTooltip(ItemTooltipEvent e){
 		Player player = e.getEntity();

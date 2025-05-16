@@ -7,17 +7,14 @@ import net.ancheey.apjrelit.APJAttributeRegistry;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 public class APJSwordItem extends SwordItem {
-	public APJSwordItem(float attackSpeed) {
-		super(Tiers.IRON,  - 2, attackSpeed - 4, new Item.Properties().durability(0).stacksTo(1));
+	public APJSwordItem(float attackSpeed, Rarity rarity) {
+		super(Tiers.IRON,  - 2, attackSpeed - 4, new Item.Properties().durability(0).stacksTo(1).rarity(rarity));
 	}
 	ImmutableMultimap.Builder<Attribute, AttributeModifier> modifiers = ImmutableMultimap.builder();
 	public APJSwordItem AddModifier(Attribute attribute, float value, AttributeModifier.Operation operation){

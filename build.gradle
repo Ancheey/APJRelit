@@ -169,6 +169,7 @@ dependencies {
     implementation fg.deobf("top.theillusivec4.caelus:caelus-forge:3.2.0+1.20.1")
 
     runtimeOnly fg.deobf("curse.maven:damagenumbers-1022853:5475417")
+    runtimeOnly fg.deobf("curse.maven:attributefix-280510:4911084")
 
 
     implementation 'com.google.code.gson:gson:2.10.1'

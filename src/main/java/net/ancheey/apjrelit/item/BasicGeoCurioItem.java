@@ -13,6 +13,10 @@ public class BasicGeoCurioItem extends Item implements GeoItem, ICurioItem {
 		super(pProperties);
 		cache = GeckoLibUtil.createInstanceCache(this);
 	}
+	public BasicGeoCurioItem() {
+		super(new Item.Properties().durability(-1).stacksTo(1));
+		cache = GeckoLibUtil.createInstanceCache(this);
+	}
 
 
 	@Override

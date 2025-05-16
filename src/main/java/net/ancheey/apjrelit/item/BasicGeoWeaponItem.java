@@ -7,6 +7,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,8 +29,8 @@ public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
 	float red = 1;
 	float green = 1;
 	float blue = 1;
-	public BasicGeoWeaponItem(String modelIdentifier) {
-		super(1f);
+	public BasicGeoWeaponItem(String modelIdentifier, float swingsPerSecond, Rarity rarity) {
+		super(swingsPerSecond,rarity);
 		cache = GeckoLibUtil.createInstanceCache(this);
 		this.modelIdentifier = modelIdentifier;
 		this.textureFile = modelIdentifier;
