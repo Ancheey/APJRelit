@@ -16,6 +16,6 @@ public class APJRelitUIHandler {
 
 	@SubscribeEvent
 	public static void registerCustomOverlays(RegisterGuiOverlaysEvent event){
-		event.registerAbove(VanillaGuiOverlay.HOTBAR.id(),"health_bar",HEALTH_BAR_OVERLAY);
+		event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(),"health_bar",HEALTH_BAR_OVERLAY);
 	}
 }

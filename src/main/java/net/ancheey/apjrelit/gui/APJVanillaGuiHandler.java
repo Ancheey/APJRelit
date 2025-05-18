@@ -1,5 +1,6 @@
 package net.ancheey.apjrelit.gui;
 
+import io.redspace.ironsspellbooks.gui.overlays.ManaBarOverlay;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.gui.overlay.PlayerUnitBarOverlay;
 import net.minecraft.client.Minecraft;
@@ -32,6 +33,4 @@ public class APJVanillaGuiHandler {
 			event.setCanceled(true);
 		}
 	}
-
-
 }
