@@ -75,7 +75,7 @@ public class APJRelitCore
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
-        modEventBus.addListener(APJKeyMapping::registerKeybinds);
+
 
 
 
@@ -90,6 +90,7 @@ public class APJRelitCore
 
     private void clientSetup(final FMLClientSetupEvent event){
         APJCurioRegistry.registerRenderers(event);
+        //event.addListener(APJKeyMapping::registerKeybinds);
     }
     private void clientTooltipEvent(RegisterClientTooltipComponentFactoriesEvent e){
         e.register(DiceTooltipComponent.class, DiceClientTooltipComponent::new);

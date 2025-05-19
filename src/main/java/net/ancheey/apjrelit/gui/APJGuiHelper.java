@@ -17,23 +17,42 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 @OnlyIn(Dist.CLIENT)
 public class APJGuiHelper {
 	private static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/gui/icons.png");
-	public static void renderMajorUnitFrame(ForgeGui gui, GuiGraphics guiGraphics, float animationTick, int screenWidth, int screenHeight,int XOffset, int YOffset, LivingEntity unit){
+	public static void renderMajorUnitFrame(ForgeGui gui, GuiGraphics guiGraphics, float animationTick, int x,int y, LivingEntity unit, boolean mirrored){
 		if(!gui.shouldDrawSurvivalElements())
 			return;
+		if(mirrored){
+			renderMirroredMajorUnitFrame(guiGraphics,animationTick,x,y,unit);
+		}
+		else{
+			renderMajorUnitFrame(guiGraphics,animationTick,x,y,unit);
+		}
+	}
+	private static void renderMajorUnitFrame(GuiGraphics guiGraphics, float animationTick, int x,int y, LivingEntity unit){
 		var mc = Minecraft.getInstance();
-		if(!(mc.cameraEntity instanceof LivingEntity entity))
-			return;
-		var x= screenWidth/4-48+XOffset;
-		var y = screenHeight-85-24+YOffset;
 		guiGraphics.blit(ICONS,x,y,0,0,128,32);
-		APJGuiHelper.renderLivingEntityPortrait(guiGraphics,x+14,y+4,25,25,entity,1,animationTick);
-		renderMajorUnitFrameHealth(guiGraphics,x+43,y+11,entity);
-		if(entity instanceof Player player){
+		APJGuiHelper.renderLivingEntityPortrait(guiGraphics,x+14,y+4,25,25,unit,1,animationTick, true);
+		renderMajorUnitFrameHealth(guiGraphics,x+43,y+11,unit);
+		if(unit instanceof Player player){
 			var level = ""+player.experienceLevel;
 			var lvw = mc.font.width(level);
 			guiGraphics.drawString(mc.font,level,(x+7)-(lvw/2),(y+22),0xFF55FF11);
 			renderMajorUnitFrameMana(guiGraphics,x+43,y+21,player);
 		}
+	}
+	private static void renderMirroredMajorUnitFrame(GuiGraphics guiGraphics, float animationTick, int x,int y, LivingEntity unit){
+		var mc = Minecraft.getInstance();
+		guiGraphics.blit(ICONS, x, y, 128, 0, 128, 32);
+		APJGuiHelper.renderLivingEntityPortrait(guiGraphics,x+89,y+4,25,25,unit,1,animationTick,false);
+		renderMajorUnitFrameHealth(guiGraphics,x+7,y+11,unit);
+		if(unit instanceof Player player){
+			var level = ""+player.experienceLevel;
+			var lvw = mc.font.width(level);
+			guiGraphics.drawString(mc.font,level,(x+121)-(lvw/2),(y+22),0xFF55FF11);
+			renderMajorUnitFrameMana(guiGraphics,x+7,y+21,player);
+		}
+	}
+	public static void renderMajorUnitFrame(ForgeGui gui, GuiGraphics guiGraphics, float animationTick, int x,int y, LivingEntity unit){
+		renderMajorUnitFrame(gui,guiGraphics,animationTick,x,y,unit,false);
 	}
 	private static void renderMajorUnitFrameHealth(GuiGraphics guiGraphics, int x, int y, LivingEntity e){
 		var mc = Minecraft.getInstance();
@@ -56,7 +75,7 @@ public class APJGuiHelper {
 		}
 		guiGraphics.setColor(1f,1f,1f,1f);
 		var text = (absorb>0?(int)absorb+ "+":"")+ ((int)current)+"/"+((int)max);
-		guiGraphics.drawString(mc.font, text,x+78-mc.font.width(text),y+1,(hpPercent)<0.2?0xA1FF0000:0xA1000000,false);
+		guiGraphics.drawString(mc.font, text,x+78-mc.font.width(text),y+1,(hpPercent)<0.2?0xA1FF0000:0xA1FFFFFF,false);
 	}
 	private static void renderMajorUnitFrameMana(GuiGraphics guiGraphics, int x, int y, Player e){
 		var mc = Minecraft.getInstance();
@@ -70,7 +89,7 @@ public class APJGuiHelper {
 		guiGraphics.drawString(mc.font, text,x+78-mc.font.width(text),y+1,(manaPercent)<0.2?0xA1FF0000:0xA1FFFFFF,false);
 	}
 
-	public static void renderLivingEntityPortrait(GuiGraphics gui, int x, int y, int width, int height, LivingEntity entity, float scale,float animationTick){
+	public static void renderLivingEntityPortrait(GuiGraphics gui, int x, int y, int width, int height, LivingEntity entity, float scale,float animationTick, boolean faceRight){
 		var mc = Minecraft.getInstance();
 		int scaledWidth = mc.getWindow().getGuiScaledWidth();
 		int scaledHeight = mc.getWindow().getGuiScaledHeight();
@@ -84,11 +103,12 @@ public class APJGuiHelper {
 		int scissorY = Math.round((scaledHeight - y - height) * scaleY);
 		int scissorW = Math.round(width * scaleX);
 		int scissorH = Math.round(height * scaleY);
-		float mouseX = 45f*(x+9>screenWidth/2?1:-1) + (float)(-3f*Math.cos(animationTick* Math.PI*2));
+		float mouseX = 45f*(!faceRight?1:-1) + (float)(-3f*Math.cos(animationTick* Math.PI*2));
 		float mouseY = (float)(2*Math.sin(animationTick* Math.PI*2))-0.2f;
+		var entityHeightScale = entity.getBbHeight();
 		RenderSystem.enableScissor(scissorX, scissorY, scissorW, scissorH);
 		//gui.fill(0,0,1000,1000,0xFFFFFFFF);
-		InventoryScreen.renderEntityInInventoryFollowsMouse(gui,x+(width/2),y+(int)(53*scale),(int)(25*scale),mouseX,mouseY,entity);
+		InventoryScreen.renderEntityInInventoryFollowsMouse(gui,x+(width/2),y+(int)(15+22*entityHeightScale),(int)(25*scale),mouseX,mouseY,entity);
 		RenderSystem.disableScissor();
 	}
 }

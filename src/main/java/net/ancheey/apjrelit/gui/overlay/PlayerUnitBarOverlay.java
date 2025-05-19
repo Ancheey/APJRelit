@@ -22,9 +22,8 @@ import java.io.Console;
 
 @OnlyIn(Dist.CLIENT)
 public class PlayerUnitBarOverlay implements IGuiOverlay {
-	private final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/gui/icons.png");
-	public int PlayerUnitBarXOffset = 0;
-	public int PlayerUnitBarYOffset = 0;
+	public int XOffset = 0;
+	public int YOffset = 0;
 	public float AnimationSpeed = 1f;
 	private float partialTickStack = 0f;
 	@Override
@@ -36,7 +35,7 @@ public class PlayerUnitBarOverlay implements IGuiOverlay {
 			return;
 		partialTickStack+=(partialTick/(320*AnimationSpeed));
 		partialTickStack = partialTickStack%1;
-		APJGuiHelper.renderMajorUnitFrame(gui,guiGraphics,partialTickStack,screenWidth,screenHeight,PlayerUnitBarXOffset,PlayerUnitBarYOffset,entity);
+		APJGuiHelper.renderMajorUnitFrame(gui,guiGraphics,partialTickStack,screenWidth/4-48+XOffset,screenHeight-85-24+YOffset,entity);
 	}
 
 }
