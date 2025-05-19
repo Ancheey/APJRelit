@@ -75,7 +75,7 @@ public class APJGuiHelper {
 		}
 		guiGraphics.setColor(1f,1f,1f,1f);
 		var text = (absorb>0?(int)absorb+ "+":"")+ ((int)current)+"/"+((int)max);
-		guiGraphics.drawString(mc.font, text,x+78-mc.font.width(text),y+1,(hpPercent)<0.2?0xA1FF0000:0xA1FFFFFF,false);
+		guiGraphics.drawString(mc.font, text,x+78-mc.font.width(text),y+1,(hpPercent)<=0.2?0xA1FF0000:0xA1FFFFFF,false);
 	}
 	private static void renderMajorUnitFrameMana(GuiGraphics guiGraphics, int x, int y, Player e){
 		var mc = Minecraft.getInstance();
@@ -89,6 +89,60 @@ public class APJGuiHelper {
 		guiGraphics.drawString(mc.font, text,x+78-mc.font.width(text),y+1,(manaPercent)<0.2?0xA1FF0000:0xA1FFFFFF,false);
 	}
 
+	//minor frames
+	public static void renderMinorUnitFrame(ForgeGui gui, GuiGraphics guiGraphics, float animationTick, int x,int y, LivingEntity unit){
+		if(!gui.shouldDrawSurvivalElements())
+			return;
+		var mc = Minecraft.getInstance();
+		guiGraphics.blit(ICONS,x,y,0,41,64,16);
+		renderMinorUnitFrameHealth(guiGraphics,x+12,y+2,unit);
+		var isLowHP =  (unit.getHealth() / unit.getMaxHealth() < 0.2f);
+		if(unit instanceof Player player) {
+			renderPlayerStaticPortrait(guiGraphics, x + 2, y + 3, animationTick, player,isLowHP);
+			renderMinorUnitFrameMana(guiGraphics,x+12,y+11,player);
+			var text = player.getDisplayName().getString();
+			text = text.length() > 9? text.substring(0,8)+"..":text;
+			guiGraphics.drawString(mc.font, text,x+13,y+3,isLowHP?0xA1FF0000:0xA1FFFFFF,false);
+		}
+		else {
+			guiGraphics.blit(ICONS, x + 2, y + 4, 0, 56, 8, 8);
+			var text = unit.getDisplayName().getString();
+			text = text.length() > 9? text.substring(0,8)+"..":text;
+			guiGraphics.drawString(mc.font, text,x+13,y+3,isLowHP?0xA1FF0000:0xA1FFFFFF,false);
+		}
+
+	}
+	private static void renderMinorUnitFrameHealth(GuiGraphics guiGraphics, int x, int y, LivingEntity e){
+		var max = Math.ceil(e.getMaxHealth());
+		var current = Math.ceil(e.getHealth());
+		var hpPercent = current/max;
+
+		guiGraphics.setColor(0.2f,1f,0.1f,1f);
+		guiGraphics.blit(ICONS,x,y,0,32,(int)(50*hpPercent),8);
+		guiGraphics.setColor(1f,1f,1f,1f);
+
+		var absorb = e.getAbsorptionAmount();
+		var absorbPercent = Math.min(1,absorb/max);
+		guiGraphics.setColor(0.9f,0.9f,1f,1f);
+		if(absorb > max-current){
+			guiGraphics.blit(ICONS,x+ (int)(50-(50*absorbPercent)),y,(int)(50-50*absorbPercent),32,(int)(Math.ceil(50 * absorbPercent)),8);
+		}
+		else if(absorb > 0){
+			guiGraphics.blit(ICONS,x+(int)(50*hpPercent),y,(int)(50*hpPercent),32,(int)Math.ceil(50*absorbPercent),8);
+		}
+		guiGraphics.setColor(1f,1f,1f,1f);
+	}
+	private static void renderMinorUnitFrameMana(GuiGraphics guiGraphics, int x, int y, Player e){
+		var mc = Minecraft.getInstance();
+		var max = Math.ceil(e.getAttributeValue(AttributeRegistry.MAX_MANA.get()));
+		var current = Math.ceil(ClientMagicData.getPlayerMana());
+		var manaPercent = current/max;
+		var text = ((int)current)+"/"+((int)max);
+		guiGraphics.setColor(0.2f,0.3f,1f,1f);
+		guiGraphics.blit(ICONS,x,y,0,32,(int)(50*manaPercent),2);
+		guiGraphics.setColor(1f,1f,1f,1f);
+	}
+	//portraits
 	public static void renderLivingEntityPortrait(GuiGraphics gui, int x, int y, int width, int height, LivingEntity entity, float scale,float animationTick, boolean faceRight){
 		var mc = Minecraft.getInstance();
 		int scaledWidth = mc.getWindow().getGuiScaledWidth();
@@ -107,8 +161,20 @@ public class APJGuiHelper {
 		float mouseY = (float)(2*Math.sin(animationTick* Math.PI*2))-0.2f;
 		var entityHeightScale = entity.getBbHeight();
 		RenderSystem.enableScissor(scissorX, scissorY, scissorW, scissorH);
-		//gui.fill(0,0,1000,1000,0xFFFFFFFF);
 		InventoryScreen.renderEntityInInventoryFollowsMouse(gui,x+(width/2),y+(int)(15+22*entityHeightScale),(int)(25*scale),mouseX,mouseY,entity);
 		RenderSystem.disableScissor();
+	}
+	public static void renderPlayerStaticPortrait(GuiGraphics gui, int x, int y, float animationTick, Player player, boolean isLowHealth){
+		ResourceLocation skin = Minecraft.getInstance().getSkinManager()
+				.getInsecureSkinLocation(player.getGameProfile());
+		if(player.isDeadOrDying()){
+			gui.setColor(0.3f,0.3f,0.3f,1f);
+		}
+		else if(isLowHealth){
+			gui.setColor(0.3f+(float) (0.6f * Math.sin(animationTick * Math.PI)),0.3f,0.3f,1f);
+		}
+		gui.blit(skin, x, y, 8, 8, 8, 8, 64, 64);
+		gui.blit(skin, x, y, 40, 8, 8, 8, 64, 64);
+		gui.setColor(1f,1f,1f,1f);
 	}
 }
