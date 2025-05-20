@@ -137,7 +137,6 @@ public class APJGuiHelper {
 		var max = Math.ceil(e.getAttributeValue(AttributeRegistry.MAX_MANA.get()));
 		var current = Math.ceil(ClientMagicData.getPlayerMana());
 		var manaPercent = current/max;
-		var text = ((int)current)+"/"+((int)max);
 		guiGraphics.setColor(0.2f,0.3f,1f,1f);
 		guiGraphics.blit(ICONS,x,y,0,32,(int)(50*manaPercent),2);
 		guiGraphics.setColor(1f,1f,1f,1f);
