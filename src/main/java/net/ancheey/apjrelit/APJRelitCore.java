@@ -11,6 +11,7 @@ import net.ancheey.apjrelit.gui.tooltip.DiceTooltipComponent;
 import net.ancheey.apjrelit.itemsets.APJSetModuleEventHandler;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
 
+import net.ancheey.apjrelit.network.NetworkHandler;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 
@@ -52,6 +53,7 @@ public class APJRelitCore
     {
         IEventBus modEventBus = context.getModEventBus();
 
+        NetworkHandler.register();
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
