@@ -1,24 +1,15 @@
 package net.ancheey.apjrelit.gui.overlay;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import io.redspace.ironsspellbooks.api.magic.MagicData;
-import io.redspace.ironsspellbooks.api.magic.MagicHelper;
-import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
-import io.redspace.ironsspellbooks.player.ClientMagicData;
-import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.gui.APJGuiHelper;
+import net.ancheey.apjrelit.parties.LocalPlayerGroup;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-
-import java.io.Console;
 
 @OnlyIn(Dist.CLIENT)
 public class PlayerUnitBarOverlay implements IGuiOverlay {
@@ -36,6 +27,12 @@ public class PlayerUnitBarOverlay implements IGuiOverlay {
 		partialTickStack+=(partialTick/(320*AnimationSpeed));
 		partialTickStack = partialTickStack%1;
 		APJGuiHelper.renderMajorUnitFrame(gui,guiGraphics,partialTickStack,screenWidth/4-48+XOffset,screenHeight-85-24+YOffset,entity);
+
+		if(entity instanceof Player player && LocalPlayerGroup.isInParty()) {
+			if (LocalPlayerGroup.getLeader() == player) {
+				guiGraphics.blit(APJGuiHelper.ICONS, screenWidth/4-48+XOffset, screenHeight-85-24+YOffset, 0, 56, 5, 3);
+			}
+		}
 	}
 
 }

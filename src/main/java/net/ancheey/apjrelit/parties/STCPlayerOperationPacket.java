@@ -1,6 +1,5 @@
 package net.ancheey.apjrelit.parties;
 
-import net.ancheey.apjrelit.APJRelitCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -38,13 +37,13 @@ public class STCPlayerOperationPacket {
 
 			switch (msg.operation) {
 				case ADD -> {
-					LocalPartyManager.getGroup().add(target);
+					LocalPlayerGroup.add(target);
 				}
 				case REMOVE -> {
-					LocalPartyManager.getGroup().remove(target);
+					LocalPlayerGroup.remove(target);
 				}
-				case QUIT ->{
-					LocalPartyManager.getGroup().Clear();
+				case LEAD -> {
+					LocalPlayerGroup.assignLeader(target);
 				}
 			}
 		});
@@ -52,7 +51,7 @@ public class STCPlayerOperationPacket {
 	}
 
 	public enum Operation {
-		ADD, REMOVE,QUIT;
+		ADD, REMOVE, LEAD;
 
 		public static Operation fromByte(byte b) {
 			return values()[b];

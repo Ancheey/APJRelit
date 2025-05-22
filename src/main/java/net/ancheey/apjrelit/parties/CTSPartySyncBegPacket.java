@@ -1,5 +1,6 @@
 package net.ancheey.apjrelit.parties;
 
+import net.ancheey.apjrelit.network.NetworkHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +25,11 @@ public class CTSPartySyncBegPacket {
 	}
 	public static void handle(CTSPartySyncBegPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-
+			var sender = ctx.get().getSender();
+			var grp = ServerPartyManager.GetPlayerGroup(sender);
+			if(grp != null){
+				NetworkHandler.sendToPlayer(new STCPartySyncPacket(grp),sender);
+			}
 		});
 		ctx.get().setPacketHandled(true);
 	}
