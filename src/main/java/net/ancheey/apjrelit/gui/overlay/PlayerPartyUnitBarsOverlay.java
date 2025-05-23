@@ -1,7 +1,7 @@
 package net.ancheey.apjrelit.gui.overlay;
 
 import net.ancheey.apjrelit.gui.APJGuiHelper;
-import net.ancheey.apjrelit.parties.LocalPlayerGroup;
+import net.ancheey.apjrelit.parties.LocalPlayerParty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +20,7 @@ public class PlayerPartyUnitBarsOverlay implements IGuiOverlay {
 	private float partialTickStack = 0f;
 	@Override
 	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
-		if(!(Minecraft.getInstance().getCameraEntity() instanceof Player camplayer) || !LocalPlayerGroup.isInParty())
+		if(!(Minecraft.getInstance().getCameraEntity() instanceof Player camplayer) || !LocalPlayerParty.isInParty())
 			return;
 
 		partialTickStack+=(partialTick/(160*AnimationSpeed));
@@ -29,13 +29,13 @@ public class PlayerPartyUnitBarsOverlay implements IGuiOverlay {
 		int y = screenHeight/4;
 		//implement parties
 
-		var players = new java.util.ArrayList<>(LocalPlayerGroup.getMembers());
+		var players = new java.util.ArrayList<>(LocalPlayerParty.getMembers());
 		players.remove(camplayer);
 		for(int i = 0; i < players.size(); i++){
 			var player = players.get(i);
 			APJGuiHelper.renderMinorUnitFrame(gui,guiGraphics,partialTickStack, (int) (x+XOffset+(XSpacing*Math.floor(i/4d))),y+YOffset+(YSpacing*i),player);
-			if(LocalPlayerGroup.getLeader() == player){
-				guiGraphics.blit(APJGuiHelper.ICONS,(int) (x+XOffset+(XSpacing*Math.floor(i/4d))),y+YOffset+(YSpacing*i),0,56,5,3);
+			if(LocalPlayerParty.getLeader() == player){
+				guiGraphics.blit(APJGuiHelper.ICONS,(int) (x+XOffset+(XSpacing*Math.floor(i/4d)))+2,y+YOffset+(YSpacing*i),0,56,5,3);
 			}
 		}
 	}

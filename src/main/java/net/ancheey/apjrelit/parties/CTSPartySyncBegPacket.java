@@ -1,13 +1,9 @@
 package net.ancheey.apjrelit.parties;
 
 import net.ancheey.apjrelit.network.NetworkHandler;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -26,7 +22,7 @@ public class CTSPartySyncBegPacket {
 	public static void handle(CTSPartySyncBegPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			var sender = ctx.get().getSender();
-			var grp = ServerPartyManager.GetPlayerGroup(sender);
+			var grp = ServerPartyManager.GetPlayerParty(sender);
 			if(grp != null){
 				NetworkHandler.sendToPlayer(new STCPartySyncPacket(grp),sender);
 			}

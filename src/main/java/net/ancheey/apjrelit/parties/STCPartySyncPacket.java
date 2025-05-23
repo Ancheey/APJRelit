@@ -16,7 +16,10 @@ public class STCPartySyncPacket {
 	public STCPartySyncPacket(List<UUID> players) {
 		members = players;
 	}
-	public STCPartySyncPacket(ServerPlayerGroup group) {
+	public STCPartySyncPacket() { //empty (clear party)
+		members = new ArrayList<>();
+	}
+	public STCPartySyncPacket(ServerPlayerParty group) {
 		members = new ArrayList<>();
 		var players = group.GetPlayers();
 		for(var player : players)
@@ -42,10 +45,11 @@ public class STCPartySyncPacket {
 			ctx.get().enqueueWork(() -> {
 				Minecraft mc = Minecraft.getInstance();
 				if (mc.level == null) return;
+				LocalPlayerParty.clear();
 				for (var member : msg.members) {
 					Player target = mc.level.getPlayerByUUID(member);
 					if (target == null) continue;
-					LocalPlayerGroup.add(target);
+					LocalPlayerParty.add(target);
 				}
 			});
 			ctx.get().setPacketHandled(true);

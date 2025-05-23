@@ -37,13 +37,13 @@ public class STCPlayerOperationPacket {
 
 			switch (msg.operation) {
 				case ADD -> {
-					LocalPlayerGroup.add(target);
+					LocalPlayerParty.add(target);
 				}
 				case REMOVE -> {
-					LocalPlayerGroup.remove(target);
+					LocalPlayerParty.remove(target);
 				}
 				case LEAD -> {
-					LocalPlayerGroup.assignLeader(target);
+					LocalPlayerParty.assignLeader(target);
 				}
 			}
 		});

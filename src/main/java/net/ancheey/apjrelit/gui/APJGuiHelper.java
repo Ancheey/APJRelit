@@ -94,7 +94,7 @@ public class APJGuiHelper {
 		if(!gui.shouldDrawSurvivalElements())
 			return;
 		var mc = Minecraft.getInstance();
-		guiGraphics.blit(ICONS,x,y,0,41,64,16);
+		guiGraphics.blit(ICONS,x,y,0,41,64,15);
 		renderMinorUnitFrameHealth(guiGraphics,x+12,y+2,unit);
 		var isLowHP =  (unit.getHealth() / unit.getMaxHealth() < 0.2f);
 		if(unit instanceof Player player) {

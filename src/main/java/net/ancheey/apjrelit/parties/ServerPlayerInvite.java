@@ -9,10 +9,10 @@ public class ServerPlayerInvite {
 	public static final long VALID_TIME = 30000; //30s
 	ServerPlayer inviter;
 	long timestamp;
-	ServerPlayerGroup group;
-	public ServerPlayerInvite(ServerPlayer inviter, ServerPlayerGroup group){
+	ServerPlayerParty party;
+	public ServerPlayerInvite(ServerPlayer inviter, ServerPlayerParty party){
 		this.inviter = inviter;
-		this.group = group;
+		this.party = party;
 		timestamp = System.currentTimeMillis();
 	}
 	public ServerPlayer GetInviter(){
@@ -21,6 +21,6 @@ public class ServerPlayerInvite {
 	public boolean IsValid(){
 		if(timestamp+VALID_TIME<System.currentTimeMillis())
 			return false;
-		return group.hasPlayer(inviter);
+		return party.hasPlayer(inviter);
 	}
 }

@@ -1,7 +1,6 @@
 package net.ancheey.apjrelit.parties;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.client.Minecraft;
+import net.ancheey.apjrelit.network.NetworkHandler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -11,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
-public class LocalPlayerGroup {
+public class LocalPlayerParty {
 	private static List<Player> members = new ArrayList<>();
-
+	private static @Nullable LocalPlayerInvite invite;
 	public static void syncParty(List<Player> players){
 		members.clear();
 		members.addAll(players);
@@ -47,5 +46,17 @@ public class LocalPlayerGroup {
 		members.remove(player);
 		members.add(0,player);
 		return true;
+	}
+	public static void setInvite(Player inviter, long timestamp){
+		invite = new LocalPlayerInvite(inviter,timestamp);
+	}
+	public static LocalPlayerInvite getInvite(){
+		return invite;
+	}
+	public static void acceptCurrentInvite(){
+		NetworkHandler.sendToServer(new CTSPartyInviteResponsePacket(CTSPartyInviteResponsePacket.InviteResponse.ACCEPT));
+	}
+	public static void declineInvite(){
+		NetworkHandler.sendToServer(new CTSPartyInviteResponsePacket(CTSPartyInviteResponsePacket.InviteResponse.DECLINE));
 	}
 }

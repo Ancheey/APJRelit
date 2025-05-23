@@ -1,7 +1,7 @@
 package net.ancheey.apjrelit.gui.overlay;
 
 import net.ancheey.apjrelit.gui.APJGuiHelper;
-import net.ancheey.apjrelit.parties.LocalPlayerGroup;
+import net.ancheey.apjrelit.parties.LocalPlayerParty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,9 +28,9 @@ public class PlayerUnitBarOverlay implements IGuiOverlay {
 		partialTickStack = partialTickStack%1;
 		APJGuiHelper.renderMajorUnitFrame(gui,guiGraphics,partialTickStack,screenWidth/4-48+XOffset,screenHeight-85-24+YOffset,entity);
 
-		if(entity instanceof Player player && LocalPlayerGroup.isInParty()) {
-			if (LocalPlayerGroup.getLeader() == player) {
-				guiGraphics.blit(APJGuiHelper.ICONS, screenWidth/4-48+XOffset, screenHeight-85-24+YOffset, 0, 56, 5, 3);
+		if(entity instanceof Player player && LocalPlayerParty.isInParty()) {
+			if (LocalPlayerParty.getLeader() == player) {
+				guiGraphics.blit(APJGuiHelper.ICONS, screenWidth/4-48+XOffset+11, screenHeight-85-24+YOffset-1, 0, 56, 5, 3);
 			}
 		}
 	}
