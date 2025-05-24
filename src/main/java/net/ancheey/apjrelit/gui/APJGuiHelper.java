@@ -176,4 +176,39 @@ public class APJGuiHelper {
 		gui.blit(skin, x, y, 40, 8, 8, 8, 64, 64);
 		gui.setColor(1f,1f,1f,1f);
 	}
+
+	public static void renderFrame(GuiGraphics gui, int x, int y, int width, int height, boolean gilded){
+		var w = Math.max(x+width,x+16)-8;
+		var h = Math.max(y+height,y+16)-8;
+		var UOffset = gilded?16:0;
+		var bgcolor = gilded?0x4D513e2f:0x4D000000;
+
+		gui.blit(ICONS,x,y, UOffset,240,8,8); //left corner
+		gui.blit(ICONS,w,y,8+UOffset,240,8,8); //right corner
+		gui.blit(ICONS,x,h, UOffset,248,8,8); //left b corner
+		gui.blit(ICONS,w,h,8+UOffset,248,8,8); //right b corner
+
+		for(int xi = x+8; xi<w; xi++){ //generate top and bottom
+			if(xi < (w)/2){
+				gui.blit(ICONS,xi,y, 7+UOffset,240,1,8); //left top wall
+				gui.blit(ICONS,xi,h, 7+UOffset,248,1,8); //left bottom wall
+			}
+			else{
+				gui.blit(ICONS,xi,y, 8+UOffset,240,1,8); //right top wall
+				gui.blit(ICONS,xi,h, 8+UOffset,248,1,8); //right bottom wall
+			}
+
+		}
+		for(int yi = y+8; yi<h;yi++){ //generate left and right
+			if(yi < (w)/2){
+				gui.blit(ICONS,x,yi, UOffset,247,8,1); //left top wall
+				gui.blit(ICONS,w,yi, 8+UOffset,247,8,1); //right top wall
+			}
+			else{
+				gui.blit(ICONS,x,yi, UOffset,248,8,1); //right top wall
+				gui.blit(ICONS,w,yi, 8+UOffset,248,8,1); //right bottom wall
+			}
+		}
+		gui.fill(x+8,y+8,w,h,bgcolor); //fill background
+	}
 }

@@ -23,9 +23,10 @@ public class CTSPartySyncBegPacket {
 		ctx.get().enqueueWork(() -> {
 			var sender = ctx.get().getSender();
 			var grp = ServerPartyManager.GetPlayerParty(sender);
-			if(grp != null){
+			if(grp != null)
 				NetworkHandler.sendToPlayer(new STCPartySyncPacket(grp),sender);
-			}
+			else
+				NetworkHandler.sendToPlayer(new STCPartySyncPacket(),sender);
 		});
 		ctx.get().setPacketHandled(true);
 	}

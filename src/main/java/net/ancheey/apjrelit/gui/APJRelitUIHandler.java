@@ -1,6 +1,7 @@
 package net.ancheey.apjrelit.gui;
 
 import net.ancheey.apjrelit.APJRelitCore;
+import net.ancheey.apjrelit.gui.overlay.PlayerPartyInviteOverlay;
 import net.ancheey.apjrelit.gui.overlay.PlayerPartyUnitBarsOverlay;
 import net.ancheey.apjrelit.gui.overlay.PlayerUnitBarOverlay;
 import net.ancheey.apjrelit.gui.overlay.TargetUnitBarOverlay;
@@ -17,11 +18,13 @@ public class APJRelitUIHandler {
 	public static final PlayerUnitBarOverlay OBSERVER_UNIT_FRAME = new PlayerUnitBarOverlay();
 	public static final TargetUnitBarOverlay TARGET_UNIT_FRAME = new TargetUnitBarOverlay();
 	public static final PlayerPartyUnitBarsOverlay PARTY_UNIT_FRAMES = new PlayerPartyUnitBarsOverlay();
+	public static final PlayerPartyInviteOverlay PARTY_INVITE_FRAME = new PlayerPartyInviteOverlay();
 
 	@SubscribeEvent
 	public static void registerCustomOverlays(RegisterGuiOverlaysEvent event){
 		event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(),"observer_unit_frame",OBSERVER_UNIT_FRAME);
 		event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(),"target_unit_frame",TARGET_UNIT_FRAME);
 		event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(),"party_unit_frames",PARTY_UNIT_FRAMES);
+		event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(),"party_invite_frame",PARTY_INVITE_FRAME);
 	}
 }

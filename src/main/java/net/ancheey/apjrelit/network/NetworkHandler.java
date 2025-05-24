@@ -1,9 +1,7 @@
 package net.ancheey.apjrelit.network;
 
 import net.ancheey.apjrelit.APJRelitCore;
-import net.ancheey.apjrelit.parties.CTSPartySyncBegPacket;
-import net.ancheey.apjrelit.parties.STCPartySyncPacket;
-import net.ancheey.apjrelit.parties.STCPlayerOperationPacket;
+import net.ancheey.apjrelit.parties.*;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,10 +40,20 @@ public class NetworkHandler {
 				.encoder(STCPartySyncPacket::encode)
 				.consumerMainThread(STCPartySyncPacket::handle)
 				.add();
+		channel.messageBuilder(STCPartyInvitePacket.class,id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(STCPartyInvitePacket::decode)
+				.encoder(STCPartyInvitePacket::encode)
+				.consumerMainThread(STCPartyInvitePacket::handle)
+				.add();
 		channel.messageBuilder(CTSPartySyncBegPacket.class,id(), NetworkDirection.PLAY_TO_SERVER)
 				.decoder(CTSPartySyncBegPacket::decode)
 				.encoder(CTSPartySyncBegPacket::encode)
 				.consumerMainThread(CTSPartySyncBegPacket::handle)
+				.add();
+		channel.messageBuilder(CTSPartyInviteResponsePacket.class,id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(CTSPartyInviteResponsePacket::decode)
+				.encoder(CTSPartyInviteResponsePacket::encode)
+				.consumerMainThread(CTSPartyInviteResponsePacket::handle)
 				.add();
 	}
 	public static <MSG> void sendToServer(MSG message) {

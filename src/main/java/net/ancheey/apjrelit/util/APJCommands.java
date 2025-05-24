@@ -26,6 +26,7 @@ public class APJCommands {
 		dispatcher.register(Commands.literal("invite").requires(CommandSourceStack::isPlayer).executes(APJCommands::invite));
 		dispatcher.register(Commands.literal("beginvite").requires(CommandSourceStack::isPlayer).executes(APJCommands::begInvite));
 		dispatcher.register(Commands.literal("accept").requires(CommandSourceStack::isPlayer).executes(APJCommands::accept));
+		dispatcher.register(Commands.literal("ptinfodump").requires(CommandSourceStack::isPlayer).executes(APJCommands::ptinfodump));
 	}
 	private static int invite(CommandContext<CommandSourceStack> command) {
 		try {
@@ -57,6 +58,20 @@ public class APJCommands {
 			ServerPlayer player = command.getSource().getPlayer();
 			//simulating self joining the pt
 			APJRelitCore.LOGGER.info(ServerPartyManager.acceptInvite(player).msg());
+		}
+		catch(Exception e){
+			APJRelitCore.LOGGER.info(e.toString());
+		}
+		return Command.SINGLE_SUCCESS;
+	}
+	private static int ptinfodump(CommandContext<CommandSourceStack> command) {
+		try {
+			ServerPartyManager.getPartiesPerPlayer().forEach((k,v)->{
+				APJRelitCore.LOGGER.info("[Party] "+k.getDisplayName().getString()+": " + v.count());
+			});
+			ServerPartyManager.getPlayerInvites().forEach((k,v)->{
+				APJRelitCore.LOGGER.info("[Invite] "+k.getDisplayName().getString()+" by " + v.GetInviter().getDisplayName().getString() + " | Valid: "+ v.IsValid());
+			});
 		}
 		catch(Exception e){
 			APJRelitCore.LOGGER.info(e.toString());

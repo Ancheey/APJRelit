@@ -11,7 +11,7 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class LocalPlayerParty {
-	private static List<Player> members = new ArrayList<>();
+	private static final List<Player> members = new ArrayList<>();
 	private static @Nullable LocalPlayerInvite invite;
 	public static void syncParty(List<Player> players){
 		members.clear();
@@ -40,23 +40,29 @@ public class LocalPlayerParty {
 	public static boolean hasPlayer(Player player){
 		return members.contains(player);
 	}
-	public static boolean assignLeader(Player player){
+	public static void assignLeader(Player player){
 		if(!members.contains(player) || getLeader() == player)
-			return false;
+			return;
 		members.remove(player);
 		members.add(0,player);
-		return true;
 	}
 	public static void setInvite(Player inviter, long timestamp){
 		invite = new LocalPlayerInvite(inviter,timestamp);
 	}
-	public static LocalPlayerInvite getInvite(){
+	public static @Nullable LocalPlayerInvite getInvite(){
+		if(invite != null &&!invite.EnsureValid()) {
+			declineInvite();
+		}
 		return invite;
 	}
 	public static void acceptCurrentInvite(){
 		NetworkHandler.sendToServer(new CTSPartyInviteResponsePacket(CTSPartyInviteResponsePacket.InviteResponse.ACCEPT));
 	}
 	public static void declineInvite(){
+		InvalidateInvite();
 		NetworkHandler.sendToServer(new CTSPartyInviteResponsePacket(CTSPartyInviteResponsePacket.InviteResponse.DECLINE));
+	}
+	public static void InvalidateInvite(){
+		invite = null;
 	}
 }

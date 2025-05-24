@@ -1,5 +1,6 @@
 package net.ancheey.apjrelit.parties;
 
+import net.ancheey.apjrelit.network.NetworkHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -13,6 +14,12 @@ public class ServerPartyManager {
 	private static final Map<ServerPlayer, ServerPlayerParty> partiesPerPlayer = new HashMap<>();
 	private static final Map<ServerPlayer,ServerPlayerInvite> playerInvites = new HashMap<>();
 
+	public static Map<ServerPlayer, ServerPlayerParty> getPartiesPerPlayer(){
+		return partiesPerPlayer;
+	}
+	public static Map<ServerPlayer, ServerPlayerInvite> getPlayerInvites(){
+		return playerInvites;
+	}
 	public static @Nullable ServerPlayerParty GetPlayerParty(Player player){
 		if(!partiesPerPlayer.containsKey(player))
 			return null;
@@ -34,7 +41,9 @@ public class ServerPartyManager {
 		else{ //inviter doesn't have a party yet, so we create one
 			var pt = new ServerPlayerParty().add(inviter);
 			partiesPerPlayer.put(inviter, pt);
-			playerInvites.put(invitee,new ServerPlayerInvite(inviter,pt)); //send invite to player STCPlayerGroupInvite
+			var invite =new ServerPlayerInvite(inviter,pt);
+			playerInvites.put(invitee,invite); //send invite to player STCPlayerGroupInvite
+			NetworkHandler.sendToPlayer(new STCPartyInvitePacket(inviter.getUUID(),invite.timestamp),invitee);
 
 		}
 		return ReturnMessage.GOOD;
