@@ -43,6 +43,7 @@ public class ServerPartyManager {
 			partiesPerPlayer.put(inviter, pt);
 			var invite =new ServerPlayerInvite(inviter,pt);
 			playerInvites.put(invitee,invite); //send invite to player STCPlayerGroupInvite
+			pt.pendingInvites.put(invite,invitee);
 			NetworkHandler.sendToPlayer(new STCPartyInvitePacket(inviter.getUUID(),invite.timestamp),invitee);
 
 		}
@@ -60,26 +61,34 @@ public class ServerPartyManager {
 			return ReturnMessage.OLD; //party is empty (closed before accepting)
 		invite.party.add(invitee);
 		partiesPerPlayer.put(invitee,invite.party);
+		invite.party.pendingInvites.remove(invite);
 		return ReturnMessage.GOOD;
 	}
 	public static void declineInvite(ServerPlayer invitee){
 		var invite = playerInvites.remove(invitee);
+		if(invite == null)
+			return;
 		invite.party.pendingInvites.remove(invite);
 		if(invite.party.pendingInvites.size() == 0 && invite.party.count() == 1) //disbanded only pending invite and the lead is left alone;
 			disbandParty(invite.party.getLeader());
 	}
-	public static void removePlayer(ServerPlayer leader, ServerPlayer kicked){
+	public static ReturnMessage removePlayer(ServerPlayer leader, ServerPlayer kicked){
 		var pt = partiesPerPlayer.get(leader);
-		if(pt != null && pt.hasPlayer(kicked) && pt.getLeader() == leader){
-			pt.remove(kicked);
-			partiesPerPlayer.remove(kicked);
+		if(pt == null || !pt.hasPlayer(kicked))
+			return ReturnMessage.NOTINGRP;
+		if(pt.getLeader() != leader)
+			return ReturnMessage.NOTLEAD;
 
-			if(pt.count() == 1){ //only leader left - disband party
-				disbandParty(leader);
-			}
+		pt.remove(kicked);
+		partiesPerPlayer.remove(kicked);
+
+		if(pt.count() == 1){ //only leader left - disband party
+			disbandParty(leader);
 		}
+
+		return ReturnMessage.GOOD;
 	}
-	public static void forceRemovePlayer(ServerPlayer kicked){
+	public static ReturnMessage forceRemovePlayer(ServerPlayer kicked){
 		var pt = partiesPerPlayer.get(kicked);
 		if(pt != null && pt.hasPlayer(kicked)){
 			pt.remove(kicked);
@@ -88,15 +97,19 @@ public class ServerPartyManager {
 			if(pt.count() == 1){ //only leader left - disband party
 				disbandParty(pt.getLeader());
 			}
+			return ReturnMessage.GOOD;
 		}
+		return ReturnMessage.NOTINGRP;
 	}
-	public static void disbandParty(ServerPlayer leader){
+	public static ReturnMessage disbandParty(ServerPlayer leader){
 		var pt = partiesPerPlayer.get(leader);
 		if(pt.getLeader() == leader){
 			var players = pt.clear();
 			for(var p : players)
 				partiesPerPlayer.remove(p);
+			return ReturnMessage.GOOD;
 		}
+		return ReturnMessage.NOTLEAD;
 	}
 	public  static ReturnMessage passLeader(ServerPlayer leader, ServerPlayer aspirant){
 		var pt = partiesPerPlayer.get(leader);
@@ -134,6 +147,9 @@ public class ServerPartyManager {
 				}
 				case INGRP -> {
 					return "Invitee is already in a group";
+				}
+				case NOTINGRP -> {
+					return "Not in a party";
 				}
 			}
 			return "";

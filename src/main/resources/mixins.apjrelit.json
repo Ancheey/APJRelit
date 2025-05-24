@@ -4,7 +4,7 @@
   "package": "net.ancheey.apjrelit.mixins",
   "refmap": "mixins.apjrelit.refmap.json",
   "compatibilityLevel": "JAVA_17",
-  "mixins": ["CombatRulesMixin", "LivingEntityMixin","PlayerMixin"],
+  "mixins": ["CombatRulesMixin", "LivingEntityMixin","PlayerMixin", "EntityMixin"],
   "client": [],
   "injectors": { "defaultRequire": 1 }
 }

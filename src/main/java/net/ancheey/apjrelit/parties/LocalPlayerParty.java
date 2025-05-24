@@ -56,6 +56,7 @@ public class LocalPlayerParty {
 		return invite;
 	}
 	public static void acceptCurrentInvite(){
+		InvalidateInvite();
 		NetworkHandler.sendToServer(new CTSPartyInviteResponsePacket(CTSPartyInviteResponsePacket.InviteResponse.ACCEPT));
 	}
 	public static void declineInvite(){
