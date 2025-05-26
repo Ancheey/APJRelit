@@ -81,37 +81,6 @@ public class APJBowItem extends ProjectileWeaponItem {
 						pLevel.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_HIT_PLAYER, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 						if (!pLevel.isClientSide) {
 							target.hurt(pLevel.damageSources().playerAttack(player),damage);
-						/*
-						//ArrowItem arrowitem = (ArrowItem)(itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
-						//AbstractArrow abstractarrow = arrowitem.createArrow(pLevel, itemstack, player);
-						abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 3.0F, 1.0F);
-						if (f == 1.0F) {
-							abstractarrow.setCritArrow(true);
-						}
-
-						int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, pStack);
-						if (j > 0) {
-							abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j * 0.5D + 0.5D);
-						}
-
-						int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, pStack);
-						if (k > 0) {
-							abstractarrow.setKnockback(k);
-						}
-
-						if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, pStack) > 0) {
-							abstractarrow.setSecondsOnFire(100);
-						}
-
-						pStack.hurtAndBreak(1, player, (p_289501_) -> {
-							p_289501_.broadcastBreakEvent(player.getUsedItemHand());
-						});
-						if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW))) {
-							abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-						}
-
-						pLevel.addFreshEntity(abstractarrow);
-						 */
 						}
 					}
 					new HitscanProjectile(pEntityLiving, ParticleTypes.CRIT);
