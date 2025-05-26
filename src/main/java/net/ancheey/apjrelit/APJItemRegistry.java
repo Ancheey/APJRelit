@@ -3,12 +3,14 @@ package net.ancheey.apjrelit;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.armor.APJArmorMaterials;
 import net.ancheey.apjrelit.armor.APJArmorItem;
+import net.ancheey.apjrelit.item.APJBowItem;
 import net.ancheey.apjrelit.item.BasicGeoCurioItem;
 import net.ancheey.apjrelit.item.BasicGeoWeaponItem;
 import net.ancheey.apjrelit.item.SigilGeoCurioItem;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -71,6 +73,8 @@ public class APJItemRegistry {
             new BasicGeoWeaponItem("apj_base_zweihander",0.8f,Rarity.RARE)
                     .SetTexture("txt_zweihander")
                     .SetDamage(38,24,1,1,67));
+
+    public static final RegistryObject<Item> bow = ITEMS.register("bow",()-> new APJBowItem(5,30,2));
 
     public static void register(IEventBus event){
         ITEMS.register(event);

@@ -3,6 +3,8 @@ package net.ancheey.apjrelit;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -26,6 +28,9 @@ public class APJAttributeRegistry {
 	public static final RegistryObject<Attribute> ATTACK_GOOD_BLOW = ATTRIBUTES.register("attack_good", ()->new RangedAttribute("attribute.apjrelit.a3",0d,0d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> ATTACK_FINE_BLOW = ATTRIBUTES.register("attack_fine", ()->new RangedAttribute("attribute.apjrelit.a4",0d,0d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> ATTACK_CONNECTING_BLOW = ATTRIBUTES.register("attack_connecting", ()->new RangedAttribute("attribute.apjrelit.a5",0d,0d,16777216d).setSyncable(true));
+
+	public static final RegistryObject<Attribute> ENMITY_MODIFIER = ATTRIBUTES.register("enmity_modifier", ()->new RangedAttribute("attribute.apjrelit.enmity",0d,-16777216d,16777216d).setSyncable(true));
+
 
 	public static final RegistryObject<Attribute> SPELL_DAMAGE = ATTRIBUTES.register("spell_damage", ()->new RangedAttribute("attribute.apjrelit.sd",0d,-16777216d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> SPELL_RESISTANCE_RATING = ATTRIBUTES.register("spell_resistance", ()->new RangedAttribute("attribute.apjrelit.sr",0d,-16777216d,16777216d).setSyncable(true));

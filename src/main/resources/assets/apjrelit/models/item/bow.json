@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "apjrelit:item/ring/golden_ring"
+  }
+}

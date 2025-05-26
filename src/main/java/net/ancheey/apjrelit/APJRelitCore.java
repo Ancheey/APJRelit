@@ -12,6 +12,8 @@ import net.ancheey.apjrelit.itemsets.APJSetModuleEventHandler;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
 
 import net.ancheey.apjrelit.network.NetworkHandler;
+import net.ancheey.apjrelit.projectiles.APJProjectileManager;
+import net.ancheey.apjrelit.projectiles.HitscanProjectile;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 

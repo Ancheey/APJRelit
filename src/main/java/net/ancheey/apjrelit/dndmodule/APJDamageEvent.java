@@ -13,10 +13,17 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingGetProjectileEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
+import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -29,6 +36,9 @@ public class APJDamageEvent {
 	private static final Random rand = new Random();
 	@SubscribeEvent(priority =  EventPriority.LOWEST)
 	public void OnHurtEvent(LivingHurtEvent e){
+		if(e.getSource().getEntity() instanceof Projectile projectile && e.getSource().getDirectEntity() instanceof LivingEntity entity){
+
+		}
 		//if(e.getSource() instanceof SpellDamageSource sds){
 		//	APJRelitCore.LOGGER.info(sds.spell().getSchoolType().toString());
 		//}
@@ -51,5 +61,8 @@ public class APJDamageEvent {
 	@SubscribeEvent(priority =  EventPriority.LOWEST)
 	public void TestForCriticalEvent(CriticalHitEvent e){
 		//e.setResult(Event.Result.DENY);
+	}
+	public void ArrowLooseEvent(ArrowLooseEvent e){
+		var damage = DamageHelper.getRandomisedItemDamage(e.getEntity(),e.getBow());
 	}
 }

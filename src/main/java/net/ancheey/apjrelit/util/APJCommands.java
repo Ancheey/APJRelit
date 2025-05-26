@@ -6,15 +6,19 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.network.NetworkHandler;
 import net.ancheey.apjrelit.parties.STCPlayerOperationPacket;
 import net.ancheey.apjrelit.parties.ServerPartyManager;
+import net.ancheey.apjrelit.projectiles.HitscanProjectile;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.social.PlayerSocialManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -35,6 +39,7 @@ public class APJCommands {
 		dispatcher.register(Commands.literal("disband").requires(CommandSourceStack::isPlayer).executes(APJCommands::disband));
 		dispatcher.register(Commands.literal("ptinfodump").requires(CommandSourceStack::isPlayer).requires(s-> s.hasPermission(4)).executes(APJCommands::ptinfodump));
 		dispatcher.register(Commands.literal("p").requires(CommandSourceStack::isPlayer).then(Commands.argument("message", StringArgumentType.greedyString()).executes(APJCommands::partychat)));
+		dispatcher.register(Commands.literal("shoot").requires(CommandSourceStack::isPlayer).executes(APJCommands::shoot));
 	}
 	private static final SimpleCommandExceptionType ERROR_TARGET_SELF = new SimpleCommandExceptionType(
 			Component.literal("You cannot target self"));
@@ -107,9 +112,15 @@ public class APJCommands {
 		if(pt != null && player != null){
 			var players = pt.GetPlayers();
 			for(var ptpl : players){
-				ptpl.sendSystemMessage(Component.literal("[Party]<"+player.getDisplayName().getString()+">: "+ msg));
+				ptpl.sendSystemMessage(Component.literal("[Party]<"+player.getDisplayName().getString()+">: "+ msg).withStyle(ChatFormatting.AQUA));
 			}
 		}
+		return Command.SINGLE_SUCCESS;
+	}
+	private static int shoot(CommandContext<CommandSourceStack> command) {
+		ServerPlayer player = command.getSource().getPlayer();
+		if(player != null)
+			new HitscanProjectile(player, ParticleTypes.ELECTRIC_SPARK);
 		return Command.SINGLE_SUCCESS;
 	}
 
