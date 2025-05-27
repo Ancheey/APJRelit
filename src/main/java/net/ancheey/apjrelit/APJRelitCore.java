@@ -3,6 +3,7 @@ package net.ancheey.apjrelit;
 import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 
+import net.ancheey.apjrelit.astral.cannons.APJCannonRegistry;
 import net.ancheey.apjrelit.dndmodule.APJDamageEvent;
 import net.ancheey.apjrelit.dndmodule.APJItemEvents;
 import net.ancheey.apjrelit.gui.APJKeyMapping;
@@ -63,25 +64,9 @@ public class APJRelitCore
         modEventBus.addListener(this::clientTooltipEvent);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
-        APJAttributeRegistry.Register(modEventBus);
-        APJItemRegistry.register(modEventBus);
-        APJCurioRegistry.registerCurios();
-
+        modEventBusRegistrations(modEventBus);
 
         CREATIVE_MODE_TABS.register(modEventBus);
-
-        //TODO: Item Sets: Add and test combat effect handling
-        //todo: add constructor for differing item model textures to renderers
-        //TODO: Attributes
-        //Todo: item stats
-        //todo: redo damage calculations
-
-
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
-
-
-
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -114,5 +99,14 @@ public class APJRelitCore
             }
         }
     }
+    private void modEventBusRegistrations(IEventBus bus){
 
+        APJAttributeRegistry.Register(bus);
+        APJItemRegistry.register(bus);
+        APJCurioRegistry.registerCurios();
+        CREATIVE_MODE_TABS.register(bus);
+        bus.addListener(this::addCreative);
+
+        APJCannonRegistry.register(bus);
+    }
 }

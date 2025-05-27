@@ -35,6 +35,17 @@ public class HitscanProjectile {
 		level = e.level();
 		this.type = type;
 	}
+	public HitscanProjectile(Level level, Vec3 dir, Vec3 pos, SimpleParticleType type){
+		this.dir = dir;
+		this.pos = pos;
+		speed = 1f;
+		maxDistance = 30f;
+		target = pos.add(dir.scale(maxDistance));
+		color = 0x55FFFF00;
+		APJProjectileManager.RegisterProjectile(this);
+		this.level = level;
+		this.type = type;
+	}
 	public float advance(){
 		for(int i = 0; i < 10 && lastProgress < 1f; i++){
 			Vec3 point =pos.lerp(target,lastProgress);
@@ -42,7 +53,8 @@ public class HitscanProjectile {
 			if(level instanceof ServerLevel sl){
 				sl.sendParticles(type,point.x,point.y,point.z,1,0,0,0,0.1f);
 			}
-			level.addParticle(type,point.x,point.y,point.z,0,0,0);
+			//else
+				//level.addParticle(type,point.x,point.y,point.z,0,0,0);
 		}
 		return lastProgress;
 	}

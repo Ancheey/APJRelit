@@ -7,12 +7,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -25,20 +22,15 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class APJBowItem extends ProjectileWeaponItem {
+public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 	private int distance;
 	private float damage;
 	private float speed;
-	public APJBowItem(float damage, int distance, float nookSpeed) {
+	public APJProjectileWeaponItem(float damage, int distance, float nookSpeed) {
 		super(new Item.Properties());
 		this.distance = distance;
 		this.damage = damage;
 		speed= nookSpeed;
-	}
-
-	@Override
-	public Predicate<ItemStack> getAllSupportedProjectiles() {
-		return ARROW_ONLY;
 	}
 
 	@Override
@@ -97,6 +89,9 @@ public class APJBowItem extends ProjectileWeaponItem {
 			}
 		}
 	}
+	protected void shoot(LivingEntity livingEntity){
+
+	}
 	public static float getPowerForTime(int pCharge) {
 		float f = (float)pCharge / 20.0F;
 		f = (f * f + f * 2.0F) / 3.0F;
@@ -108,9 +103,6 @@ public class APJBowItem extends ProjectileWeaponItem {
 	}
 	public int getUseDuration(ItemStack pStack) {
 		return (int)(72000 / speed);
-	}
-	public UseAnim getUseAnimation(ItemStack pStack) {
-		return UseAnim.BOW;
 	}
 	private @Nullable Entity raycastTarget(LivingEntity e){
 		Vec3 eyePos = e.getEyePosition(1.0F);
