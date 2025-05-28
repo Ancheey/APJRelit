@@ -1,6 +1,51 @@
 {
-  "parent": "minecraft:item/generated",
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    32,
+    32
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -2.25,
+        -0.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -2.25,
+        -0.25
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        32,
+        5,
+        -24
+      ],
+      "translation": [
+        -3.75,
+        1.5,
+        1.75
+      ]
+    },
+    "ground": {
+      "rotation": [
+        78,
+        -89,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    }
+  },
   "textures": {
-    "layer0": "apjrelit:item/ring/golden_ring"
+    "particle": "apjrelit:item/bow"
   }
 }

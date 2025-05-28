@@ -1,5 +1,7 @@
 package net.ancheey.apjrelit.item;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.ancheey.apjrelit.projectiles.HitscanProjectile;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -10,7 +12,10 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
@@ -20,17 +25,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 	private int distance;
-	private float damage;
-	public APJProjectileWeaponItem(float damage, int distance) {
+	public APJProjectileWeaponItem(int distance) {
 		super(new Item.Properties());
 		this.distance = distance;
-		this.damage = damage;
 	}
 
 	@Override
@@ -48,7 +53,7 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 	public SoundEvent getHitSound(){
 		return SoundEvents.ARROW_HIT_PLAYER;
 	}
-	protected boolean shoot(float power, Level level, Player player){
+	protected boolean shoot(float power, float damage, Level level, Player player){
 		var target = raycastTarget(player);
 		boolean ret = false;
 		if(target != null){
@@ -87,5 +92,22 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 		);
 
 		return hitResult != null ? hitResult.getEntity() : null;
+	}
+	@Override
+	public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
+		ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+		builder.putAll(super.getDefaultAttributeModifiers(pEquipmentSlot));
+		if(pEquipmentSlot == EquipmentSlot.MAINHAND){
+			builder.putAll(modifiers.build());
+		}
+		return builder.build();
+	}
+	ImmutableMultimap.Builder<Attribute, AttributeModifier> modifiers = ImmutableMultimap.builder();
+	public APJProjectileWeaponItem AddModifier(Attribute attribute, float value, AttributeModifier.Operation operation){
+		modifiers.put(attribute, new AttributeModifier(UUID.randomUUID(),"apj modifier",value,operation));
+		return this;
+	}
+	public APJProjectileWeaponItem AddModifier(Attribute attribute, float value){
+		return AddModifier(attribute, value, AttributeModifier.Operation.ADDITION);
 	}
 }

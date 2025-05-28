@@ -2,10 +2,7 @@ package net.ancheey.apjrelit;
 
 import net.ancheey.apjrelit.armor.APJArmorMaterials;
 import net.ancheey.apjrelit.armor.APJArmorItem;
-import net.ancheey.apjrelit.item.APJProjectileWeaponItem;
-import net.ancheey.apjrelit.item.BasicGeoCurioItem;
-import net.ancheey.apjrelit.item.BasicGeoWeaponItem;
-import net.ancheey.apjrelit.item.SigilGeoCurioItem;
+import net.ancheey.apjrelit.item.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -71,7 +68,7 @@ public class APJItemRegistry {
                     .SetTexture("txt_zweihander")
                     .SetDamage(38,24,1,1,67));
 
-   // public static final RegistryObject<Item> bow = ITEMS.register("bow",()-> new APJProjectileWeaponItem(5,30,2));
+    public static final RegistryObject<Item> bow = ITEMS.register("bow",()-> new BasicGeoChargedProjectileWeapon("bow",25,1).SetDamage(15,10,2));
 
     public static void register(IEventBus event){
         ITEMS.register(event);

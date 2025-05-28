@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 public class APJArmorRenderer extends GeoArmorRenderer<APJArmorItem> {
 	public APJArmorRenderer(String ArmorAssets) {
-		super(new APJSetModel(ArmorAssets));
+		super(new APJSetModel<>(ArmorAssets));
 	}
 
 	protected GeoBone halo = null;
@@ -56,8 +56,8 @@ public class APJArmorRenderer extends GeoArmorRenderer<APJArmorItem> {
 	}
 
 	@Override
-	public void setAllVisible(boolean pVisible) {
-		super.setAllVisible(pVisible);
+	public void setAllBonesVisible(boolean pVisible) {
+		super.setAllBonesVisible(pVisible);
 		setBoneVisible(halo,pVisible);
 		setBoneVisible(rightShoulder,pVisible);
 		setBoneVisible(leftShoulder,pVisible);
