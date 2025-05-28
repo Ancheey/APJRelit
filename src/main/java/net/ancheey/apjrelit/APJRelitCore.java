@@ -9,6 +9,8 @@ import net.ancheey.apjrelit.dndmodule.APJItemEvents;
 import net.ancheey.apjrelit.gui.APJKeyMapping;
 import net.ancheey.apjrelit.gui.tooltip.DiceClientTooltipComponent;
 import net.ancheey.apjrelit.gui.tooltip.DiceTooltipComponent;
+import net.ancheey.apjrelit.gui.tooltip.PowerClientTooltipComponent;
+import net.ancheey.apjrelit.gui.tooltip.PowerTooltipComponent;
 import net.ancheey.apjrelit.itemsets.APJSetModuleEventHandler;
 import net.ancheey.apjrelit.itemsets.ItemSetManager;
 
@@ -83,6 +85,7 @@ public class APJRelitCore
     }
     private void clientTooltipEvent(RegisterClientTooltipComponentFactoriesEvent e){
         e.register(DiceTooltipComponent.class, DiceClientTooltipComponent::new);
+        e.register(PowerTooltipComponent.class, PowerClientTooltipComponent::new);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

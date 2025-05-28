@@ -22,29 +22,21 @@ import software.bernie.geckolib.util.RenderUtils;
 import java.util.function.Consumer;
 
 public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
-	AnimatableInstanceCache cache;
-	String modelIdentifier;
-	String textureFile;
-	float alpha = 1;
-	float red = 1;
-	float green = 1;
-	float blue = 1;
+	APJGeoItemProperties geoProperties;
 	public BasicGeoWeaponItem(String modelIdentifier, float swingsPerSecond, Rarity rarity) {
 		super(swingsPerSecond,rarity);
-		cache = GeckoLibUtil.createInstanceCache(this);
-		this.modelIdentifier = modelIdentifier;
-		this.textureFile = modelIdentifier;
+		geoProperties = new APJGeoItemProperties(this, modelIdentifier, modelIdentifier);
 	}
 
 	public BasicGeoWeaponItem SetTexture(String filename){
-		textureFile = filename;
+		geoProperties.textureFile = filename;
 		return this;
 	}
 	public BasicGeoWeaponItem SetColor(float a, float r, float g, float b){
-		alpha = a;
-		red = r;
-		green = g;
-		blue = b;
+		geoProperties.alpha = a;
+		geoProperties.red = r;
+		geoProperties.green = g;
+		geoProperties.blue = b;
 		return this;
 	}
 
@@ -55,7 +47,7 @@ public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
 
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
-		return cache;
+		return geoProperties.cache;
 	}
 
 	@Override
@@ -71,7 +63,7 @@ public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
 			@Override
 			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
 				if(renderer == null){
-						renderer = new BasicGeoItemRenderer(modelIdentifier,textureFile,alpha,red,green,blue);
+						renderer = new BasicGeoItemRenderer(geoProperties);
 				}
 				return  renderer;
 			}

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.ancheey.apjrelit.APJRelitCore;
+import net.ancheey.apjrelit.item.APJGeoItemProperties;
 import net.ancheey.apjrelit.item.BasicGeoWeaponItem;
 import net.ancheey.apjrelit.util.APJModel;
 import net.minecraft.client.Minecraft;
@@ -19,16 +20,13 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
 public class BasicGeoItemRenderer extends GeoItemRenderer<BasicGeoWeaponItem> {
-	protected float a,r,g,b;
-	public BasicGeoItemRenderer(String modelName, String texture,  float a, float r, float g, float b) {
-		super(new APJModel<>(modelName,texture,a,r,g,b));
-		this.a = a;
-		this.r = r;
-		this.g = g;
-		this.b = b;
+	APJGeoItemProperties properties;
+	public BasicGeoItemRenderer(APJGeoItemProperties properties) {
+		super(new APJModel<>(properties.modelIdentifier,properties.textureFile));
+		this.properties = properties;
 	}
 	@Override
 	public void actuallyRender(PoseStack poseStack, BasicGeoWeaponItem animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		super.actuallyRender(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay,r* red, g*green, b*blue, a*alpha);
+		super.actuallyRender(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay,properties.red* red, properties.green*green, properties.blue*blue, properties.alpha*alpha);
 	}
 }

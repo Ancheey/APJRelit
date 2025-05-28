@@ -2,6 +2,8 @@ package net.ancheey.apjrelit.item;
 
 import net.ancheey.apjrelit.projectiles.HitscanProjectile;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -25,72 +27,40 @@ import java.util.function.Predicate;
 public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 	private int distance;
 	private float damage;
-	private float speed;
-	public APJProjectileWeaponItem(float damage, int distance, float nookSpeed) {
+	public APJProjectileWeaponItem(float damage, int distance) {
 		super(new Item.Properties());
 		this.distance = distance;
 		this.damage = damage;
-		speed= nookSpeed;
 	}
 
 	@Override
 	public int getDefaultProjectileRange() {
 		return distance;
 	}
-	public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-		ItemStack itemstack = pPlayer.getItemInHand(pHand);
-		boolean flag = !pPlayer.getProjectile(itemstack).isEmpty();
-
-		InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
-		if (ret != null) return ret;
-
-		if (!pPlayer.getAbilities().instabuild && !flag) {
-			return InteractionResultHolder.fail(itemstack);
-		} else {
-			pPlayer.startUsingItem(pHand);
-			return InteractionResultHolder.consume(itemstack);
-		}
+	public abstract InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand);
+	public abstract void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft);
+	public SimpleParticleType getShootParticle(){
+		return ParticleTypes.CRIT;
 	}
-	public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
-		if (pEntityLiving instanceof Player player) {
-			boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, pStack) > 0;
-			ItemStack itemstack = player.getProjectile(pStack);
-
-			int i = this.getUseDuration(pStack) - pTimeLeft;
-			i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(pStack, pLevel, player, i, !itemstack.isEmpty() || flag);
-			if (i < 0) return;
-
-			if (!itemstack.isEmpty() || flag) {
-				if (itemstack.isEmpty()) {
-					itemstack = new ItemStack(Items.ARROW);
-				}
-
-				float f = getPowerForTime(i);
-				if (!((double)f < 0.1D)) {
-					boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, pStack, player));
-					var target = raycastTarget(pEntityLiving);
-					if(target != null && target.canBeHitByProjectile()){
-						pLevel.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_HIT_PLAYER, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-						if (!pLevel.isClientSide) {
-							target.hurt(pLevel.damageSources().playerAttack(player),damage);
-						}
-					}
-					new HitscanProjectile(pEntityLiving, ParticleTypes.CRIT);
-					pLevel.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-					if (!flag1 && !player.getAbilities().instabuild) {
-						itemstack.shrink(1);
-						if (itemstack.isEmpty()) {
-							player.getInventory().removeItem(itemstack);
-						}
-					}
-
-					player.awardStat(Stats.ITEM_USED.get(this));
-				}
+	public SoundEvent getShootSound(){
+		return SoundEvents.ARROW_SHOOT;
+	}
+	public SoundEvent getHitSound(){
+		return SoundEvents.ARROW_HIT_PLAYER;
+	}
+	protected boolean shoot(float power, Level level, Player player){
+		var target = raycastTarget(player);
+		boolean ret = false;
+		if(target != null){
+			level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_HIT_PLAYER, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
+			if (!level.isClientSide) {
+				target.hurt(level.damageSources().playerAttack(player),damage);
 			}
+			ret = true;
 		}
-	}
-	protected void shoot(LivingEntity livingEntity){
-
+		new HitscanProjectile(player, ParticleTypes.CRIT);
+		level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
+		return ret;
 	}
 	public static float getPowerForTime(int pCharge) {
 		float f = (float)pCharge / 20.0F;
@@ -102,9 +72,9 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 		return f;
 	}
 	public int getUseDuration(ItemStack pStack) {
-		return (int)(72000 / speed);
-	}
-	private @Nullable Entity raycastTarget(LivingEntity e){
+		return (int)(72000);
+	} //do not try it
+	protected @Nullable Entity raycastTarget(LivingEntity e){
 		Vec3 eyePos = e.getEyePosition(1.0F);
 		Vec3 lookVec = e.getViewVector(1.0F);
 		Vec3 endVec = eyePos.add(lookVec.scale(getDefaultProjectileRange()));
@@ -113,7 +83,7 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 
 		EntityHitResult hitResult = ProjectileUtil.getEntityHitResult(
 				e.level(), e, eyePos, endVec, box,
-				(entity) -> !entity.isSpectator() && entity.isPickable() && entity instanceof LivingEntity && entity != e && !e.isAlliedTo(entity)
+				(entity) -> !entity.isSpectator() && entity.isPickable() && entity instanceof LivingEntity && entity != e && !e.isAlliedTo(entity) && entity.canBeHitByProjectile()
 		);
 
 		return hitResult != null ? hitResult.getEntity() : null;

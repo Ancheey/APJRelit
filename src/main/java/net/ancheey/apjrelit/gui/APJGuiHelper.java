@@ -17,6 +17,7 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 @OnlyIn(Dist.CLIENT)
 public class APJGuiHelper {
 	public static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/gui/icons.png");
+	public static final ResourceLocation TOOLTIP_ICONS = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"textures/gui/gui.png");
 	public static void renderMajorUnitFrame(ForgeGui gui, GuiGraphics guiGraphics, float animationTick, int x,int y, LivingEntity unit, boolean mirrored){
 		if(!gui.shouldDrawSurvivalElements())
 			return;

@@ -21,15 +21,25 @@ public class TooltipClientEvents {
 			var entry  =list.get(i);
 			int finalI = i;
 			entry.left().ifPresent(k->{
-				if(k instanceof Component c && c.contains(Component.literal("{apj.weapon.damage.dice}"))) {
-					list.remove(finalI);
-					list.add(finalI, Either.right(new DiceTooltipComponent(
-							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_PRECISE_BLOW.get(), EquipmentSlot.MAINHAND),
-							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_GREAT_BLOW.get(), EquipmentSlot.MAINHAND),
-							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_GOOD_BLOW.get(), EquipmentSlot.MAINHAND),
-							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_FINE_BLOW.get(), EquipmentSlot.MAINHAND),
-							(int)AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_CONNECTING_BLOW.get(), EquipmentSlot.MAINHAND)
-					)));
+				if(k instanceof Component c) {
+					if (c.contains(Component.literal("{apj.weapon.damage.dice}"))) {
+						list.remove(finalI);
+						list.add(finalI, Either.right(new DiceTooltipComponent(
+								(int) AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_PRECISE_BLOW.get(), EquipmentSlot.MAINHAND),
+								(int) AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_GREAT_BLOW.get(), EquipmentSlot.MAINHAND),
+								(int) AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_GOOD_BLOW.get(), EquipmentSlot.MAINHAND),
+								(int) AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_FINE_BLOW.get(), EquipmentSlot.MAINHAND),
+								(int) AttributeHelper.GetValue(item, APJAttributeRegistry.ATTACK_CONNECTING_BLOW.get(), EquipmentSlot.MAINHAND)
+						)));
+					}
+					else if(c.contains(Component.literal("{apj.weapon.damage.power}"))){
+						list.remove(finalI);
+						list.add(finalI, Either.right(new PowerTooltipComponent(
+								(int) AttributeHelper.GetValue(item, APJAttributeRegistry.SHOOT_STRONG.get(), EquipmentSlot.MAINHAND),
+								(int) AttributeHelper.GetValue(item, APJAttributeRegistry.SHOOT_GOOD.get(), EquipmentSlot.MAINHAND),
+								(int) AttributeHelper.GetValue(item, APJAttributeRegistry.SHOOT_QUICK.get(), EquipmentSlot.MAINHAND)
+						)));
+					}
 				}
 			});
 		}

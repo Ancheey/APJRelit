@@ -31,10 +31,15 @@ public class APJAttributeRegistry {
 
 	public static final RegistryObject<Attribute> ENMITY_MODIFIER = ATTRIBUTES.register("enmity_modifier", ()->new RangedAttribute("attribute.apjrelit.enmity",0d,-16777216d,16777216d).setSyncable(true));
 
-
 	public static final RegistryObject<Attribute> SPELL_DAMAGE = ATTRIBUTES.register("spell_damage", ()->new RangedAttribute("attribute.apjrelit.sd",0d,-16777216d,16777216d).setSyncable(true));
+
+	public static final RegistryObject<Attribute> SHOOT_STRONG = ATTRIBUTES.register("shoot_strong", ()->new RangedAttribute("attribute.apjrelit.s1",0d,0d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> SHOOT_GOOD = ATTRIBUTES.register("shoot_good", ()->new RangedAttribute("attribute.apjrelit.s2",0d,0d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> SHOOT_QUICK= ATTRIBUTES.register("shoot_quick", ()->new RangedAttribute("attribute.apjrelit.s3",0d,0d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> NOOK_SPEED = ATTRIBUTES.register("nook_speed", ()->new RangedAttribute("attribute.apjrelit.nook_speed",1d,-16777216d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> RANGED_POWER_RATING = ATTRIBUTES.register("ranged_power_rating", ()->new RangedAttribute("attribute.apjrelit.ranged_rating",0d,-16777216d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> SPELL_RESISTANCE_RATING = ATTRIBUTES.register("spell_resistance", ()->new RangedAttribute("attribute.apjrelit.sr",0d,-16777216d,16777216d).setSyncable(true));
-	public static final RegistryObject<Attribute> RANGED_POWER_RATING = ATTRIBUTES.register("ranged_power_rating", ()->new RangedAttribute("attribute.apjrelit.ranged_rating      ",0d,-16777216d,16777216d).setSyncable(true));
+
 	//public static final RegistryObject<Attribute> SPELL_RESISTANCE_RATING = ATTRIBUTES.register("spell_resistance", ()->new RangedAttribute("attribute.apjrelit.sr",0d,-16777216d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> BLOCK_AMOUNT = ATTRIBUTES.register("block_amount", ()->new RangedAttribute("attribute.apjrelit.block",0d,-16777216d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> CRITICAL_STRIKE_RATING = ATTRIBUTES.register("critical_rating", ()->new RangedAttribute("attribute.apjrelit.crit",0d,-16777216d,16777216d).setSyncable(true));
@@ -44,7 +49,6 @@ public class APJAttributeRegistry {
 
 	//invuln frames
 	public static final RegistryObject<Attribute> ADRENALINE = ATTRIBUTES.register("adrenaline", ()-> new RangedAttribute("attribute.apjrelit.adrenaline",0d,0d,16777216d).setSyncable(true));
-
 
 	public static void Register(IEventBus e){
 		ATTRIBUTES.register(e);
