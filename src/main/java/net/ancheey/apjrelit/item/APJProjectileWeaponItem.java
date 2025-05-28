@@ -57,14 +57,13 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 		var target = raycastTarget(player);
 		boolean ret = false;
 		if(target != null){
-			level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_HIT_PLAYER, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
-			if (!level.isClientSide) {
+			if(!level.isClientSide)
 				target.hurt(level.damageSources().playerAttack(player),damage);
-			}
+			level.playSound(player, player.getX(), player.getY(), player.getZ(), getHitSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
 			ret = true;
 		}
 		new HitscanProjectile(player, ParticleTypes.CRIT);
-		level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
+		level.playSound(null, player.getX(), player.getY(), player.getZ(), getShootSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
 		return ret;
 	}
 	public static float getPowerForTime(int pCharge) {

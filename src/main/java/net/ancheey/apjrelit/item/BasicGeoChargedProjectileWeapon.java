@@ -1,10 +1,7 @@
 package net.ancheey.apjrelit.item;
 
 import net.ancheey.apjrelit.APJAttributeRegistry;
-import net.ancheey.apjrelit.APJRelitCore;
-import net.ancheey.apjrelit.attributes.AttributeHelper;
 import net.ancheey.apjrelit.item.renderer.BasicGeoBowRenderer;
-import net.ancheey.apjrelit.item.renderer.BasicGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -12,25 +9,19 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.event.TickEvent;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
-
-import java.util.Properties;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -47,7 +38,7 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 		this.nookSpeed = nookSpeed;
 	}
 	private int getTierForCharge(Player player, int tiers){
-		return(int)Math.ceil(getChargePercentage(player)*tiers);
+		return(int)Math.ceil((1f-getChargePercentage(player))*tiers);
 	}
 	public float getNookSpeed(Player player){
 		return (float)player.getAttributeValue(APJAttributeRegistry.NOOK_SPEED.get()) + nookSpeed-1;
@@ -134,7 +125,7 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 			e.setControllerSpeed(getNookSpeed());
 			if(isCharging)
 				return e.setAndContinue(RawAnimation.begin().thenPlay("animation.model.charge"));
-
+			e.getController().forceAnimationReset();
 			return PlayState.STOP;
 		}));
 	}
