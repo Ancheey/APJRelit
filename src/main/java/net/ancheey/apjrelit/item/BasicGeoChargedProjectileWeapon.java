@@ -1,6 +1,7 @@
 package net.ancheey.apjrelit.item;
 
 import net.ancheey.apjrelit.APJAttributeRegistry;
+import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.item.renderer.BasicGeoBowRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.stats.Stats;
@@ -31,14 +32,17 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 	private float nookSpeed;
 	private int chargeTime = 0;
 	private boolean isCharging = false;
-
+	private final float MINIMUM_CHARGE_PERCENTAGE = 0.25f;
+	private final int DAMAGE_TIERS = 3;
 	public BasicGeoChargedProjectileWeapon(String model, int distance, float nookSpeed) {
 		super(distance); //add charging percentage, max charge based on speed, tiers, attributes
 		geoProperties = new APJGeoItemProperties(this,model, model);
 		this.nookSpeed = nookSpeed;
 	}
 	private int getTierForCharge(Player player, int tiers){
-		return(int)Math.ceil((1f-getChargePercentage(player))*tiers);
+		return
+				(tiers+1)-
+						(int)Math.floor((getChargePercentage(player))*tiers);
 	}
 	public float getNookSpeed(Player player){
 		return (float)player.getAttributeValue(APJAttributeRegistry.NOOK_SPEED.get()) + nookSpeed-1;
@@ -47,7 +51,10 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 		return nookSpeed;
 	}
 	public float getChargePercentage(Player player){
-		return Math.min(((float)chargeTime)/(20/getNookSpeed(player)),1f);
+		var min = ((BASE_TICK_USE_TIME/getNookSpeed(player)))*MINIMUM_CHARGE_PERCENTAGE;
+		var max = ((BASE_TICK_USE_TIME/getNookSpeed(player)))-min;
+		var trueCharge = Math.max(chargeTime-min,0);
+		return Math.min(trueCharge/max,1f);
 	}
 	public BasicGeoChargedProjectileWeapon SetTexture(String filename){
 		geoProperties.textureFile = filename;
@@ -98,7 +105,9 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 				}
 				float f = getChargePercentage(player);
 				float d = getChargedDamage(player);
-				if (!((double)f < 0.1D) && d > 0) {
+				if (f >= MINIMUM_CHARGE_PERCENTAGE && d > 0) {
+					if(!pLevel.isClientSide)
+						APJRelitCore.LOGGER.info("Charge: "+ chargeTime + " ("+f+"), damage: " + d);
 					boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, pStack, player));
 					shoot(f,d,pLevel,player);
 					if (!flag1 && !player.getAbilities().instabuild) {
@@ -122,7 +131,7 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 		controllers.add(new AnimationController<>(this,(e)->{
-			e.setControllerSpeed(getNookSpeed());
+			e.setControllerSpeed(getNookSpeed()/2); //animation is only one second. we double it to match 40 tick
 			if(isCharging)
 				return e.setAndContinue(RawAnimation.begin().thenPlay("animation.model.charge"));
 			e.getController().forceAnimationReset();

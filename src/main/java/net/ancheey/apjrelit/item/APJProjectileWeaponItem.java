@@ -2,9 +2,12 @@ package net.ancheey.apjrelit.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.projectiles.HitscanProjectile;
+import net.ancheey.apjrelit.projectiles.TargettingUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -21,10 +24,9 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -32,6 +34,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
+	public final int BASE_TICK_USE_TIME = 70;
 	private int distance;
 	public APJProjectileWeaponItem(int distance) {
 		super(new Item.Properties());
@@ -54,17 +57,19 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 		return SoundEvents.ARROW_HIT_PLAYER;
 	}
 	protected boolean shoot(float power, float damage, Level level, Player player){
-		var target = raycastTarget(player);
-		boolean ret = false;
-		if(target != null){
-			if(!level.isClientSide)
-				target.hurt(level.damageSources().playerAttack(player),damage);
-			level.playSound(player, player.getX(), player.getY(), player.getZ(), getHitSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
-			ret = true;
+		var target = TargettingUtil.raycastTarget(player,getDefaultProjectileRange());
+		boolean hit = target!=null;
+		if(!level.isClientSide()) {
+			if(hit){
+				level.playSound(player,player.getX(), player.getY(), player.getZ(), getHitSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
+				target.hurt(level.damageSources().playerAttack(player), damage);
+			}
+
+			new HitscanProjectile(player, ParticleTypes.CRIT);
+			level.playSound(null, player.getX(), player.getY(), player.getZ(), getShootSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
+			APJRelitCore.LOGGER.info("-  Hit: " + hit + (hit? ", Target: " + target.getName() : ""));
 		}
-		new HitscanProjectile(player, ParticleTypes.CRIT);
-		level.playSound(null, player.getX(), player.getY(), player.getZ(), getShootSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
-		return ret;
+		return hit;
 	}
 	public static float getPowerForTime(int pCharge) {
 		float f = (float)pCharge / 20.0F;
@@ -78,20 +83,8 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 	public int getUseDuration(ItemStack pStack) {
 		return (int)(72000);
 	} //do not try it
-	protected @Nullable Entity raycastTarget(LivingEntity e){
-		Vec3 eyePos = e.getEyePosition(1.0F);
-		Vec3 lookVec = e.getViewVector(1.0F);
-		Vec3 endVec = eyePos.add(lookVec.scale(getDefaultProjectileRange()));
 
-		AABB box = e.getBoundingBox().expandTowards(lookVec.scale(getDefaultProjectileRange())).inflate(1.0); // widen box slightly
 
-		EntityHitResult hitResult = ProjectileUtil.getEntityHitResult(
-				e.level(), e, eyePos, endVec, box,
-				(entity) -> !entity.isSpectator() && entity.isPickable() && entity instanceof LivingEntity && entity != e && !e.isAlliedTo(entity) && entity.canBeHitByProjectile()
-		);
-
-		return hitResult != null ? hitResult.getEntity() : null;
-	}
 	@Override
 	public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
 		ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();

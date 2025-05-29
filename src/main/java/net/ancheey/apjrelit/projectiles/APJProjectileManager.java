@@ -9,19 +9,27 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 @Mod.EventBusSubscriber(modid = APJRelitCore.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class APJProjectileManager {
-	private static List<HitscanProjectile> projectiles = new ArrayList<>();
+	private static final List<HitscanProjectile> projectileQueue = new CopyOnWriteArrayList<>();
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onTick(TickEvent event){
-		for(int i = 0; i < projectiles.size(); i++){
-			if(projectiles.get(i).advance()>=1f){
-				projectiles.remove(i);
-				i--;
+		if(projectileQueue.size()==0)
+			return;
+		List<HitscanProjectile> copy;
+		synchronized (projectileQueue){
+			copy = new ArrayList<>(projectileQueue);
+			projectileQueue.clear();
+		}
+		for(var proj : copy){
+			if(proj.advance()<1f){
+				projectileQueue.add(proj);
 			}
 		}
 	}
 	public static void RegisterProjectile(HitscanProjectile projectile){
-		projectiles.add(projectile);
+		projectileQueue.add(projectile);
 	}
 }
