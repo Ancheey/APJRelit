@@ -5,6 +5,7 @@ import net.ancheey.apjrelit.APJAttributeRegistry;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.attributes.AttributeHelper;
 import net.ancheey.apjrelit.item.APJSwordItem;
+import net.ancheey.apjrelit.item.BasicGeoChargedProjectileWeapon;
 import net.bettercombat.BetterCombat;
 import net.bettercombat.client.BetterCombatClient;
 import net.bettercombat.forge.BetterCombatForge;
@@ -59,6 +60,10 @@ public class APJItemEvents {
 			ItemSuitableForTooltip(e);
 			AddWeaponTooltip(e);
 		}
+		else if(item.getItem() instanceof  BasicGeoChargedProjectileWeapon){
+			ItemSuitableForTooltip(e);
+			AddChargedRangedWeaponTooltip(e);
+		}
 		AddSetItemTooltip(e);
 	}
 	private void ItemSuitableForTooltip(ItemTooltipEvent e){
@@ -67,22 +72,8 @@ public class APJItemEvents {
 		e.getToolTip().add(Component.literal(item.getItem().getDescription().getString()).withStyle(item.getRarity().getStyleModifier()));
 	}
 	private void AddWeaponTooltip(ItemTooltipEvent e){
-		Player player = e.getEntity();
 		ItemStack item = e.getItemStack();
 
-		//var mhDamage = (int)AttributeHelper.GetValue(item, Attributes.ATTACK_DAMAGE, EquipmentSlot.MAINHAND);
-		//var mhDice = (int)AttributeHelper.GetValue(item,APJAttributeRegistry.ATTACK_DAMAGE_DICE.get(), EquipmentSlot.MAINHAND);
-
-		//var ohDamage = (int)AttributeHelper.GetValue(item, Attributes.ATTACK_DAMAGE, EquipmentSlot.MAINHAND);
-		//var ohDice = (int)AttributeHelper.GetValue(item,APJAttributeRegistry.ATTACK_DAMAGE_DICE.get(), EquipmentSlot.OFFHAND);
-
-		int weaponType = 0; //0 = Onehand, 1 = Mainhand, 2 = Offhand
-
-		//if(mhDice + mhDamage == 0)
-		//	weaponType = 2;
-		//else if(ohDamage+ohDice == 0) {
-		//	weaponType = 1;
-		//}
 		var attribs = WeaponRegistry.getAttributes(item);
 		//decide weapon category, speed, reach
 		String weaponTypeText = "";
@@ -93,16 +84,17 @@ public class APJItemEvents {
 		var category = attribs.category();
 		weaponTypeText += category.substring(0,1).toUpperCase() + category.substring(1);
 		e.getToolTip().add(Component.literal(weaponTypeText).withStyle(ChatFormatting.WHITE));
-		String weaponPropertiesText = "";
 		double speed = 4 + AttributeHelper.GetValue(item, Attributes.ATTACK_SPEED, EquipmentSlot.MAINHAND);
 
 		var range  = attribs.attackRange();
 
-		/*if(mhDice > 0)
-			e.getToolTip().add(Component.literal(mhDamage +1+ " - " + (mhDice+mhDamage+1 + " Damage")).withStyle(ChatFormatting.WHITE));
-		else
-			e.getToolTip().add(Component.literal(mhDamage+1 + " Damage").withStyle(ChatFormatting.WHITE));*/
 		e.getToolTip().add(Component.literal("{apj.weapon.damage.dice}"));
-		e.getToolTip().add(Component.literal("Reach: "+range + "  Speed: " + String.format("%.1f",speed)).withStyle(ChatFormatting.WHITE));
+		e.getToolTip().add(Component.literal("Reach: "+ String.format("%.1f",range) + "  Speed: " + String.format("%.1f",speed)).withStyle(ChatFormatting.WHITE));
+	}
+	private void AddChargedRangedWeaponTooltip(ItemTooltipEvent e){
+		var wepbase = (BasicGeoChargedProjectileWeapon) e.getItemStack().getItem();
+		e.getToolTip().add(Component.literal("Charged Ranged Weapon"));
+		e.getToolTip().add(Component.literal("{apj.weapon.damage.power}"));
+		e.getToolTip().add(Component.literal("Reach: "+String.format("%.1f",(double)wepbase.getDefaultProjectileRange()) + "  Speed: " + String.format("%.1f",wepbase.getNookSpeed())).withStyle(ChatFormatting.WHITE));
 	}
 }
