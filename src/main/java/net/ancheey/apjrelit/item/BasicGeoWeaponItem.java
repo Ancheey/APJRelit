@@ -28,11 +28,11 @@ public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
 		geoProperties = new APJGeoItemProperties(this, modelIdentifier, modelIdentifier);
 	}
 
-	public BasicGeoWeaponItem SetTexture(String filename){
+	public BasicGeoWeaponItem setTexture(String filename){
 		geoProperties.textureFile = filename;
 		return this;
 	}
-	public BasicGeoWeaponItem SetColor(float a, float r, float g, float b){
+	public BasicGeoWeaponItem setColor(float a, float r, float g, float b){
 		geoProperties.alpha = a;
 		geoProperties.red = r;
 		geoProperties.green = g;

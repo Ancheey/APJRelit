@@ -1,0 +1,97 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "texture_size": [
+    32,
+    32
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -2.5,
+        1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -2.5,
+        1
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        -3,
+        0,
+        0
+      ],
+      "translation": [
+        3,
+        0,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        -3,
+        0,
+        0
+      ],
+      "translation": [
+        3,
+        0,
+        0
+      ]
+    },
+    "ground": {
+      "rotation": [
+        -70,
+        -59,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        1.25
+      ]
+    },
+    "gui": {
+      "rotation": [
+        -129,
+        -35,
+        -148
+      ],
+      "translation": [
+        -1.25,
+        -1,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        1
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -21,
+        32,
+        40
+      ],
+      "translation": [
+        0,
+        -1.25,
+        0
+      ],
+      "scale": [
+        0.82,
+        0.81,
+        1
+      ]
+    }
+  },
+  "textures": {
+    "particle": "apjrelit:item/woodencane_birch"
+  }
+}

@@ -1,4 +1,5 @@
 {
+
   "item.apjrelit.obliteration_shoulderpads" : "Shoulderpads of Obliteration",
   "item.apjrelit.obliteration_gloves" : "Gloves of Obliteration",
   "item.apjrelit.obliteration_cowl" : "Cowl of Obliteration",
@@ -20,5 +21,13 @@
   "item.apjrelit.apj_base_greatstar" : "Mauling Star",
 
   "curios.identifier.shoulders": "Shoulders",
-  "curios.identifier.sigil": "Sigil"
+  "curios.identifier.sigil": "Sigil",
+
+  "item.apjrelit.logg_oak": "Oak Logg",
+  "item.apjrelit.logg_spruce": "Spruce Logg",
+  "item.apjrelit.logg_birch": "Birch Logg",
+
+  "item.apjrelit.woodencane_oak": "Oaken Twig",
+  "item.apjrelit.woodencane_spruce": "Spruce Twig",
+  "item.apjrelit.woodencane_birch": "Birch Twig"
 }

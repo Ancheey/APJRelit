@@ -17,7 +17,7 @@ public class PowerClientTooltipComponent implements ClientTooltipComponent {
 	}
 	@Override
 	public int getHeight() {
-		return 30;
+		return 17;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package net.ancheey.apjrelit;
 
+import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import net.ancheey.apjrelit.armor.APJArmorMaterials;
 import net.ancheey.apjrelit.armor.APJArmorItem;
 import net.ancheey.apjrelit.item.*;
@@ -7,7 +8,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -53,20 +57,50 @@ public class APJItemRegistry {
 
     public static final RegistryObject<Item> WEP_BASE_GREATHAMMER = ITEMS.register("apj_base_greathammer",()->
             new BasicGeoWeaponItem("apj_base_greathammer", 1, Rarity.RARE)
-                    .SetTexture("txt_hammer")
+                    .setTexture("txt_hammer")
                     .SetDamage(7,9,3,6,68));
     public static final RegistryObject<Item> WEP_BASE_GREATSTAR = ITEMS.register("apj_base_greatstar",()->
             new BasicGeoWeaponItem("apj_base_greatstar",1,Rarity.RARE)
-                    .SetTexture("txt_hammer")
+                    .setTexture("txt_hammer")
                     .SetDamage(1,3,3,69,0));
     public static final RegistryObject<Item> WEP_BASE_GREATMACE = ITEMS.register("apj_base_greatmace",()->
             new BasicGeoWeaponItem("apj_base_greatmace",1.4f,Rarity.RARE)
-                    .SetTexture("txt_hammer")
+                    .setTexture("txt_hammer")
                     .SetDamage(16,14,3,6,37));
     public static final RegistryObject<Item> WEP_BASE_ZWEIHANDER = ITEMS.register("apj_base_zweihander",()->
             new BasicGeoWeaponItem("apj_base_zweihander",0.8f,Rarity.RARE)
-                    .SetTexture("txt_zweihander")
+                    .setTexture("txt_zweihander")
                     .SetDamage(38,24,1,1,67));
+
+    //LOW LEVEL ITEMS
+    public static final RegistryObject<Item> WEP_LOGG_OAK = ITEMS.register("logg_oak",()->
+            new BasicGeoWeaponItem("logg",0.8f,Rarity.COMMON).setColor(1f,0.80f,0.63f,0.33f)
+                    .SetDamage(3,2,0,0,0));
+    public static final RegistryObject<Item> WEP_LOGG_SPRUCE = ITEMS.register("logg_spruce",()->
+            new BasicGeoWeaponItem("logg",0.8f,Rarity.COMMON)
+                    .setColor(1f,0.24f,0.12f,0.03f)
+                    .SetDamage(3,2,0,0,0));
+    public static final RegistryObject<Item> WEP_LOGG_BIRCH = ITEMS.register("logg_birch",()->
+            new BasicGeoWeaponItem("logg",0.8f,Rarity.COMMON)
+                    .setTexture("logg_birch")
+                    .SetDamage(3,2,0,0,0));
+
+    public static final RegistryObject<Item> WEP_WOODEN_CANE_OAK = ITEMS.register("woodencane_oak",()->
+            new SpellboundGeoWeaponItem("woodencane",0.9f,Rarity.COMMON)
+                    .addSpell(SpellRegistry.FIREBOLT_SPELL.getId(),1)
+                    .setColor(1f,0.80f,0.63f,0.33f)
+                    .SetDamage(1,2,0,0,0));
+    public static final RegistryObject<Item> WEP_WOODEN_CANE_SPRUCE = ITEMS.register("woodencane_spruce",()->
+            new SpellboundGeoWeaponItem("woodencane",0.9f,Rarity.COMMON)
+                    .addSpell(SpellRegistry.ICICLE_SPELL.getId(),1)
+                    .setColor(1f,0.24f,0.12f,0.03f)
+                    .SetDamage(1,2,0,0,0));
+    public static final RegistryObject<Item> WEP_WOODEN_CANE_BIRCH = ITEMS.register("woodencane_birch",()->
+            new SpellboundGeoWeaponItem("woodencane",0.9f,Rarity.COMMON)
+                    .addSpell(SpellRegistry.MAGIC_MISSILE_SPELL.getId(),1)
+                    .setTexture("woodencane_birch")
+                    .SetDamage(1,2,0,0,0));
+
 
     public static final RegistryObject<Item> bow = ITEMS.register("bow",()-> new BasicGeoChargedProjectileWeapon("bow",25,1).SetDamage(15,10,2));
 

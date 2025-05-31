@@ -1,0 +1,32 @@
+{
+  "item.apjrelit.obliteration_shoulderpads" : "Naramienniki Obliteracji",
+  "item.apjrelit.obliteration_gloves" : "Rękawice Obliteracji",
+  "item.apjrelit.obliteration_cowl" : "Kaptur Obliteracji",
+  "item.apjrelit.obliteration_robe" : "Szata Obliteracji",
+  "item.apjrelit.obliteration_skirt" : "Kieca Obliteracji",
+  "item.apjrelit.obliteration_kickers" : "Kopacze Obliteracji",
+  "item.apjrelit.obliteration_cape" : "Kolce Obliteracji",
+
+  "item.apjrelit.decimation_shoulderpads" : "Naramienniki Zdziesiątkowania",
+  "item.apjrelit.decimation_gauntlets" : "Rękawice Zdziesiątkowania",
+  "item.apjrelit.decimation_helmet" : "Przyłbica Zdziesiątkowania",
+  "item.apjrelit.decimation_chestplate" : "Popiersie Zdziesiątkowania",
+  "item.apjrelit.decimation_legplates" : "Nogochrony Zdziesiątkowania",
+  "item.apjrelit.decimation_sabatons" : "Sabatony Zdziesiątkowania",
+  "item.apjrelit.decimation_cape" : "Płaszcz Zdziesiątkowania",
+
+  "item.apjrelit.apj_base_greathammer" : "The Judge",
+  "item.apjrelit.apj_base_greatmace" : "A Convincing Argument",
+  "item.apjrelit.apj_base_greatstar" : "Mauling Star",
+
+  "curios.identifier.shoulders": "Ramiona",
+  "curios.identifier.sigil": "Pieczęć",
+
+  "item.apjrelit.logg_oak": "Dębowy Tłuk",
+  "item.apjrelit.logg_spruce": "Świerkowy Tłuk",
+  "item.apjrelit.logg_birch": "Brzozowy Tłuk",
+
+  "item.apjrelit.woodencane_oak": "Dębowa Rózga",
+  "item.apjrelit.woodencane_spruce": "Świerkowa Rózga",
+  "item.apjrelit.woodencane_birch": "Brzozowa Rózga"
+}
