@@ -59,11 +59,11 @@ public class BasicGeoWeaponItem extends APJSwordItem implements GeoItem {
 	@Override
 	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
 		consumer.accept(new IClientItemExtensions() {
-			private BasicGeoItemRenderer renderer;
+			private BasicGeoItemRenderer<BasicGeoWeaponItem> renderer;
 			@Override
 			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
 				if(renderer == null){
-						renderer = new BasicGeoItemRenderer(geoProperties);
+						renderer = new BasicGeoItemRenderer<>(geoProperties);
 				}
 				return  renderer;
 			}

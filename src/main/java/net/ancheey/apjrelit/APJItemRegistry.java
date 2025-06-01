@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -74,16 +75,37 @@ public class APJItemRegistry {
 
     //LOW LEVEL ITEMS
     public static final RegistryObject<Item> WEP_LOGG_OAK = ITEMS.register("logg_oak",()->
-            new BasicGeoWeaponItem("logg",0.8f,Rarity.COMMON).setColor(1f,0.80f,0.63f,0.33f)
+            new BasicGeoWeaponItem("logg",0.86f,Rarity.COMMON).setColor(1f,0.80f,0.63f,0.33f)
                     .SetDamage(3,2,0,0,0));
     public static final RegistryObject<Item> WEP_LOGG_SPRUCE = ITEMS.register("logg_spruce",()->
-            new BasicGeoWeaponItem("logg",0.8f,Rarity.COMMON)
-                    .setColor(1f,0.24f,0.12f,0.03f)
-                    .SetDamage(3,2,0,0,0));
+            new BasicGeoWeaponItem("logg",1.2f,Rarity.COMMON)
+                    .setColor(1f,0.31f,0.21f,0.13f)
+                    .SetDamage(3,1,0,0,0));
     public static final RegistryObject<Item> WEP_LOGG_BIRCH = ITEMS.register("logg_birch",()->
-            new BasicGeoWeaponItem("logg",0.8f,Rarity.COMMON)
+            new BasicGeoWeaponItem("logg",1f,Rarity.COMMON)
                     .setTexture("logg_birch")
-                    .SetDamage(3,2,0,0,0));
+                    .SetDamage(2,2,0,0,0));
+
+    public static final RegistryObject<Item> WEP_CLUB_OAK = ITEMS.register("club_oak",()->
+            new BasicGeoWeaponItem("club",0.8f,Rarity.COMMON).setColor(1f,0.80f,0.63f,0.33f)
+                    .setTexture("logg")
+                    .SetDamage(1,2,0,0,0));
+    public static final RegistryObject<Item> WEP_CLUB_SPRUCE = ITEMS.register("club_spruce",()->
+            new BasicGeoWeaponItem("club",1.33f,Rarity.COMMON)
+                    .setColor(1f,0.31f,0.21f,0.13f)
+                    .setTexture("logg")
+                    .SetDamage(1,1,0,0,0));
+    public static final RegistryObject<Item> WEP_CLUB_BIRCH = ITEMS.register("club_birch",()->
+            new BasicGeoWeaponItem("club",1.0f,Rarity.COMMON)
+                    .setTexture("logg_birch")
+                    .SetDamage(2,0,0,0,0));
+
+    public static final RegistryObject<Item> SHIELD_BARK_OAK = ITEMS.register("barkshield_oak",()->
+            new BasicGeoShieldItem("barkshield",Rarity.COMMON).setColor(1f,0.80f,0.63f,0.33f));
+    public static final RegistryObject<Item> SHIELD_BARK_SPRUCE = ITEMS.register("barkshield_spruce",()->
+            new BasicGeoShieldItem("barkshield",Rarity.COMMON).setColor(1f,0.39f,0.31f,0.20f));
+    public static final RegistryObject<Item> SHIELD_BARK_BIRCH = ITEMS.register("barkshield_birch",()->
+            new BasicGeoShieldItem("barkshield",Rarity.COMMON).setColor(1f,1f,0.95f,0.80f));
 
     public static final RegistryObject<Item> WEP_WOODEN_CANE_OAK = ITEMS.register("woodencane_oak",()->
             new SpellboundGeoWeaponItem("woodencane",0.9f,Rarity.COMMON)
@@ -100,7 +122,6 @@ public class APJItemRegistry {
                     .addSpell(SpellRegistry.MAGIC_MISSILE_SPELL.getId(),1)
                     .setTexture("woodencane_birch")
                     .SetDamage(1,2,0,0,0));
-
 
     public static final RegistryObject<Item> bow = ITEMS.register("bow",()-> new BasicGeoChargedProjectileWeapon("bow",25,1).SetDamage(15,10,2));
 
