@@ -43,6 +43,7 @@ public class APJAttributeRegistry {
 	//public static final RegistryObject<Attribute> SPELL_RESISTANCE_RATING = ATTRIBUTES.register("spell_resistance", ()->new RangedAttribute("attribute.apjrelit.sr",0d,-16777216d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> BLOCK_AMOUNT = ATTRIBUTES.register("block_amount", ()->new RangedAttribute("attribute.apjrelit.block",0d,-16777216d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> CRITICAL_STRIKE_RATING = ATTRIBUTES.register("critical_rating", ()->new RangedAttribute("attribute.apjrelit.crit",0d,-16777216d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> RESILIENCE = ATTRIBUTES.register("resilience", ()->new RangedAttribute("attribute.apjrelit.resilience",0d,-16777216d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> CRITICAL_DAMAGE_RATING = ATTRIBUTES.register("critical_damage_rating", ()->new RangedAttribute("attribute.apjrelit.critdamage",0d,0d,16777216d).setSyncable(true));
 
 

@@ -36,4 +36,7 @@ public class AttributeHelper {
 		});
 		return value.get();
 	}
+	public static int ratingAtLevel(int level){
+		return  Math.min(level,1)/3;
+	}
 }
