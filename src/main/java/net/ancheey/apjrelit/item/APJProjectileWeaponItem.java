@@ -2,7 +2,9 @@ package net.ancheey.apjrelit.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.ancheey.apjrelit.APJAttributeRegistry;
 import net.ancheey.apjrelit.APJRelitCore;
+import net.ancheey.apjrelit.attributes.AttributeHelper;
 import net.ancheey.apjrelit.projectiles.HitscanProjectile;
 import net.ancheey.apjrelit.projectiles.TargettingUtil;
 import net.minecraft.core.particles.ParticleTypes;
@@ -59,6 +61,8 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 	protected boolean shoot(float power, float damage, Level level, Player player){
 		var target = TargettingUtil.raycastTarget(player,getDefaultProjectileRange());
 		boolean hit = target!=null;
+		var rap = player.getAttributeValue(APJAttributeRegistry.RANGED_POWER_RATING.get());
+		damage = (float)((rap / AttributeHelper.ratingAtLevel(player.experienceLevel)) * power);
 		if(!level.isClientSide()) {
 			if(hit){
 				level.playSound(player,player.getX(), player.getY(), player.getZ(), getHitSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);

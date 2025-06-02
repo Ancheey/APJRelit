@@ -101,11 +101,11 @@ public class APJItemRegistry {
                     .SetDamage(2,0,0,0,0));
 
     public static final RegistryObject<Item> SHIELD_BARK_OAK = ITEMS.register("barkshield_oak",()->
-            new BasicGeoShieldItem("barkshield",Rarity.COMMON).setColor(1f,0.80f,0.63f,0.33f));
+            new BasicGeoShieldItem("barkshield",2,Rarity.COMMON).setColor(1f,0.80f,0.63f,0.33f));
     public static final RegistryObject<Item> SHIELD_BARK_SPRUCE = ITEMS.register("barkshield_spruce",()->
-            new BasicGeoShieldItem("barkshield",Rarity.COMMON).setColor(1f,0.39f,0.31f,0.20f));
+            new BasicGeoShieldItem("barkshield",2,Rarity.COMMON).setColor(1f,0.39f,0.31f,0.20f));
     public static final RegistryObject<Item> SHIELD_BARK_BIRCH = ITEMS.register("barkshield_birch",()->
-            new BasicGeoShieldItem("barkshield",Rarity.COMMON).setColor(1f,1f,0.95f,0.80f));
+            new BasicGeoShieldItem("barkshield",2,Rarity.COMMON).setColor(1f,1f,0.95f,0.80f));
 
     public static final RegistryObject<Item> WEP_WOODEN_CANE_OAK = ITEMS.register("woodencane_oak",()->
             new SpellboundGeoWeaponItem("woodencane",0.9f,Rarity.COMMON)

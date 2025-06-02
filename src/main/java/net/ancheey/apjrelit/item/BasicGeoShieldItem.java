@@ -23,9 +23,10 @@ import java.util.function.Consumer;
 
 public class BasicGeoShieldItem extends ShieldItem implements GeoItem {
 	APJGeoItemProperties geoProperties;
-	public BasicGeoShieldItem(String modelIdentifier, Rarity rarity) {
+	public BasicGeoShieldItem(String modelIdentifier,int block, Rarity rarity) {
 		super(new Properties().stacksTo(1).durability(-1).rarity(rarity));
 		geoProperties = new APJGeoItemProperties(this, modelIdentifier, modelIdentifier);
+		this.AddModifier(APJAttributeRegistry.BLOCK_AMOUNT.get(), block);
 	}
 	public BasicGeoShieldItem setTexture(String filename){
 		geoProperties.textureFile = filename;
@@ -68,7 +69,7 @@ public class BasicGeoShieldItem extends ShieldItem implements GeoItem {
 	public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
 		ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 		builder.putAll(super.getDefaultAttributeModifiers(pEquipmentSlot));
-		if(pEquipmentSlot == EquipmentSlot.MAINHAND){
+		if(pEquipmentSlot == EquipmentSlot.OFFHAND){
 			builder.putAll(modifiers.build());
 		}
 		return builder.build();
