@@ -62,7 +62,7 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 		var target = TargettingUtil.raycastTarget(player,getDefaultProjectileRange());
 		boolean hit = target!=null;
 		var rap = player.getAttributeValue(APJAttributeRegistry.RANGED_POWER_RATING.get());
-		damage = (float)((rap / AttributeHelper.ratingAtLevel(player.experienceLevel)) * power);
+		damage += (float)((rap / AttributeHelper.ratingAtLevel(player.experienceLevel)) * power);
 		if(!level.isClientSide()) {
 			if(hit){
 				level.playSound(player,player.getX(), player.getY(), player.getZ(), getHitSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
