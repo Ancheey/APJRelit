@@ -29,7 +29,7 @@ public class APJAttributeRegistry {
 	public static final RegistryObject<Attribute> ATTACK_FINE_BLOW = ATTRIBUTES.register("attack_fine", ()->new RangedAttribute("attribute.apjrelit.a4",0d,0d,16777216d).setSyncable(true));
 	public static final RegistryObject<Attribute> ATTACK_CONNECTING_BLOW = ATTRIBUTES.register("attack_connecting", ()->new RangedAttribute("attribute.apjrelit.a5",0d,0d,16777216d).setSyncable(true));
 
-	public static final RegistryObject<Attribute> ENMITY_MODIFIER = ATTRIBUTES.register("enmity_modifier", ()->new RangedAttribute("attribute.apjrelit.enmity",0d,-16777216d,16777216d).setSyncable(true));
+	public static final RegistryObject<Attribute> ENMITY_MODIFIER = ATTRIBUTES.register("enmity_modifier", ()->new RangedAttribute("attribute.apjrelit.enmity",1d,-16777216d,16777216d).setSyncable(true));
 
 	public static final RegistryObject<Attribute> SPELL_DAMAGE = ATTRIBUTES.register("spell_damage", ()->new RangedAttribute("attribute.apjrelit.sd",0d,-16777216d,16777216d).setSyncable(true));
 

@@ -21,6 +21,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.goal.ZombieAttackGoal;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
@@ -87,7 +89,6 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 	public int getUseDuration(ItemStack pStack) {
 		return (int)(72000);
 	} //do not try it
-
 
 	@Override
 	public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
