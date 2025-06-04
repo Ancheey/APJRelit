@@ -132,9 +132,10 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 		controllers.add(new AnimationController<>(this,(e)->{
 			e.setControllerSpeed(getNookSpeed()/2); //animation is only one second. we double it to match 40 tick
-			if(isCharging)
+			if(IsCharging())
 				return e.setAndContinue(RawAnimation.begin().thenPlay("animation.model.charge"));
-			e.getController().forceAnimationReset();
+			else
+				e.getController().forceAnimationReset();
 			return PlayState.STOP;
 		}));
 	}
@@ -184,7 +185,9 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 		modifiers.put(APJAttributeRegistry.SHOOT_QUICK.get(), new AttributeModifier(UUID.randomUUID(),"apj modifier",Quick,AttributeModifier.Operation.ADDITION));
 		return this;
 	}
-
+public boolean IsCharging(){
+		return isCharging;
+}
 	@Override
 	public UseAnim getUseAnimation(ItemStack pStack) {
 		return UseAnim.BOW;

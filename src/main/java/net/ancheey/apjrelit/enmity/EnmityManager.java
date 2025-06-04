@@ -33,6 +33,9 @@ public class EnmityManager {
 	@SubscribeEvent
 	public static void onLivingDeath(LivingDeathEvent e){
 		EnmityData.remove(e.getEntity());
+		/*EnmityData.forEach((k,v)->{
+			v.Remove(e.getEntity());
+		})*/
 	}
 	public static @Nullable EnmityList getEntityData(LivingEntity e){
 		return EnmityData.get(e);
@@ -52,8 +55,14 @@ public class EnmityManager {
 			}
 		}
 		public void Remove(LivingEntity attacker){
-			var i = entities.remove(attacker);
+			var i = entities.get(attacker);
+			if(i == null)
+				return;
+			entities.remove(attacker);
 			dataset.remove(i);
+		}
+		public int size(){
+			return dataset.size();
 		}
 		public Set<LivingEntity> getEnmityEntities(){
 			return entities.keySet();
@@ -78,6 +87,9 @@ public class EnmityManager {
 			var f = getTopEnmity();
 			var i = entities.get(e).enmity;
 			return i/f;
+		}
+		public Iterator<EnmityObject> getIterator(){
+			return dataset.iterator();
 		}
 	}
 	public static class EnmityObject implements  Comparable<EnmityObject>{

@@ -23,6 +23,11 @@ public class BasicGeoBowRenderer<T extends BasicGeoChargedProjectileWeapon> exte
 	}
 	@Override
 	public void actuallyRender(PoseStack poseStack, T animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+
+		model.getBone("arrow").ifPresent(k->{
+
+			k.setHidden(!animatable.IsCharging());
+		});
 		super.actuallyRender(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay,properties.red* red, properties.green*green, properties.blue*blue, properties.alpha*alpha);
 	}
 }

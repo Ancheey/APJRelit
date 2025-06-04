@@ -63,17 +63,21 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 	protected boolean shoot(float power, float damage, Level level, Player player){
 		var target = TargettingUtil.raycastTarget(player,getDefaultProjectileRange());
 		boolean hit = target!=null;
-		var rap = player.getAttributeValue(APJAttributeRegistry.RANGED_POWER_RATING.get());
-		damage += (float)((rap / AttributeHelper.ratingAtLevel(player.experienceLevel)) * power);
 		if(!level.isClientSide()) {
 			if(hit){
+				var rap = player.getAttributeValue(APJAttributeRegistry.RANGED_POWER_RATING.get());
+				var dmg =  damage;
+				if(rap > 0) dmg += (float)((rap / AttributeHelper.ratingAtLevel(player.experienceLevel)) * power);
 				level.playSound(player,player.getX(), player.getY(), player.getZ(), getHitSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
-				target.hurt(level.damageSources().playerAttack(player), damage);
+				target.hurt(level.damageSources().playerAttack(player), dmg);
 			}
 
 			new HitscanProjectile(player, ParticleTypes.CRIT);
 			level.playSound(null, player.getX(), player.getY(), player.getZ(), getShootSound(), SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
 			APJRelitCore.LOGGER.info("-  Hit: " + hit + (hit? ", Target: " + target.getName() : ""));
+		}
+		else{
+			APJRelitCore.LOGGER.info("- Clientside  Hit: " + hit + (hit? ", Target: " + target.getName() : ""));
 		}
 		return hit;
 	}
