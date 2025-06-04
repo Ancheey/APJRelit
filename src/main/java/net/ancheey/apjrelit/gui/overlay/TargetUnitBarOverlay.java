@@ -1,5 +1,6 @@
 package net.ancheey.apjrelit.gui.overlay;
 
+import net.ancheey.apjrelit.enmity.EnmityManager;
 import net.ancheey.apjrelit.gui.APJGuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -33,7 +34,18 @@ public class TargetUnitBarOverlay implements IGuiOverlay  {
 			return;
 		partialTickStack+=(partialTick/(320*AnimationSpeed));
 		partialTickStack = partialTickStack%1;
-		APJGuiHelper.renderMajorUnitFrame(gui,guiGraphics,partialTickStack,(screenWidth/4)*3-80+XOffset,screenHeight-85-24+YOffset,entity,true);
+		var px = (screenWidth/4)*3-80+XOffset;
+		var py = screenHeight-85-24+YOffset;
+		APJGuiHelper.renderMajorUnitFrame(gui,guiGraphics,partialTickStack,px,py,entity,true);
+		var enmity = EnmityManager.getEntityData(entity);
+		if(enmity == null)
+			return;
+		var pct = enmity.getEnmityPercentage(looker);
+		if(pct == 0)
+			return;
+		String percentage = pct == 1f? "Aggro":""+(pct*100)+"%";
+		var pos = mc.font.width(percentage);
+		guiGraphics.drawString(mc.font,percentage,px+46-(pos/2),py,pct==1f?0xFFFF2200:0xFFFF8000);
 	}
 	private @Nullable Entity raycastTarget(LivingEntity e){
 		Vec3 eyePos = e.getEyePosition(1.0F);

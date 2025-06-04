@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,6 +24,7 @@ public class APJCannonRegistry {
 	public static void register(IEventBus e){
 		CANNONS.register(e);
 	}
+	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent e){
 		EntityRenderers.register(CANNON.get(), (k) -> new GeoCannonRenderer<>(k,new GeoCannonModel<>("cannon")));

@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nullable;
 import java.util.*;
 
-@Mod.EventBusSubscriber(modid = APJRelitCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
+@Mod.EventBusSubscriber(modid = APJRelitCore.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EnmityManager {
 	private static final HashMap<LivingEntity, EnmityList> EnmityData = new HashMap<>();
 
@@ -33,9 +33,9 @@ public class EnmityManager {
 	@SubscribeEvent
 	public static void onLivingDeath(LivingDeathEvent e){
 		EnmityData.remove(e.getEntity());
-		/*EnmityData.forEach((k,v)->{
+		EnmityData.forEach((k,v)->{
 			v.Remove(e.getEntity());
-		})*/
+		});
 	}
 	public static @Nullable EnmityList getEntityData(LivingEntity e){
 		return EnmityData.get(e);
