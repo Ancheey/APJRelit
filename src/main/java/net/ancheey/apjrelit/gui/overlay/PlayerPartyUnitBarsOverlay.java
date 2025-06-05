@@ -1,5 +1,6 @@
 package net.ancheey.apjrelit.gui.overlay;
 
+import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.gui.APJGuiHelper;
 import net.ancheey.apjrelit.parties.LocalPlayerParty;
 import net.minecraft.client.Minecraft;
@@ -29,14 +30,20 @@ public class PlayerPartyUnitBarsOverlay implements IGuiOverlay {
 		int y = screenHeight/4;
 		//implement parties
 
-		var players = new java.util.ArrayList<>(LocalPlayerParty.getMembers());
+		var players = new java.util.ArrayList<>(LocalPlayerParty.getLevelMembers());
+		var away = LocalPlayerParty.AwayPlayers;
 		players.remove(camplayer);
-		for(int i = 0; i < players.size(); i++){
+		int i = 0;
+		while(i < players.size()){
 			var player = players.get(i);
 			APJGuiHelper.renderMinorUnitFrame(gui,guiGraphics,partialTickStack, (int) (x+XOffset+(XSpacing*Math.floor(i/4d))),y+YOffset+(YSpacing*i),player);
 			if(LocalPlayerParty.getLeader() == player){
 				guiGraphics.blit(APJGuiHelper.ICONS,(int) (x+XOffset+(XSpacing*Math.floor(i/4d)))+2,y+YOffset+(YSpacing*i),0,56,5,3);
 			}
+			i++;
+		}
+		for(int j = i; j < i+away;j++){
+			APJGuiHelper.renderMinorUnitFrameAwayPlayer(gui,guiGraphics,partialTickStack, (int) (x+XOffset+(XSpacing*Math.floor(j/4d))),y+YOffset+(YSpacing*j));
 		}
 	}
 }

@@ -47,9 +47,9 @@ public class STCPartySyncPacket {
 				if (mc.level == null) return;
 				LocalPlayerParty.clear();
 				for (var member : msg.members) {
-					Player target = mc.level.getPlayerByUUID(member);
-					if (target == null) continue;
-					LocalPlayerParty.add(target);
+					Player target = mc.level.getPlayerByUUID(member); //issue is here - being on a diff level means there's no unit like that (maybe make a fake?)
+					if (target == null) LocalPlayerParty.AwayPlayers++;
+					else LocalPlayerParty.add(target);
 				}
 			});
 			ctx.get().setPacketHandled(true);

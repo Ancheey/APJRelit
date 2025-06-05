@@ -7,10 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @OnlyIn(Dist.DEDICATED_SERVER)
 public class ServerPlayerParty {
@@ -41,6 +38,10 @@ public class ServerPlayerParty {
 		}
 		return this;
 	}
+	public void sync(){
+		for(var member : GetPlayers())
+			NetworkHandler.sendToPlayer(new STCPartySyncPacket(this),member); //syncing because removing by uuid is weird
+	}
 	public List<ServerPlayer> clear(){
 		var players = List.copyOf(GetPlayers());
 		members.clear();
@@ -61,6 +62,16 @@ public class ServerPlayerParty {
 		if(members.size()>0)
 			return members.get(0);
 		return null;
+	}
+	public void updatePlayerEntity(ServerPlayer player){
+		for(int i = 0; i < count(); i++){
+			if(members.get(i).getUUID() == player.getUUID()){
+				members.remove(i);
+				members.add(i,player);
+				sync();
+				return;
+			}
+		}
 	}
 	public boolean assignLeader(ServerPlayer player){
 		if(!hasPlayer(player) || getLeader() == player)

@@ -20,7 +20,7 @@ public class PlayerPartyInviteOverlay implements IGuiOverlay {
 			APJGuiHelper.renderFrame(guiGraphics, 30,0,100,currentAnimHeight,false);
 		}
 		else if(invite != null){
-			var pname = invite.getInviter().getDisplayName().getString()+ " is inviting you to a party.";
+			var pname = invite.getInviter() + " is inviting you to a party.";
 			var pnamelen = Minecraft.getInstance().font.width(pname);
 			var time = (int) (LocalPlayerInvite.VALID_TIME - (System.currentTimeMillis() - invite.getTimestamp()))/1000;
 			APJGuiHelper.renderFrame(guiGraphics, 30,0, Math.max(32+pnamelen,120),currentAnimHeight,false);

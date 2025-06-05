@@ -9,8 +9,10 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.ancheey.apjrelit.APJRelitCore;
 import net.ancheey.apjrelit.network.NetworkHandler;
+import net.ancheey.apjrelit.parties.STCPartyInvitePacket;
 import net.ancheey.apjrelit.parties.STCPlayerOperationPacket;
 import net.ancheey.apjrelit.parties.ServerPartyManager;
+import net.ancheey.apjrelit.parties.ServerPlayerInvite;
 import net.ancheey.apjrelit.projectiles.HitscanProjectile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -38,6 +40,7 @@ public class APJCommands {
 		dispatcher.register(Commands.literal("leave").requires(CommandSourceStack::isPlayer).executes(APJCommands::leave));
 		dispatcher.register(Commands.literal("disband").requires(CommandSourceStack::isPlayer).executes(APJCommands::disband));
 		dispatcher.register(Commands.literal("ptinfodump").requires(CommandSourceStack::isPlayer).requires(s-> s.hasPermission(4)).executes(APJCommands::ptinfodump));
+		dispatcher.register(Commands.literal("sync").requires(CommandSourceStack::isPlayer).requires(s-> s.hasPermission(4)).executes(APJCommands::sync));
 		dispatcher.register(Commands.literal("p").requires(CommandSourceStack::isPlayer).then(Commands.argument("message", StringArgumentType.greedyString()).executes(APJCommands::partychat)));
 		dispatcher.register(Commands.literal("shoot").requires(CommandSourceStack::isPlayer).executes(APJCommands::shoot));
 	}
@@ -49,6 +52,9 @@ public class APJCommands {
 		if(target == player){
 			throw ERROR_TARGET_SELF.create();
 		}
+		if(player == null)
+			throw new SimpleCommandExceptionType(Component.literal("You do not exist.")).create();
+
 		var inviteret = ServerPartyManager.InvitePlayer(player,target);
 		if(!inviteret.value())
 			throw new SimpleCommandExceptionType(Component.literal(inviteret.msg())).create();
@@ -91,10 +97,18 @@ public class APJCommands {
 			throw new SimpleCommandExceptionType(Component.literal(inviteret.msg())).create();
 		return Command.SINGLE_SUCCESS;
 	}
+	private static int sync(CommandContext<CommandSourceStack> command) throws CommandSyntaxException {
+		ServerPlayer player = command.getSource().getPlayer();
+		var a = ServerPartyManager.GetPlayerParty(player);
+		if (a != null)
+			a.sync();
+		return Command.SINGLE_SUCCESS;
+	}
 	private static int ptinfodump(CommandContext<CommandSourceStack> command) {
 		try {
+			ServerPlayer player = command.getSource().getPlayer();
 			ServerPartyManager.getPartiesPerPlayer().forEach((k,v)->{
-				APJRelitCore.LOGGER.info("[Party] "+k.getDisplayName().getString()+": " + v.count());
+				APJRelitCore.LOGGER.info("[Party] "+k.getDisplayName().getString()+": " + v.count() + (k == player?" <-- caller is here":""));
 			});
 			ServerPartyManager.getPlayerInvites().forEach((k,v)->{
 				APJRelitCore.LOGGER.info("[Invite] "+k.getDisplayName().getString()+" by " + v.GetInviter().getDisplayName().getString() + " | Valid: "+ v.IsValid());

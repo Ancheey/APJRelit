@@ -2,6 +2,7 @@ package net.ancheey.apjrelit.mixins;
 
 import net.ancheey.apjrelit.parties.LocalPlayerParty;
 import net.ancheey.apjrelit.parties.ServerPartyManager;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.Team;
@@ -24,7 +25,7 @@ public class EntityMixin{
 	private void overrideIsAlliedToServer(Entity pEntity, CallbackInfoReturnable<Boolean> cir) {
 		Entity self = (Entity) (Object) this;
 		// Your logic here
-		if (self instanceof Player p1 && pEntity instanceof Player p2) {
+		if (self instanceof ServerPlayer p1 && pEntity instanceof ServerPlayer p2) {
 			if(ServerPartyManager.GetPlayerParty(p1) == ServerPartyManager.GetPlayerParty(p2))
 				cir.setReturnValue(true); // or false
 		}

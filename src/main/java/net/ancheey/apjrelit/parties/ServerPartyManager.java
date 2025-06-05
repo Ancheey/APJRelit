@@ -20,7 +20,7 @@ public class ServerPartyManager {
 	public static Map<ServerPlayer, ServerPlayerInvite> getPlayerInvites(){
 		return playerInvites;
 	}
-	public static @Nullable ServerPlayerParty GetPlayerParty(Player player){
+	public static @Nullable ServerPlayerParty GetPlayerParty(ServerPlayer player){
 		if(!partiesPerPlayer.containsKey(player))
 			return null;
 		return partiesPerPlayer.get(player);
@@ -33,8 +33,12 @@ public class ServerPartyManager {
 		if(partiesPerPlayer.containsKey(inviter)) { //inviter has party
 			if (partiesPerPlayer.get(inviter).getLeader() != inviter)
 				return ReturnMessage.NOTLEAD; //inviter isn't a leader
-			else if(!partiesPerPlayer.get(inviter).isFull())
-				playerInvites.put(invitee,new ServerPlayerInvite(inviter, partiesPerPlayer.get(inviter)));
+			else if(!partiesPerPlayer.get(inviter).isFull()) {
+				var pt = partiesPerPlayer.get(inviter);
+				var invite =new ServerPlayerInvite(inviter,pt);
+				playerInvites.put(invitee, new ServerPlayerInvite(inviter, partiesPerPlayer.get(inviter)));
+				NetworkHandler.sendToPlayer(new STCPartyInvitePacket(inviter.getDisplayName().getString(),invite.timestamp),invitee);
+			}
 			else
 				return ReturnMessage.FULL; //party is full
 		}
@@ -44,8 +48,7 @@ public class ServerPartyManager {
 			var invite =new ServerPlayerInvite(inviter,pt);
 			playerInvites.put(invitee,invite); //send invite to player STCPlayerGroupInvite
 			pt.pendingInvites.put(invite,invitee);
-			NetworkHandler.sendToPlayer(new STCPartyInvitePacket(inviter.getUUID(),invite.timestamp),invitee);
-
+			NetworkHandler.sendToPlayer(new STCPartyInvitePacket(inviter.getDisplayName().getString(),invite.timestamp),invitee);
 		}
 		return ReturnMessage.GOOD;
 	}

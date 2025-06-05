@@ -113,6 +113,14 @@ public class APJGuiHelper {
 		}
 
 	}
+	public static void renderMinorUnitFrameAwayPlayer(ForgeGui gui, GuiGraphics guiGraphics, float animationTick, int x,int y){
+		if(!gui.shouldDrawSurvivalElements())
+			return;
+		var mc = Minecraft.getInstance();
+		guiGraphics.setColor(0.7f,0.7f,0.7f, 1f);
+		guiGraphics.blit(ICONS,x,y,0,41,64,15);
+		guiGraphics.drawString(mc.font, "Away",x+13,y+3,0xA1FFFFFF,false);
+	}
 	private static void renderMinorUnitFrameHealth(GuiGraphics guiGraphics, int x, int y, LivingEntity e){
 		var max = Math.ceil(e.getMaxHealth());
 		var current = Math.ceil(e.getHealth());

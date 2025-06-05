@@ -13,17 +13,34 @@ import net.minecraftforge.fml.common.Mod;
 public class ServerPartyEventsHandler {
 	@SubscribeEvent
 	public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event){
-		var player = event.getEntity();
+		var player =  (ServerPlayer)event.getEntity();
 		var pt = ServerPartyManager.GetPlayerParty(player);
 		if(pt != null)
-			ServerPartyManager.forceRemovePlayer((ServerPlayer)player);
-		ServerPartyManager.declineInvite((ServerPlayer) player);
-		//make an actual way to insta rejoin
+			ServerPartyManager.forceRemovePlayer(player);
+		ServerPartyManager.declineInvite(player);
+		//make an actual way to insta rejoin -- will require entity swapping
+	}
+	@SubscribeEvent
+	public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event){
+		var player =  (ServerPlayer)event.getEntity();
+		var pt = ServerPartyManager.GetPlayerParty(player);
+		if(pt != null)
+			pt.sync();
+	}
+	public static void onPlayerRespawnEvent(PlayerEvent.PlayerRespawnEvent event){
+		//swap entities for a new one based on UUID
+		var uuid = event.getEntity().getUUID();
+		var keyset = ServerPartyManager.getPlayerInvites().keySet();
+		for (var player: ) {
+			if(player.getUUID() == uuid){
+
+			}
+		}
 	}
 	@SubscribeEvent
 	public static void onEntityAttack(AttackEntityEvent e){
 		if(e.getTarget() instanceof ServerPlayer player){
-			var attacker = e.getEntity();
+			var attacker = (ServerPlayer) e.getEntity();
 			if(ServerPartyManager.GetPlayerParty(attacker) == ServerPartyManager.GetPlayerParty(player) && ServerPartyManager.GetPlayerParty(attacker) != null)
 				e.setCanceled(true); //no party pvp
 		}

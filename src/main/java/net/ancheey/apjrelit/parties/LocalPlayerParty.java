@@ -8,16 +8,19 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class LocalPlayerParty {
 	private static final List<Player> members = new ArrayList<>();
+	public static int AwayPlayers = 0;
 	private static @Nullable LocalPlayerInvite invite;
 	public static void syncParty(List<Player> players){
 		members.clear();
 		members.addAll(players);
 	}
 	public static void clear(){
+		AwayPlayers=0;
 		members.clear();
 	}
 	public static void add(Player player){
@@ -27,9 +30,9 @@ public class LocalPlayerParty {
 		members.remove(player);
 	}
 	public static boolean isInParty(){
-		return members.size() > 1; //at least one more person
+		return members.size() + AwayPlayers > 1; //at least one more person
 	}
-	public static List<Player> getMembers(){
+	public static List<Player> getLevelMembers(){
 		return List.copyOf(members);
 	}
 	public static @Nullable Player getLeader(){
@@ -46,7 +49,7 @@ public class LocalPlayerParty {
 		members.remove(player);
 		members.add(0,player);
 	}
-	public static void setInvite(Player inviter, long timestamp){
+	public static void setInvite(String inviter, long timestamp){
 		invite = new LocalPlayerInvite(inviter,timestamp);
 	}
 	public static @Nullable LocalPlayerInvite getInvite(){
