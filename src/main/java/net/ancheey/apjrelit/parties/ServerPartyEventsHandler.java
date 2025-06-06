@@ -29,13 +29,8 @@ public class ServerPartyEventsHandler {
 	}
 	public static void onPlayerRespawnEvent(PlayerEvent.PlayerRespawnEvent event){
 		//swap entities for a new one based on UUID
-		var uuid = event.getEntity().getUUID();
-		var keyset = ServerPartyManager.getPlayerInvites().keySet();
-		for (var player: ) {
-			if(player.getUUID() == uuid){
-
-			}
-		}
+		var entity = (ServerPlayer)event.getEntity();
+		ServerPartyManager.replaceEntity(entity);
 	}
 	@SubscribeEvent
 	public static void onEntityAttack(AttackEntityEvent e){

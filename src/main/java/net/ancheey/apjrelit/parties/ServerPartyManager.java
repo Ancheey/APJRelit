@@ -9,6 +9,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 @OnlyIn(Dist.DEDICATED_SERVER)
 public class ServerPartyManager {
 	private static final Map<ServerPlayer, ServerPlayerParty> partiesPerPlayer = new HashMap<>();
@@ -25,6 +27,26 @@ public class ServerPartyManager {
 			return null;
 		return partiesPerPlayer.get(player);
 	}
+	public static void replaceEntity(ServerPlayer player){
+		var optpl = partiesPerPlayer.keySet().stream().filter(k->k.getUUID() == player.getUUID()).findFirst();
+		optpl.ifPresent(k->{
+			var pt = GetPlayerParty(k);
+			if(pt== null)
+				return;
+			pt.updatePlayerEntity(player);
+			partiesPerPlayer.remove(k);
+			partiesPerPlayer.put(player,pt);
+
+			var inv = playerInvites.get(k);
+			if(inv == null)
+				return;
+
+			playerInvites.remove(k);
+			playerInvites.put(player,inv);
+			inv.party.pendingInvites.remove(inv);
+			inv.party.pendingInvites.put(inv,player);
+		});
+	}
 	public static ReturnMessage InvitePlayer(ServerPlayer inviter, ServerPlayer invitee){
 		if(partiesPerPlayer.containsKey(invitee))
 			return ReturnMessage.INGRP; //invitee already in a group
@@ -34,10 +56,7 @@ public class ServerPartyManager {
 			if (partiesPerPlayer.get(inviter).getLeader() != inviter)
 				return ReturnMessage.NOTLEAD; //inviter isn't a leader
 			else if(!partiesPerPlayer.get(inviter).isFull()) {
-				var pt = partiesPerPlayer.get(inviter);
-				var invite =new ServerPlayerInvite(inviter,pt);
-				playerInvites.put(invitee, new ServerPlayerInvite(inviter, partiesPerPlayer.get(inviter)));
-				NetworkHandler.sendToPlayer(new STCPartyInvitePacket(inviter.getDisplayName().getString(),invite.timestamp),invitee);
+				createInvite(inviter,invitee);
 			}
 			else
 				return ReturnMessage.FULL; //party is full
@@ -45,12 +64,16 @@ public class ServerPartyManager {
 		else{ //inviter doesn't have a party yet, so we create one
 			var pt = new ServerPlayerParty().add(inviter);
 			partiesPerPlayer.put(inviter, pt);
-			var invite =new ServerPlayerInvite(inviter,pt);
-			playerInvites.put(invitee,invite); //send invite to player STCPlayerGroupInvite
-			pt.pendingInvites.put(invite,invitee);
-			NetworkHandler.sendToPlayer(new STCPartyInvitePacket(inviter.getDisplayName().getString(),invite.timestamp),invitee);
+			createInvite(inviter,invitee);
 		}
 		return ReturnMessage.GOOD;
+	}
+	private static void createInvite(ServerPlayer inviter, ServerPlayer invitee){
+		var pt = partiesPerPlayer.get(inviter);
+		var invite =new ServerPlayerInvite(inviter,pt);
+		playerInvites.put(invitee, new ServerPlayerInvite(inviter, partiesPerPlayer.get(inviter)));
+		pt.pendingInvites.put(invite,invitee);
+		NetworkHandler.sendToPlayer(new STCPartyInvitePacket(inviter.getDisplayName().getString(),invite.timestamp),invitee);
 	}
 	public static ReturnMessage acceptInvite(ServerPlayer invitee){
 		if(!playerInvites.containsKey(invitee))
