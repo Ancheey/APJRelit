@@ -1,6 +1,7 @@
 package net.ancheey.apjrelit.network;
 
 import net.ancheey.apjrelit.APJRelitCore;
+import net.ancheey.apjrelit.enmity.STCEnmityDataPackage;
 import net.ancheey.apjrelit.parties.*;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -54,6 +55,11 @@ public class NetworkHandler {
 				.decoder(CTSPartyInviteResponsePacket::decode)
 				.encoder(CTSPartyInviteResponsePacket::encode)
 				.consumerMainThread(CTSPartyInviteResponsePacket::handle)
+				.add();
+		channel.messageBuilder(STCEnmityDataPackage.class,id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(STCEnmityDataPackage::decode)
+				.encoder(STCEnmityDataPackage::encode)
+				.consumerMainThread(STCEnmityDataPackage::handle)
 				.add();
 	}
 	public static <MSG> void sendToServer(MSG message) {

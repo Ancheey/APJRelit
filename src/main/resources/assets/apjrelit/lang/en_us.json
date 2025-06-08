@@ -37,5 +37,10 @@
 
   "item.apjrelit.woodencane_oak": "Oaken Twig",
   "item.apjrelit.woodencane_spruce": "Spruce Twig",
-  "item.apjrelit.woodencane_birch": "Birch Twig"
+  "item.apjrelit.woodencane_birch": "Birch Twig",
+
+  "spell.apjrelit.provoke": "Provoke",
+
+  "ui.apjrelit.provoke_description": "Provokes the target to attack you.",
+  "ui.apjrelit.provoke_additional_enmity": "%d Additional Enmity"
 }

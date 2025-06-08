@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
@@ -43,7 +44,9 @@ public class TargetUnitBarOverlay implements IGuiOverlay  {
 		var pct = enmity.getEnmityPercentage(looker);
 		if(pct == 0)
 			return;
-		String percentage = pct == 1f? "Aggro":""+(pct*100)+"%";
+		String percentage = (((int)pct)*100)+"%";
+		if(entity instanceof Mob mob && mob.getTarget() == looker)
+			percentage = pct == 1f ? "Aggro":""+(pct*100)+"%";
 		var pos = mc.font.width(percentage);
 		guiGraphics.drawString(mc.font,percentage,px+46-(pos/2),py,pct==1f?0xFFFF2200:0xFFFF8000);
 	}

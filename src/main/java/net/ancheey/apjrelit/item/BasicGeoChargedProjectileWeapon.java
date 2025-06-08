@@ -86,7 +86,7 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 	@Override
 	public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
 		if(isCharging)
-			chargeTime++;
+			chargeTime = getUseDuration(pStack)-pRemainingUseDuration;
 	}
 
 	public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {

@@ -32,5 +32,10 @@
 
   "item.apjrelit.woodencane_oak": "Dębowa Rózga",
   "item.apjrelit.woodencane_spruce": "Świerkowa Rózga",
-  "item.apjrelit.woodencane_birch": "Brzozowa Rózga"
+  "item.apjrelit.woodencane_birch": "Brzozowa Rózga",
+
+  "spell.apjrelit.provoke": "Prowokacja",
+
+  "ui.apjrelit.provoke_description": "Prowokuje cel do ataku.",
+  "ui.apjrelit.provoke_additional_enmity": "%d Dodatkowej Wrogości"
 }

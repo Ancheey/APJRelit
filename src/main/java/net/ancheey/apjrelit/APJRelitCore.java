@@ -17,6 +17,7 @@ import net.ancheey.apjrelit.itemsets.ItemSetManager;
 import net.ancheey.apjrelit.network.NetworkHandler;
 import net.ancheey.apjrelit.projectiles.APJProjectileManager;
 import net.ancheey.apjrelit.projectiles.HitscanProjectile;
+import net.ancheey.apjrelit.spells.APJSpellRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 
@@ -107,6 +108,7 @@ public class APJRelitCore
         APJAttributeRegistry.Register(bus);
         APJItemRegistry.register(bus);
         APJCurioRegistry.registerCurios();
+        APJSpellRegistry.register(bus);
         CREATIVE_MODE_TABS.register(bus);
         bus.addListener(this::addCreative);
 
