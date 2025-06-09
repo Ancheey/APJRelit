@@ -38,7 +38,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
-	public final int BASE_TICK_USE_TIME = 70;
+	public final int BASE_TICK_USE_TIME = 38; //leave 2 ticks for ease of use
 	private int distance;
 	public APJProjectileWeaponItem(int distance) {
 		super(new Item.Properties());
@@ -80,15 +80,6 @@ public abstract class APJProjectileWeaponItem extends ProjectileWeaponItem {
 			APJRelitCore.LOGGER.info("- Clientside  Hit: " + hit + (hit? ", Target: " + target.getName() : ""));
 		}
 		return hit;
-	}
-	public static float getPowerForTime(int pCharge) {
-		float f = (float)pCharge / 20.0F;
-		f = (f * f + f * 2.0F) / 3.0F;
-		if (f > 1.0F) {
-			f = 1.0F;
-		}
-
-		return f;
 	}
 	public int getUseDuration(ItemStack pStack) {
 		return (int)(72000);

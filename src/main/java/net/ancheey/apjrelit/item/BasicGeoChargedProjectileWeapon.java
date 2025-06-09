@@ -30,7 +30,6 @@ import java.util.function.Predicate;
 public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem implements GeoItem {
 	APJGeoItemProperties geoProperties;
 	private float nookSpeed;
-	private int chargeTime = 0;
 	private boolean isCharging = false;
 	private final float MINIMUM_CHARGE_PERCENTAGE = 0.25f;
 	private final int DAMAGE_TIERS = 3;
@@ -39,10 +38,10 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 		geoProperties = new APJGeoItemProperties(this,model, model);
 		this.nookSpeed = nookSpeed;
 	}
-	private int getTierForCharge(Player player, int tiers){
+	private int getTierForCharge(Player player, int tiers, int charge){
 		return
 				(tiers+1)-
-						(int)Math.floor((getChargePercentage(player))*tiers);
+						(int)Math.floor((getChargePercentage(player,charge))*tiers);
 	}
 	public float getNookSpeed(Player player){
 		return (float)player.getAttributeValue(APJAttributeRegistry.NOOK_SPEED.get()) + nookSpeed-1;
@@ -50,10 +49,10 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 	public float getNookSpeed(){
 		return nookSpeed;
 	}
-	public float getChargePercentage(Player player){
+	public float getChargePercentage(Player player, int charge){
 		var min = ((BASE_TICK_USE_TIME/getNookSpeed(player)))*MINIMUM_CHARGE_PERCENTAGE;
 		var max = ((BASE_TICK_USE_TIME/getNookSpeed(player)))-min;
-		var trueCharge = Math.max(chargeTime-min,0);
+		var trueCharge = Math.max(charge-min,0);
 		return Math.min(trueCharge/max,1f);
 	}
 	public BasicGeoChargedProjectileWeapon SetTexture(String filename){
@@ -83,12 +82,6 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 		}
 	}
 
-	@Override
-	public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
-		if(isCharging)
-			chargeTime = getUseDuration(pStack)-pRemainingUseDuration;
-	}
-
 	public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
 
 		if (pEntityLiving instanceof Player player) {
@@ -103,11 +96,9 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 				if (itemstack.isEmpty()) {
 					itemstack = new ItemStack(Items.ARROW);
 				}
-				float f = getChargePercentage(player);
-				float d = getChargedDamage(player);
+				float f = getChargePercentage(player,i);
+				float d = getChargedDamage(player,i);
 				if (f >= MINIMUM_CHARGE_PERCENTAGE && d > 0) {
-					if(!pLevel.isClientSide)
-						APJRelitCore.LOGGER.info("Charge: "+ chargeTime + " ("+f+"), damage: " + d);
 					boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, pStack, player));
 					shoot(f,d,pLevel,player);
 					if (!flag1 && !player.getAbilities().instabuild) {
@@ -121,7 +112,6 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 			}
 		}
 		isCharging = false;
-		chargeTime = 0;
 	}
 	@Override
 	public @NotNull Predicate<ItemStack> getAllSupportedProjectiles() {
@@ -167,17 +157,15 @@ public class BasicGeoChargedProjectileWeapon extends APJProjectileWeaponItem imp
 			ret++;
 		return  ret;
 	}
-	protected float getChargedDamage(Player player){
+	protected float getChargedDamage(Player player, int charge){
 		var tiers = getChargeTiers();
-		var tier = getTierForCharge(player,tiers); //this should never be 0
-		if(tier == 1)
-			return (float)player.getAttributeValue(APJAttributeRegistry.SHOOT_STRONG.get());
-		else if (tier == 3)
-			return (float)player.getAttributeValue(APJAttributeRegistry.SHOOT_QUICK.get());
-		if(player.getAttributeValue(APJAttributeRegistry.SHOOT_GOOD.get())>0)
-			return (float)player.getAttributeValue(APJAttributeRegistry.SHOOT_GOOD.get());
-		return (float)player.getAttributeValue(APJAttributeRegistry.SHOOT_QUICK.get());
-		//return 1 - 2 - 3. if there are 2 tiers, check which one exists
+		var tier = getTierForCharge(player,tiers, charge); //this should never be 0
+		return switch (tier) {
+			case 1 -> (float) player.getAttributeValue(APJAttributeRegistry.SHOOT_STRONG.get());
+			case 2 -> (float) player.getAttributeValue(APJAttributeRegistry.SHOOT_GOOD.get());
+			case 3 -> (float) player.getAttributeValue(APJAttributeRegistry.SHOOT_QUICK.get());
+			default -> 0;
+		};
 	}
 	public BasicGeoChargedProjectileWeapon SetDamage(int Strong, int Good, int Quick){
 		modifiers.put(APJAttributeRegistry.SHOOT_STRONG.get(), new AttributeModifier(UUID.randomUUID(),"apj modifier",Strong, AttributeModifier.Operation.ADDITION));

@@ -36,24 +36,22 @@ public class PowerClientTooltipComponent implements ClientTooltipComponent {
 		pGuiGraphics.setColor(1, 1, 1, 1);
 		pGuiGraphics.drawString(pFont, text, x + 8 - twd / 2, pY + 5, 0xFFFF5f5f, true);
 		x+=17;
-		if(data.D2>0) {
-			text = ""+data.D2;
-			twd = pFont.width(text);
-			pGuiGraphics.setColor(0.2f, 0.2f, 0.2f, 0.1f);
-			pGuiGraphics.blit(APJGuiHelper.TOOLTIP_ICONS, x, pY, 32, 0, 16, 16);
-			pGuiGraphics.setColor(1, 1, 1, 1);
-			pGuiGraphics.drawString(pFont, text, x + 8 - twd / 2, pY + 5, 0xFFFFFF5f, true);
-			x += 17;
-		}
-		if(data.D3>0) {
-			text = ""+data.D3;
-			twd = pFont.width(text);
-			pGuiGraphics.setColor(0.2f, 0.2f, 0.2f, 0.1f);
-			pGuiGraphics.blit(APJGuiHelper.TOOLTIP_ICONS, x, pY, 48, 0, 16, 16);
-			pGuiGraphics.setColor(1, 1, 1, 1);
-			pGuiGraphics.drawString(pFont, text, x + 8 - twd / 2, pY + 5, 0xFFF0F0F0, true);
-			x += 17;
-		}
+		text = ""+data.D2;
+		twd = pFont.width(text);
+		pGuiGraphics.setColor(0.2f, 0.2f, 0.2f, 0.1f);
+		pGuiGraphics.blit(APJGuiHelper.TOOLTIP_ICONS, x, pY, 32, 0, 16, 16);
+		pGuiGraphics.setColor(1, 1, 1, 1);
+		pGuiGraphics.drawString(pFont, text, x + 8 - twd / 2, pY + 5, 0xFFFFFF5f, true);
+		x += 17;
+
+		text = ""+data.D3;
+		twd = pFont.width(text);
+		pGuiGraphics.setColor(0.2f, 0.2f, 0.2f, 0.1f);
+		pGuiGraphics.blit(APJGuiHelper.TOOLTIP_ICONS, x, pY, 48, 0, 16, 16);
+		pGuiGraphics.setColor(1, 1, 1, 1);
+		pGuiGraphics.drawString(pFont, text, x + 8 - twd / 2, pY + 5, 0xFFF0F0F0, true);
+		x += 17;
+
 		pGuiGraphics.setColor(0.2f,0.2f,0.2f,0.1f);
 		pGuiGraphics.blit(APJGuiHelper.TOOLTIP_ICONS,x,pY,0,0,16,16);
 		pGuiGraphics.setColor(0.94f,0.94f,0.94f,1);
