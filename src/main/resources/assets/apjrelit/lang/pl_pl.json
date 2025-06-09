@@ -35,6 +35,7 @@
   "item.apjrelit.woodencane_birch": "Brzozowa Rózga",
 
   "spell.apjrelit.provoke": "Prowokacja",
+  "spell.apjrelit.intimidate": "Zastraszenie",
 
   "ui.apjrelit.provoke_description": "Prowokuje cel do ataku.",
   "ui.apjrelit.provoke_additional_enmity": "%d Dodatkowej Wrogości"

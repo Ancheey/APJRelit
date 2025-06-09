@@ -18,47 +18,42 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+
 import java.util.List;
 
 @AutoSpellConfig
-public class ProvokeSpell extends AbstractSpell {
-	private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"provoke");
+public class IntimidateSpell extends AbstractSpell {
+	private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(APJRelitCore.MODID,"intimidate");
 	private final DefaultConfig defaultConfig = new DefaultConfig()
-			.setMinRarity(SpellRarity.COMMON).setSchoolResource(SchoolRegistry.NATURE_RESOURCE)
-			.setMaxLevel(3).setCooldownSeconds(10).setAllowCrafting(false).build();
+			.setMinRarity(SpellRarity.RARE).setSchoolResource(SchoolRegistry.NATURE_RESOURCE)
+			.setMaxLevel(1).setCooldownSeconds(120).setAllowCrafting(false).build();
 
-	public ProvokeSpell(){
-		this.manaCostPerLevel = 3;
-		this.baseManaCost = 7;
+	public IntimidateSpell(){
+		this.manaCostPerLevel = 80;
+		this.baseManaCost = 23;
 		this.spellPowerPerLevel = 0;
 		this.castTime = 0;
 	}
 
 	@Override
 	public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-		if(playerMagicData.getAdditionalCastData() instanceof TargetEntityCastData targetData) {
-			var targetEntity = targetData.getTarget((ServerLevel) level);
-			if (targetEntity != null) {
-				int enmity = getEnmity(spellLevel,entity);
-				var enmityData = EnmityManager.getEntityData(targetEntity);
-				if(enmityData != null){
-					var top = enmityData.getTopEnmity();
-					enmityData.Set(entity,top+1+enmity);
-					level.playSound(null, entity.getOnPos().above(1), APJSoundRegistry.INTIMIDATE.get(), SoundSource.PLAYERS,3f,1f);
-				}
+		var entities = level.getEntitiesOfClass(LivingEntity.class,entity.getBoundingBox().inflate(10), e-> e != entity);
+		for(var e : entities){
+			if(e.isAlliedTo(entity))
+				continue;
+			var enmityData = EnmityManager.getEntityData(e);
+			if(enmityData != null){
+				var top = enmityData.getTopEnmity();
+				enmityData.Set(entity,top+1);
 			}
 		}
+		level.playSound(null, entity.getOnPos().above(1), APJSoundRegistry.INTIMIDATE.get(), SoundSource.PLAYERS,3f,0.7f);
 		super.onCast(level, spellLevel, entity, castSource, playerMagicData);
 	}
 
 	@Override
 	public boolean checkPreCastConditions(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData) {
-		var bool = Utils.preCastTargetHelper(level,entity,playerMagicData,this,6,0.15f);
-		if(bool && playerMagicData.getAdditionalCastData() instanceof TargetEntityCastData targetData) {
-			var targetEntity = targetData.getTarget((ServerLevel) level);
-			return targetEntity != null && EnmityManager.getEntityData(targetEntity) != null;
-		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -77,10 +72,6 @@ public class ProvokeSpell extends AbstractSpell {
 	}
 	@Override
 	public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-		return List.of(Component.translatable("ui.apjrelit.provoke_description"),
-				Component.translatable("ui.apjrelit.provoke_additional_enmity",getEnmity(spellLevel,caster)));
-	}
-	private int getEnmity(int spellLevel, LivingEntity caster){
-		return 4 +(int)((caster.getAttributeValue(Attributes.ARMOR_TOUGHNESS)/Math.max(5-spellLevel,1)) * caster.getAttributeValue(APJAttributeRegistry.ENMITY_MODIFIER.get()));
+		return List.of(Component.translatable("ui.apjrelit.intimidate_description"));
 	}
 }

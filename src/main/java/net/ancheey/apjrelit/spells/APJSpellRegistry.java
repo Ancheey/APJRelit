@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 public class APJSpellRegistry {
 	private static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(SpellRegistry.SPELL_REGISTRY_KEY, APJRelitCore.MODID);
 	public static final Supplier<AbstractSpell> PROVOKE_SPELL = registerSpell(new ProvokeSpell());
+	public static final Supplier<AbstractSpell> INTIMIDATE_SPELL = registerSpell(new IntimidateSpell());
 
 	public static void register(IEventBus eventBus) {
 		SPELLS.register(eventBus);

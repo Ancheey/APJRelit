@@ -40,7 +40,9 @@
   "item.apjrelit.woodencane_birch": "Birch Twig",
 
   "spell.apjrelit.provoke": "Provoke",
+  "spell.apjrelit.intimidate": "Intimidate",
 
   "ui.apjrelit.provoke_description": "Provokes the target to attack you.",
-  "ui.apjrelit.provoke_additional_enmity": "%d Additional Enmity"
+  "ui.apjrelit.provoke_additional_enmity": "%d Additional Enmity",
+  "ui.apjrelit.intimidate_description": "Provokes all enemies in a small area around you."
 }

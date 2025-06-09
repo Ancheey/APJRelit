@@ -109,6 +109,7 @@ public class APJRelitCore
         APJItemRegistry.register(bus);
         APJCurioRegistry.registerCurios();
         APJSpellRegistry.register(bus);
+        APJSoundRegistry.register(bus);
         CREATIVE_MODE_TABS.register(bus);
         bus.addListener(this::addCreative);
 

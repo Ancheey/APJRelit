@@ -3,5 +3,10 @@
     "sounds": [
       "apjrelit:aggro_drum"
     ]
+  },
+  "intimidate": {
+    "sounds": [
+      "apjrelit:intimidate"
+    ]
   }
 }
