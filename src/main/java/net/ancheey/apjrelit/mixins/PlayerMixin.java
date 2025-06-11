@@ -57,10 +57,10 @@ private int experienceLevel;
 		cir.setReturnValue(APJFormulas.getExpForLevel(experienceLevel));
 	}
 	@Inject(method = "giveExperiencePoints", at = @At("HEAD"), cancellable = true)
-	public void preventXpGainAbove30(int xp, CallbackInfo ci) {
+	public void preventXpGainAboveCap(int xp, CallbackInfo ci) {
 
 		if (experienceLevel >= APJFormulas.MAX_PLAYER_LEVEL) {
-			ci.cancel(); // Prevent further XP gain
+			ci.cancel();
 		}
 
 	}

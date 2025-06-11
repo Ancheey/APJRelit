@@ -2,8 +2,10 @@ package net.ancheey.apjrelit.gui;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.ancheey.apjrelit.APJRelitCore;
+import net.ancheey.apjrelit.gui.screen.TalentMenuScreen;
 import net.ancheey.apjrelit.parties.LocalPlayerParty;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -33,10 +35,18 @@ public class APJKeyMapping {
 			GLFW.GLFW_KEY_N,
 			"key.categories.apjrelit"
 	);
+	public static final KeyMapping TALENT_MENU = new KeyMapping(
+			"key.apjrelit.talent_menu",
+			KeyConflictContext.IN_GAME,
+			InputConstants.Type.KEYSYM,
+			GLFW.GLFW_KEY_N,
+			"key.categories.apjrelit"
+	);
 	@SubscribeEvent
 	public static void registerKeybinds(RegisterKeyMappingsEvent e) {
 		e.register(PARTY_ACCEPT);
 		e.register(PARTY_DECLINE);
+		e.register(TALENT_MENU);
 	}
 	@SubscribeEvent
 	public static void onKeybind(TickEvent.ClientTickEvent event){
@@ -46,6 +56,9 @@ public class APJKeyMapping {
 			}
 			if(PARTY_DECLINE.consumeClick()){
 				LocalPlayerParty.declineInvite();
+			}
+			else if(TALENT_MENU.consumeClick()){
+				Minecraft.getInstance().setScreen(new TalentMenuScreen());
 			}
 		}
 	}
