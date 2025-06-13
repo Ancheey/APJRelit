@@ -218,6 +218,6 @@ public class APJGuiHelper {
 				gui.blit(ICONS,w,yi, 8+UOffset,248,8,1); //right bottom wall
 			}
 		}
-		gui.fill(x+8,y+8,w,h,bgcolor); //fill background
+		gui.fill(x+3,y+3,w+5,h+5,bgcolor); //fill background
 	}
 }

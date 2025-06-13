@@ -55,10 +55,12 @@ public class LocalTalentManager {
 			return true;
 		return l < talentGridSize-1 && getTalent(tree, r, l + 1);
 	}
-	static{
-		var bitset = new BitSet();
-		for(int i = 0; i < 36; i++)
-			bitset.set(i,false);
-		dataset.add(bitset);
+	static {
+		for (int i = 0; i < TalentEngine.treeCount(); i++) {
+			var bitset = new BitSet();
+			for (int j = 0; j < 36; j++)
+				bitset.set(j, false);
+			dataset.add(bitset);
+		}
 	}
 }

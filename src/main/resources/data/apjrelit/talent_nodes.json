@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Toughness",
+    "iconId": 0,
+    "description": "Increases your toughness"
+  },
+  {
+    "name": "Armor",
+    "iconId": 1,
+    "description": "Increases your armor"
+  },
+  {
+    "name": "Health",
+    "iconId": 2,
+    "description": "Increases your health"
+  },
+  {
+    "name": "Mana",
+    "iconId": 3,
+    "description": "Increases your mana"
+  }
+]

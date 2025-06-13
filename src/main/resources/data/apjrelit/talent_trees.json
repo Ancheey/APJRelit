@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Warrior",
+    "icon": "warrior",
+    "description": "A fierce fighter dealing brutal strikes, provoking their enemies and shaking off damage.",
+    "nodes":
+    [ 2,0,0,0,0,0,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3
+    ]
+  },
+  {
+    "name": "Paladin",
+    "icon": "paladin",
+    "description": "A vengeful soul wielding the holy and fire magics while protecting their allies with a shield.",
+    "nodes":
+    [ 2,0,0,0,0,0,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3
+    ]
+  },
+  {
+    "name": "Renegade",
+    "icon": "renegade",
+    "description": "placeholder",
+    "nodes":
+    [ 2,0,0,0,0,0,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3
+    ]
+  },
+  {
+    "name": "Weaver",
+    "icon": "weaver",
+    "description": "A weaver of mana, conjuring powerful spells of fire, ice and astral",
+    "nodes":
+    [ 2,0,0,0,0,0,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3
+    ]
+  },
+  {
+    "name": "Ranger",
+    "icon": "ranger",
+    "description": "placeholder",
+    "nodes":
+    [ 2,0,0,0,0,0,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3
+    ]
+  },
+  {
+    "name": "Lifebender",
+    "icon": "lifebender",
+    "description": "placeholder",
+    "nodes":
+    [ 2,0,0,0,0,0,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3,
+      1,3,3,3,3,3
+    ]
+  }
+]
